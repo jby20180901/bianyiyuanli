@@ -196,7 +196,7 @@ void getout(){
 		fprintf(stdout,"Int(%d)\n",num);
 	}
 	else{
-		fprintf(stdout,"%s\n",symbols[symbol]);
+		printf("%s\n",symbols[symbol]);
 	}
 }
 
