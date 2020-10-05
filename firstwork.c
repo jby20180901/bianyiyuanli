@@ -213,4 +213,5 @@ int main (int argc,char *argv[])
 		getChar();
 	}
 	return 0;
+	exit(0);
 } 
