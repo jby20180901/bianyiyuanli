@@ -185,13 +185,13 @@ int getsym(){
 
 void getout(){
 	if(symbol==IDSY){
-		printf("Ident(%s)\n",token);
+		printf("Ident(%s)",token);
 	}
 	else if(symbol==INTSY){
-		printf("Int(%d)\n",num);
+		printf("Int(%d)",num);
 	}
 	else{
-		printf("%s\n",symbols[symbol]);
+		printf("%s",symbols[symbol]);
 	}
 }
 
