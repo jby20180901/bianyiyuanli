@@ -126,8 +126,10 @@ int reserver(){
 int transNum(){
 	int l=strlen(token);
 	num=0;
-	for(int i=0;i<=l-1;i++){
-		num+=(token[i]-'0')*pow(10,l-1-i);
+	int j=1;
+	for(int i=l-1;i>=0;i--){
+		num+=(token[i]-'0')*j;
+		j*=10;
 	}
 	return num;
 }
