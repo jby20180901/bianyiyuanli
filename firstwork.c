@@ -23,6 +23,11 @@ void clearToken(){
 	token[0]='\0';
 }
 
+bool isEnter(){
+	if(c=='\r') return true;
+	else return false;
+} 
+
 bool isSpace(){
 	if(c==' ') return true;
 	else return false;
@@ -134,7 +139,7 @@ void error(){
 
 int getsym(){
 	clearToken();
-	while(isSpace()||isNewline()||isTab()){
+	while(isSpace()||isNewline()||isTab()||isEnter()){
 		getChar();
 	}
 	if(c==EOF){
