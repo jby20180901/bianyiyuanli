@@ -133,7 +133,7 @@ int transNum(){
 }
 
 void error(){
-	fprintf(stdout,"Unknown\r\n");
+	fprintf(stdout,"Unknown\n");
 	exit(0);
 }
 
@@ -190,13 +190,13 @@ int getsym(){
 
 void getout(){
 	if(symbol==IDSY){
-		fprintf(stdout,"Ident(%s)\r\n",token);
+		fprintf(stdout,"Ident(%s)\n",token);
 	}
 	else if(symbol==INTSY){
-		fprintf(stdout,"Int(%d)\r\n",num);
+		fprintf(stdout,"Int(%d)\n",num);
 	}
 	else{
-		fprintf(stdout,"%s\r\n",symbols[symbol]);
+		fprintf(stdout,"%s\n",symbols[symbol]);
 	}
 }
 
