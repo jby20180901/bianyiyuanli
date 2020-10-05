@@ -190,7 +190,7 @@ int getsym(){
 
 void getout(){
 	if(symbol==IDSY){
-		printf("Ident(%s)\n",token);
+		printf("Ident(%c)\n",token[0]);
 	}
 	else if(symbol==INTSY){
 		printf("Int(%d)\n",num);
@@ -203,7 +203,6 @@ void getout(){
 int main (int argc,char *argv[])
 {
 	p=fopen(argv[1],"r");
-//	printf("start\n");
 	getChar();
 	while(c!=EOF){ 
 		if(getsym()==0){
@@ -212,6 +211,5 @@ int main (int argc,char *argv[])
 		}
 		getChar();
 	}
-//	printf("end\n");
 	return 0;
 } 
