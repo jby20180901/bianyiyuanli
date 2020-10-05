@@ -2,7 +2,7 @@
 #include<string.h>
 #include<stdlib.h>
 #include<math.h>
-
+#include<stdbool.h>
 char c,res;
 char token[10000];
 int num;
