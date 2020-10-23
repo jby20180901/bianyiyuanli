@@ -323,7 +323,7 @@ public final class Analyser {
     private void analyseExpression() throws CompileError {
         // 表达式
         analyseItem();
-        while(check(TokenType.Plus)||check(TokenType.Minus))
+        while(nextIf(TokenType.Plus)!=null||nextIf(TokenType.Minus)!=null)
         {
             analyseItem();
         }
@@ -357,7 +357,10 @@ public final class Analyser {
      */
     private void analyseItem() throws CompileError {
         // 项
-        throw new Error("Not implemented");
+        analyseFactor();
+        while(nextIf(TokenType.Mult)!=null||nextIf(TokenType.Div)!=null){
+            analyseFactor();
+        }
     }
 
     /**
@@ -377,7 +380,7 @@ public final class Analyser {
 
         if (check(TokenType.Ident)) {
             // 调用相应的处理函数
-
+            var nameToken = expect(TokenType.Ident);
         } else if (check(TokenType.Uint)) {
             // 调用相应的处理函数
             var num = (Integer)expect(TokenType.Uint).getValue();
