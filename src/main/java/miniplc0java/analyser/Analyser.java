@@ -195,13 +195,15 @@ public final class Analyser {
     private void analyseProgram() throws CompileError {
         // 示例函数，示例如何调用子程序
         // 'begin'
-        expect(TokenType.Begin);
+        /*expect(TokenType.Begin);
         
         // Main函数
         analyseMain();
 
         // 'end'
-        expect(TokenType.End);
+        expect(TokenType.End);*/
+        instructions.add(new Instruction(Operation.LIT,3));
+        instructions.add(new Instruction(Operation.WRT));
         expect(TokenType.EOF);
     }
 
