@@ -381,7 +381,7 @@ public final class Analyser {
 
         if (check(TokenType.Ident)) {
             // 调用相应的处理函数
-            var   = expect(TokenType.Ident);
+            expect(TokenType.Ident);
         } else if (check(TokenType.Uint)) {
             // 调用相应的处理函数
             var num = (Integer)expect(TokenType.Uint).getValue();
