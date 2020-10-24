@@ -198,7 +198,8 @@ public final class Analyser {
         expect(TokenType.Begin);
         
         // Main函数
-        analyseMain();
+        //analyseMain();
+        printf("3\n");
 
         // 'end'
         expect(TokenType.End);
@@ -239,7 +240,7 @@ public final class Analyser {
             expect(TokenType.Equal);
 
             // 常表达式
-            analyseConstantExpression(nameToken.getValueString());
+            analyseConstantExpression();
 
             // 分号
             expect(TokenType.Semicolon);
@@ -257,13 +258,17 @@ public final class Analyser {
             // 变量名
             var nameToken = expect(TokenType.Ident);
 
-            if(nextIf(TokenType.Semicolon)==null){
+            if(!check(TokenType.Semicolon)){
                 // 等于号
                 expect(TokenType.Equal);
 
                 // 表达式
                 analyseExpression();
 
+                // 分号
+                expect(TokenType.Semicolon);
+            }
+            else{
                 // 分号
                 expect(TokenType.Semicolon);
             }
@@ -297,23 +302,23 @@ public final class Analyser {
     /**
      * <常表达式> ::= [<符号>]<无符号整数>
      */
-    private void analyseConstantExpression(String name) throws CompileError {
+    private void analyseConstantExpression() throws CompileError {
         // 常表达式
         Integer num = 0;
         if(nextIf(TokenType.Plus)!=null){
             var numToken = expect(TokenType.Uint);
             num = (Integer) numToken.getValue();
-            declareSymbol(name, numToken.getStartPos());
+            //declareSymbol(name, numToken.getStartPos());
         }
         else if(nextIf(TokenType.Minus)!=null){
             var numToken = expect(TokenType.Uint);
             num = (Integer) numToken.getValue() * -1;
-            declareSymbol(name, numToken.getStartPos());
+            //declareSymbol(name, numToken.getStartPos());
         }
         else{
             var numToken = expect(TokenType.Uint);
             num = (Integer) numToken.getValue();
-            declareSymbol(name, numToken.getStartPos());
+            //declareSymbol(name, numToken.getStartPos());
         }
     }
 
