@@ -198,7 +198,7 @@ public final class Analyser {
         expect(TokenType.Begin);
         
         // Main函数
-        //analyseMain();
+        analyseMain();
         printf("3\n");
 
         // 'end'
