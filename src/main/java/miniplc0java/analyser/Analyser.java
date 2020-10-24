@@ -335,12 +335,12 @@ public final class Analyser {
         analyseItem();
         while(check(TokenType.Plus)||check(TokenType.Minus))
         {
-            if(nextIf(TokenType.Plus))
+            if(nextIf(TokenType.Plus)!=null)
             {
                 analyseItem();
                 instructions.add(new Instruction(Operation.ADD));
             }
-            else if(nextIf(TokenType.Minus))
+            else if(nextIf(TokenType.Minus)!=null)
             {
                 analyseItem();
                 instructions.add(new Instruction(Operation.SUB));
@@ -383,11 +383,11 @@ public final class Analyser {
         // 项
         analyseFactor();
         while(check(TokenType.Mult)||check(TokenType.Div)){
-            if(nextIf(TokenType.Mult)){
+            if(nextIf(TokenType.Mult)!=null){
                 analyseFactor();
                 instructions.add(new Instruction(Operation.MUL));
             }
-            else if(nextIf(TokenType.Div)){
+            else if(nextIf(TokenType.Div)!=null){
                 analyseFactor();
                 instructions.add(new Instruction(Operation.DIV));
             }
