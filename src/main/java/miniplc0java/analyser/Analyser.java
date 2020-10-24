@@ -337,6 +337,7 @@ public final class Analyser {
         expect(TokenType.Ident);
         expect(TokenType.Equal);
         analyseExpression();
+        expect(TokenType.Semicolon);
     }
 
     /**
@@ -380,7 +381,7 @@ public final class Analyser {
 
         if (check(TokenType.Ident)) {
             // 调用相应的处理函数
-            var nameToken = expect(TokenType.Ident);
+            var   = expect(TokenType.Ident);
         } else if (check(TokenType.Uint)) {
             // 调用相应的处理函数
             var num = (Integer)expect(TokenType.Uint).getValue();
