@@ -85,7 +85,7 @@ void analysepar(){
 	if(ebp<2){
 		rerror();
 	}
-	if(stack[ebp] == '(' && stack[ebp] == 'N' && stack[ebp] == ')'){
+	if(stack[ebp] == '(' && stack[ebp-1] == 'N' && stack[ebp-2] == ')'){
 		ebp-=2;
 		stack[ebp] = 'N';
 	}
