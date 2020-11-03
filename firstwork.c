@@ -11,7 +11,7 @@ enum relation{
 	BIG,SMALL,EQUAL,ERROR,DIE
 };
 
-int rel[6][6] = {{BIG,SMALL,SMALL,SMALL,BIG,BIG},{BIG,BIG,SMALL,SMALL,BIG,BIG},{BIG,BIG,ERROR,ERROR,BIG,BIG},{SMALL,SMALL,SMALL,SMALL,EQUAL,ERROR},{BIG,BIG,ERROR,ERROR,BIG,BIG},{SMALL,SMALL,SMALL,SMALL,ERROR,DIE}};
+int rel[6][6] = {{BIG,SMALL,SMALL,SMALL,BIG,BIG},{BIG,BIG,SMALL,SMALL,BIG,BIG},{BIG,BIG,ERROR,ERROR,BIG,BIG},{SMALL,SMALL,SMALL,SMALL,EQUAL,RERROR},{BIG,BIG,ERROR,ERROR,BIG,BIG},{SMALL,SMALL,SMALL,SMALL,ERROR,DIE}};
 char stack[1000];
 int ebp=-1;
 int symbol1,symbol2,relat;
@@ -127,11 +127,12 @@ void analyse(){
 		checksymbol(&symbol2,stack[bp]);
 		int result = rel[symbol2][symbol1];
 		switch (result){
-			case BIG: banin();   break;
-			case SMALL: getin(); break;
-			case EQUAL: getin(); break;
-			case ERROR: error(); break;
-			case DIE: die();	 break;
+			case BIG: banin();     break;
+			case SMALL: getin();   break;
+			case EQUAL: getin();   break;
+			case ERROR: error();   break;
+			case DIE:   die();	   break;
+			case RERROR: rerror(); break;
 		}
 	}
 }
