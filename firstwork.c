@@ -101,6 +101,7 @@ void banin(){
 		case IDENT: analyseident(); break;
 		case RPAR: analysepar();    break;
 	}
+	printf("R\n");
 }
 
 void getin(){
