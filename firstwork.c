@@ -95,13 +95,13 @@ void analysepar(){
 }
 
 void banin(){
+	printf("R\n");
 	switch(symbol2){
 		case PLUS: analyseplus();   break;
 		case MULI: analysemuli();   break;
 		case IDENT: analyseident(); break;
 		case RPAR: analysepar();    break;
 	}
-	printf("R\n");
 }
 
 void getin(){
