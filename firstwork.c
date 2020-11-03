@@ -85,7 +85,7 @@ void analysepar(){
 	if(ebp<2){
 		rerror();
 	}
-	if(stack[ebp] == '(' && stack[ebp-1] == 'N' && stack[ebp-2] == ')'){
+	if(stack[ebp] == ')' && stack[ebp-1] == 'N' && stack[ebp-2] == '('){
 		ebp-=2;
 		stack[ebp] = 'N';
 	}
@@ -136,10 +136,11 @@ void analyse(){
 	}
 }
 
-int main(int argc,char *argv[])
+int main/*()*/(int argc,char *argv[])
 {
 	init();
 	p=fopen(argv[1],"r");
+//	p=fopen("text.c","r");
 	getChar();
 	while(c!='\n'&&c!='\r'&&c!=EOF){ 
 		analyse();
