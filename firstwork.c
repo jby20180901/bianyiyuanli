@@ -139,7 +139,6 @@ int main()// (int argc,char *argv[])
 {
 	init();
 	p=fopen(argv[1],"r");
-//	p=fopen("text.c","r");
 	getChar();
 	while(c!='\n'&&c!='\r'&&c!=EOF){ 
 		analyse();
