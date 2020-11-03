@@ -11,7 +11,7 @@ enum relation{
 	BIG,SMALL,EQUAL,ERROR,DIE,RERROR
 };
 
-int rel[6][6] = {{BIG,SMALL,SMALL,SMALL,BIG,BIG},{BIG,BIG,SMALL,SMALL,BIG,BIG},{BIG,BIG,ERROR,ERROR,BIG,BIG},{SMALL,SMALL,SMALL,SMALL,EQUAL,RERROR},{BIG,BIG,ERROR,ERROR,BIG,BIG},{SMALL,SMALL,SMALL,SMALL,ERROR,DIE}};
+int rel[6][6] = {{BIG,SMALL,SMALL,SMALL,BIG,BIG},{BIG,BIG,SMALL,SMALL,BIG,BIG},{BIG,BIG,ERROR,ERROR,BIG,BIG},{SMALL,SMALL,SMALL,SMALL,EQUAL,ERROR},{BIG,BIG,ERROR,ERROR,BIG,BIG},{SMALL,SMALL,SMALL,SMALL,ERROR,DIE}};
 char stack[1000];
 int ebp=-1;
 int symbol1,symbol2,relat;
@@ -37,6 +37,7 @@ void checksymbol(int *a,char c){
 		case ')': *a=RPAR;  break;
 		case '#': *a=ST;    break;
 		case 'N': *a=NOEND; break;
+		default: error();
 	}
 }
 
@@ -138,7 +139,6 @@ void analyse(){
 			case EQUAL: getin();   break;
 			case ERROR: error();   break;
 			case DIE:   die();	   break;
-			case RERROR: rerror(); break;
 		}
 	}
 }
