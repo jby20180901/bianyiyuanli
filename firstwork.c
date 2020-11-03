@@ -25,6 +25,7 @@ void init(){
 
 void getChar(){
 	c=fgetc(p);
+	next = 0;
 }
 
 void checksymbol(int *a,char c){
@@ -121,7 +122,7 @@ void analyse(){
 	checksymbol(&symbol1,c);
 	while(!next){
 		int bp = ebp;
-		while(stack[bp]!='N') bp--;
+		while(stack[bp]=='N') bp--;
 		checksymbol(&symbol2,stack[bp]);
 		int result = rel[symbol2][symbol1];
 		switch (result){
@@ -134,12 +135,13 @@ void analyse(){
 	}
 }
 
-int main (int argc,char *argv[])
+int main()// (int argc,char *argv[])
 {
 	init();
 	p=fopen(argv[1],"r");
+//	p=fopen("text.c","r");
 	getChar();
-	while(c=='\n'&&c=='\r'&&c==EOF){ 
+	while(c!='\n'&&c!='\r'&&c!=EOF){ 
 		analyse();
 		getChar();
 	}
