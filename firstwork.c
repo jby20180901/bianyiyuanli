@@ -11,7 +11,7 @@ enum relation{
 	BIG,SMALL,EQUAL,ERROR,DIE,RERROR
 };
 
-int rel[6][6] = {{BIG,SMALL,SMALL,SMALL,BIG,ERROR},{BIG,BIG,SMALL,SMALL,BIG,ERROR},{BIG,BIG,ERROR,ERROR,BIG,BIG},{SMALL,SMALL,SMALL,SMALL,EQUAL,RERROR},{BIG,BIG,ERROR,ERROR,BIG,BIG},{SMALL,SMALL,SMALL,SMALL,ERROR,DIE}};
+int rel[6][6] = {{BIG,SMALL,SMALL,SMALL,BIG,BIG},{BIG,BIG,SMALL,SMALL,BIG,BIG},{BIG,BIG,ERROR,ERROR,BIG,BIG},{SMALL,SMALL,SMALL,SMALL,EQUAL,RERROR},{BIG,BIG,ERROR,ERROR,BIG,BIG},{SMALL,SMALL,SMALL,SMALL,ERROR,DIE}};
 char stack[1000];
 int ebp=-1;
 int symbol1,symbol2,relat;
@@ -52,6 +52,9 @@ void analyseplus(){
 	if(stack[ebp] == 'N' && stack[ebp-1] == '+' && stack[ebp-2] == 'N'){
 		ebp-=2;
 	}
+	else if(stack[ebp] == '+' && c == '#'){
+		error();
+	}
 	else{
 		rerror();
 	}
@@ -63,6 +66,9 @@ void analysemuli(){
 	}
 	if(stack[ebp] == 'N' && stack[ebp-1] == '*' && stack[ebp-2] == 'N'){
 		ebp-=2;
+	}
+	else if(stack[ebp] == '*' && c == '#'){
+		error();
 	}
 	else{
 		rerror();
