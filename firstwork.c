@@ -52,9 +52,9 @@ void analyseplus(){
 	if(stack[ebp] == 'N' && stack[ebp-1] == '+' && stack[ebp-2] == 'N'){
 		ebp-=2;
 	}
-	else if(stack[ebp] == '+' && c == '#'){
-		error();
-	}
+//	else if(stack[ebp] == '+' && c == '#'){
+//		error();
+//	}
 	else{
 		rerror();
 	}
@@ -67,9 +67,9 @@ void analysemuli(){
 	if(stack[ebp] == 'N' && stack[ebp-1] == '*' && stack[ebp-2] == 'N'){
 		ebp-=2;
 	}
-	else if(stack[ebp] == '*' && c == '#'){
-		error();
-	}
+//	else if(stack[ebp] == '*' && c == '#'){
+//		error();
+//	}
 	else{
 		rerror();
 	}
