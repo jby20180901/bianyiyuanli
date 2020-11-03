@@ -135,7 +135,7 @@ void analyse(){
 	}
 }
 
-int main()// (int argc,char *argv[])
+int main(int argc,char *argv[])
 {
 	init();
 	p=fopen(argv[1],"r");
