@@ -1,6 +1,9 @@
 package miniplc0java.tokenizer;
 
 import miniplc0java.error.TokenizeError;
+
+import java.io.PrintStream;
+
 import miniplc0java.error.ErrorCode;
 
 public class Tokenizer {
@@ -29,9 +32,10 @@ public class Tokenizer {
         }
 
         char peek = it.peekChar();
+        System.out.println(peek);
         if (Character.isDigit(peek)) {
             return lexUInt();
-        } else if (Character.isAlphabetic(peek)) {
+        } else if ((peek >= 'a'&&peek <= 'z')||(peek >= 'A'&&peek <= 'Z')) {
             return lexIdentOrKeyword();
         } else {
             return lexOperatorOrUnknown();
@@ -76,19 +80,19 @@ public class Tokenizer {
         
         //
         // 尝试将存储的字符串解释为关键字
-        if(lex.equals("BEGIN")){
+        if(lex.equals("begin")){
             return new Token(TokenType.Begin, lex, it.previousPos(), it.currentPos());
         }
-        else if (lex.equals("END")){
+        else if (lex.equals("end")){
             return new Token(TokenType.End, lex, it.previousPos(), it.currentPos());
         }
-        else if (lex.equals("VAR")) {
+        else if (lex.equals("var")) {
             return new Token(TokenType.Var, lex, it.previousPos(), it.currentPos());
         }
-        else if (lex.equals("CONST")) {
+        else if (lex.equals("const")) {
             return new Token(TokenType.Const, lex, it.previousPos(), it.currentPos());
         }
-        else if (lex.equals("PRINT")) {
+        else if (lex.equals("print")) {
             return new Token(TokenType.Print, lex, it.previousPos(), it.currentPos());
         }
         else{
@@ -107,22 +111,24 @@ public class Tokenizer {
                 return new Token(TokenType.Plus, '+', it.previousPos(), it.currentPos());
 
             case '-':
-                // 填入返回语句
                 return new Token(TokenType.Minus, '-', it.previousPos(), it.currentPos());
 
             case '*':
-                // 填入返回语句
                 return new Token(TokenType.Mult, '*', it.previousPos(), it.currentPos());
 
             case '/':
-                // 填入返回语句
                 return new Token(TokenType.Div, '/', it.previousPos(), it.currentPos());
-
-            // 填入更多状态和返回语句
-
+            case '=':
+                return new Token(TokenType.Equal, '=', it.previousPos(), it.currentPos());
+            case ';':
+                return new Token(TokenType.Semicolon, ';', it.previousPos(), it.currentPos());
+            case '(':
+                return new Token(TokenType.LParen, '(', it.previousPos(), it.currentPos());
+            case ')':
+                return new Token(TokenType.RParen, ')', it.previousPos(), it.currentPos());
             default:
                 // 不认识这个输入，摸了
-                throw new TokenizeError(ErrorCode.InvalidInput, it.previousPos());
+                throw new TokenizeError(ErrorCode.NoError, it.previousPos());
         }
     }
 
