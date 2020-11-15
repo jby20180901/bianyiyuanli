@@ -27,6 +27,9 @@ public final class Analyser {
     /** 符号表 */
     HashMap<String, SymbolEntry> symbolTable = new HashMap<>();
 
+    /** 大括号信号量 */
+    int brace = 0;
+
     /** 下一个变量的栈偏移 */
     int nextOffset = 0;
 
@@ -190,245 +193,326 @@ public final class Analyser {
     }
 
     /**
-     * <程序> ::= 'begin'<主过程>'end' 
+     * program -> item*
     */
     private void analyseProgram() throws CompileError {
-        // 示例函数，示例如何调用子程序
-        // 'begin'
-        expect(TokenType.Begin);
-        
-        // Main函数
-        analyseMain();
-
-        // 'end'
-        expect(TokenType.End);
+        //循环检查是否程序尾部
+        while(!check(TokenType.EOF)){
+            analyseItem();
+        }
         expect(TokenType.EOF);
     }
 
-    /**
-     * <主过程> ::= <常量声明><变量声明><语句序列>
-     */
-    private void analyseMain() throws CompileError {
-        // 示例函数，示例如何调用主过程
-        // 常量声明
-        analyseConstantDeclaration();
-
-        // 变量声明
-        analyseVariableDeclaration();
-
-        // 语句序列
-        analyseStatementSequence();
-        
-    }
 
     /**
-     * <常量声明> ::= {<常量声明语句>} 
-     * <常量声明语句> ::= 'const'<标识符>'='<常表达式>';'
-     */
-    private void analyseConstantDeclaration() throws CompileError {
-        // 示例函数，示例如何解析常量声明
-        // 如果下一个 token 是 const 就继续
-        while (nextIf(TokenType.Const) != null) {
-            // 标识符
-            var nameToken = expect(TokenType.Ident);
-            
-            // 等于号
-            expect(TokenType.Equal);
-
-            // 常表达式
-            analyseConstantExpression();
-
-            // 分号
-            expect(TokenType.Semicolon);
-
-            // 在符号表里面添加这个符号
-            addSymbol(nameToken.getValueString(), true, true, nameToken.getStartPos());
-        }
-    }
-
-    /**
-     * <变量声明> ::= {<变量声明语句>} 
-     * <变量声明语句> ::= 'var'<标识符>['='<表达式>]';'
-     */
-    private void analyseVariableDeclaration() throws CompileError {
-        // 变量声明
-        // 如果下一个 token 是 var 就继续
-        while (nextIf(TokenType.Var) != null) {
-            // 变量名
-            var nameToken = expect(TokenType.Ident);
-
-            if(!check(TokenType.Semicolon)){
-                // 等于号
-                expect(TokenType.Equal);
-
-                // 表达式
-                analyseExpression();
-
-                // 分号
-                expect(TokenType.Semicolon);
-
-                // 在符号表里面添加这个符号,已赋值
-                addSymbol(nameToken.getValueString(), true, true, nameToken.getStartPos());
-            }
-            else{
-                // 分号
-                expect(TokenType.Semicolon);
-
-                // 在符号表里面添加这个符号，未赋值
-                addSymbol(nameToken.getValueString(), false, true, nameToken.getStartPos());
-            }
-        }
-    }
-
-    /**
-     * <语句序列> ::= {<语句>}
-     */
-    private void analyseStatementSequence() throws CompileError {
-        // 语句序列
-        while(check(TokenType.Semicolon)||check(TokenType.Ident)||check(TokenType.Print)){
-            analyseStatement();
-        }
-        
-    }
-
-    /**
-     * <语句> ::= <赋值语句>|<输出语句>|<空语句>
-     */
-    private void analyseStatement() throws CompileError {
-        // 语句
-        if(check(TokenType.Semicolon))
-            expect(TokenType.Semicolon);
-        else if(check(TokenType.Ident))
-            analyseAssignmentStatement();
-        else if(check(TokenType.Print))
-            analyseOutputStatement();
-    }
-
-    /**
-     * <常表达式> ::= [<符号>]<无符号整数>
-     */
-    private void analyseConstantExpression() throws CompileError {
-        // 常表达式
-        boolean negate;
-        if (nextIf(TokenType.Minus) != null) {
-            negate = true;
-            // 计算结果需要被 0 减
-            instructions.add(new Instruction(Operation.LIT, 0));
-        } else {
-            nextIf(TokenType.Plus);
-            negate = false;
-        }
-        Integer num = 0;
-        var numToken = expect(TokenType.Uint);
-        num = (Integer) numToken.getValue();
-        instructions.add(new Instruction(Operation.LIT, num));
-        if(negate){
-            instructions.add(new Instruction(Operation.SUB));
-        }
-    }
-
-    /**
-     * <表达式> ::= <项>{<加法型运算符><项>}
-     */
-    private void analyseExpression() throws CompileError {
-        // 表达式
-        analyseItem();
-        while(check(TokenType.Plus)||check(TokenType.Minus))
-        {
-            if(nextIf(TokenType.Plus)!=null)
-            {
-                analyseItem();
-                instructions.add(new Instruction(Operation.ADD));
-            }
-            else if(nextIf(TokenType.Minus)!=null)
-            {
-                analyseItem();
-                instructions.add(new Instruction(Operation.SUB));
-            }
-        }
-    }
-
-    /**
-     * <赋值语句> ::= <标识符>'='<表达式>';'
-     */
-    private void analyseAssignmentStatement() throws CompileError {
-        // 赋值语句
-        var nameToken = expect(TokenType.Ident);
-        expect(TokenType.Equal);
-        analyseExpression();
-        expect(TokenType.Semicolon);
-        // STO 相关值
-        instructions.add(new Instruction(Operation.STO,getOffset(nameToken.getValueString(),nameToken.getStartPos())));
-        // 标记相应的符号已赋值
-        declareSymbol(nameToken.getValueString(),nameToken.getStartPos());
-    }
-
-    /**
-     * <输出语句> ::= 'print' '(' <表达式> ')' ';'
-     */
-    private void analyseOutputStatement() throws CompileError {
-        // 输出语句
-        expect(TokenType.Print);
-        expect(TokenType.LParen);
-        analyseExpression();
-        expect(TokenType.RParen);
-        expect(TokenType.Semicolon);
-        instructions.add(new Instruction(Operation.WRT));
-    }
-
-    /**
-     * <项> ::= <因子>{<乘法型运算符><因子>}
+     * item -> fuexpectnction | decl_stmt
      */
     private void analyseItem() throws CompileError {
-        // 项
-        analyseFactor();
-        while(check(TokenType.Mult)||check(TokenType.Div)){
-            if(nextIf(TokenType.Mult)!=null){
-                analyseFactor();
-                instructions.add(new Instruction(Operation.MUL));
+        // 检查第一个单词是不是fn
+        if(check(TokenType.FN_KW)){
+            analyseFuc();
+        }
+        else if(check(TokenType.LET_KW)||check(TokenType.CONST_KW)){
+            analyseDeclStmt();
+        }
+        else{
+            expect(TokenType.FN_KW);
+            expect(TokenType.LET_KW);
+            expect(TokenType.CONST_KW);
+        }
+    }
+
+    /**
+     * function -> 'fn' IDENT '(' function_param_list? ')' '->' ty block_stmt
+     */
+    private void analyseFuc() throws CompileError {
+        // 检查第一个单词是不是fn
+        expect(TokenType.FN_KW);
+        var fucNameToken = expect(TokenType.IDENT);
+        expect(TokenType.L_PAREN);
+        analyseFuncList();
+        expect(TokenType.R_PAREN);
+        expect(TokenType.ARROW);
+        analyseType();
+        analyseBlockStmt();
+    }
+
+    /**
+     * function_param_list -> function_param (',' function_param)*
+     */
+    private void analyseFuncList() throws CompileError {
+        analyseFucPara();
+        if(nextIf(TokenType.COMMA)!=null){
+            analyseFucPara();
+        }
+    }
+
+    /**
+     * ty -> IDENT
+     */
+    private void analyseType() throws CompileError {
+        var TypeNameToken = expect(TokenType.IDENT);
+    }
+
+    /**
+     * function_param -> IDENT ':' ty 
+     */
+    private void analyseFucPara() throws CompileError {
+        var paraNameToken = expect(TokenType.IDENT);
+        expect(TokenType.COLON);
+        analyseType();
+    }
+
+    /**
+     * block_stmt -> '{' stmt* '}'
+     */
+    private void analyseBlockStmt() throws CompileError {
+        expect(TokenType.L_BRACE);
+        brace++;
+        int thisBrace = brace;
+        while(!(check(TokenType.R_BRACE)&&(brace == thisBrace))){
+            analyseStmt();
+        }
+        expect(TokenType.R_BRACE);
+        brace--;
+    }
+
+    /**
+     * stmt ->
+     * expr_stmt
+     * | decl_stmt
+     * | if_stmt
+     * | while_stmt
+     * | break_stmt
+     * | continue_stmt
+     * | return_stmt
+     * | block_stmt
+     * | empty_stmt
+     */
+    private void analyseStmt() throws CompileError {
+        if(check(TokenType.LET_KW)||check(TokenType.CONST_KW)){
+            analyseDeclStmt();
+        }
+        else if(check(TokenType.IF_KW)){
+            analyseIfStmt();
+        }
+        else if(check(TokenType.WHILE_KW)){
+            analyseWhileStmt();
+        }
+        else if(check(TokenType.BREAK_KW)){
+            analyseBreakStmt();
+        }
+        else if(check(TokenType.CONTINUE_KW)){
+            analyseContinueStmt();
+        }
+        else if(check(TokenType.RETURN_KW)){
+            ananlyseReturnStmt();
+        }
+        else if(check(TokenType.L_BRACE)){
+            analyseBlockStmt();
+        }
+        else if(check(TokenType.SEMICOLON)){
+            expect(TokenType.SEMICOLON);
+        }
+        else{
+            analyseExprStmt();
+        }
+    }
+
+    /**
+     * if_stmt -> 'if' expr block_stmt ('else' 'if' expr block_stmt)* ('else' block_stmt)?
+     */
+    private void analyseIfStmt() throws CompileError {
+        expect(TokenType.IF_KW);
+        analyseExpr();
+        analyseBlockStmt();
+        while(nextIf(TokenType.ELSE_KW)!=null){
+            if(nextIf(TokenType.IF_KW)!=null){
+                analyseExpr();
+                analyseBlockStmt();
             }
-            else if(nextIf(TokenType.Div)!=null){
-                analyseFactor();
-                instructions.add(new Instruction(Operation.DIV));
+            analyseBlockStmt();
+        }
+    }
+
+    /**
+     * while_stmt -> 'while' expr block_stmt
+     */
+    private void analyseWhileStmt() throws CompileError {
+        expect(TokenType.WHILE_KW);
+        analyseExpr();
+        analyseBlockStmt();
+    }
+
+    /**
+     * break_stmt -> 'break' ';'
+     */
+    private void analyseBreakStmt() throws CompileError {
+        expect(TokenType.BREAK_KW);
+        expect(TokenType.SEMICOLON);
+    }
+
+    /**
+     * continue_stmt -> 'continue' ';'
+     */
+    private void analyseContinueStmt() throws CompileError {
+        expect(TokenType.CONTINUE_KW);
+        expect(TokenType.SEMICOLON);
+    }
+
+    /**
+     * return_stmt -> 'return' expr? ';'
+     */
+    private void ananlyseReturnStmt() throws CompileError {
+        expect(TokenType.RETURN_KW);
+        if(nextIf(TokenType.SEMICOLON)==null){
+            analyseExpr();  
+            expect(TokenType.SEMICOLON);
+        }
+    }
+
+    /**
+     * expr_stmt -> expr ';'
+     */
+    private void analyseExprStmt() throws CompileError {
+        analyseExpr();
+        expect(TokenType.SEMICOLON);
+    }
+
+    /**
+     * expr -> 
+     * operator_expr
+     * | negate_expr
+     * | assign_expr
+     * | as_expr
+     * | call_expr
+     * | literal_expr
+     * | ident_expr
+     */
+    private void analyseExpr() throws CompileError {
+        /**
+         * negate_expr -> '-' expr
+         */
+        if(check(TokenType.MINUS)){
+            expect(TokenType.MINUS);
+            analyseExpr();
+        }
+        else if(check(TokenType.IDENT)){
+            var nameToken = expect(TokenType.IDENT);
+            /**
+             * call_expr -> IDENT '(' call_param_list? ')'
+             */
+            if(check(TokenType.L_PAREN)){
+                expect(TokenType.L_PAREN);
+                if(!check(TokenType.R_PAREN)){
+                    analyseCallList();
+                }
+                expect(TokenType.R_PAREN);
+            }
+            /**
+             * assign_expr -> l_expr '=' expr
+             */
+            else if(check(TokenType.ASSIGN)){
+                expect(TokenType.ASSIGN);
+                analyseExpr();
+            }
+            /**
+             * ident_expr -> IDENT
+             */
+            else{
+                ;
+            }
+        }
+        /**
+         * literal_expr -> UINT_LITERAL | DOUBLE_LITERAL | STRING_LITERAL | CHAR_LITERAL
+         */
+        else if(check(TokenType.UINT_LITERAL)){
+            var LiterToken = expect(TokenType.UINT_LITERAL);
+        }
+        else if(check(TokenType.DOUBLE_LITERAL)){
+            var LiterToken = expect(TokenType.DOUBLE_LITERAL);
+        }
+        else if(check(TokenType.STRING_LITERAL)){
+            var LiterToken = expect(TokenType.STRING_LITERAL);
+        }
+        else if(check(TokenType.CHAR_LITERAL)){
+            var LiterToken = expect(TokenType.CHAR_LITERAL);
+        }
+        /**
+         * 不认识这个东西，摸了
+         */
+        else{
+            expect(TokenType.MINUS);
+        }
+        /**
+         * 重写文法，消除左递归之后
+         * binary_operator -> '+' | '-' | '*' | '/' | '==' | '!=' | '<' | '>' | '<=' | '>='
+         * operator_expr -> expr binary_operator expr
+         * 
+         * 和
+         * 
+         * as_expr -> expr 'as' ty
+         */
+        while(check(TokenType.AS_KW)||check(TokenType.PLUS)||check(TokenType.MINUS)||check(TokenType.MUL)||check(TokenType.DIV)||check(TokenType.EQ)||check(TokenType.NEQ)||check(TokenType.LT)||check(TokenType.LE)||check(TokenType.GT)||check(TokenType.GE)){
+            if(nextIf(TokenType.AS_KW)!=null){
+                analyseExpr();
+            }
+            else{
+                if(nextIf(TokenType.PLUS)){
+                    analyseExpr();
+                }
+                else if(nextIf(TokenType.MINUS)){
+                    analyseExpr();
+                }
+                else if(nextIf(TokenType.MUL)){
+                    analyseExpr();
+                }
+                else if(nextIf(TokenType.DIV)){
+                    analyseExpr();
+                }
+                else if(nextIf(TokenType.EQ)){
+                    analyseExpr();
+                }
+                else if(nextIf(TokenType.NEQ)){
+                    analyseExpr();
+                }
+                else if(nextIf(TokenType.LT)){
+                    analyseExpr();
+                }
+                else if(nextIf(TokenType.LE)){
+                    analyseExpr();
+                }
+                else if(nextIf(TokenType.GT)){
+                    analyseExpr();
+                }
+                else if(nextIf(TokenType.GE)){
+                    analyseExpr();
+                }
             }
         }
     }
 
     /**
-     * <因子> ::= [<符号>]( <标识符> | <无符号整数> | '('<表达式>')' )
+     * call_param_list -> expr (',' expr)*
      */
-    private void analyseFactor() throws CompileError {
-        // 因子
-        boolean negate;
-        if (nextIf(TokenType.Minus) != null) {
-            negate = true;
-            // 计算结果需要被 0 减
-            instructions.add(new Instruction(Operation.LIT, 0));
-        } else {
-            nextIf(TokenType.Plus);
-            negate = false;
+    private void analyseCallList() throws CompileError{
+        analyseExpr();
+        while(check(TokenType.COMMA)){
+            expect(TokenType.COMMA);
+            analyseExpr();
         }
+    }
 
-        if (check(TokenType.Ident)) {
-            // 调用相应的处理函数
-            var nameToken = expect(TokenType.Ident);
-            instructions.add(new Instruction(Operation.LOD,getOffset(nameToken.getValueString(),nameToken.getStartPos())));
-        } else if (check(TokenType.Uint)) {
-            // 调用相应的处理函数
-            var num = (Integer)expect(TokenType.Uint).getValue();
-            instructions.add(new Instruction(Operation.LIT, num));
-        } else if (check(TokenType.LParen)) {
-            // 调用相应的处理函数
-            expect(TokenType.LParen);
-            analyseExpression();
-            expect(TokenType.RParen);
-        } else {
-            // 都不是，摸了
-            throw new ExpectedTokenError(List.of(TokenType.Ident, TokenType.Uint, TokenType.LParen), next());
+    /**
+     * decl_stmt -> let_decl_stmt | const_decl_stmt
+     */
+    private void analyseDeclStmt() throws CompileError {
+        // 检查第一个单词是不是let const
+        if(check(TokenType.LET_KW)){
+            analyseLetDecl();
         }
-
-        if (negate) {
-            instructions.add(new Instruction(Operation.SUB));
+        else if(check(TokenType.CONST_KW)){
+            analyseConstDecl();
         }
     }
 }
