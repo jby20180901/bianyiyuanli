@@ -26,106 +26,43 @@ import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import net.sourceforge.argparse4j.inf.Namespace;
 
 public class App {
-    public static void main(String[] args) throws CompileError {
-        var argparse = buildArgparse();
-        Namespace result;
-        try {
-            result = argparse.parseArgs(args);
-        } catch (ArgumentParserException e1) {
-            argparse.handleError(e1);
+	static StringIter it;
+	static Scanner scanner;
+	private static void wordAnalyze(String source) throws FileNotFoundException, CompileError {
+		InputStream is=new FileInputStream(source);
+		scanner = new Scanner(is);
+		it = new StringIter(scanner);
+		Tokenizer wordAnalyzer = new Tokenizer(it);
+		Token a = wordAnalyzer.nextToken();
+		while(!(a.getTokenType().equals(TokenType.EOF))) {
+			System.out.println(a.getValueString()+"  "+a.getTokenType());
+			a = wordAnalyzer.nextToken();
+		}
+    }
+
+	private static void Analyze(String source) throws FileNotFoundException, CompileError {
+		InputStream is=new FileInputStream(source);
+		scanner = new Scanner(is);
+		it = new StringIter(scanner);
+		Tokenizer wordAnalyzer = new Tokenizer(it);
+		Analyser analyzer = new Analyser(wordAnalyzer);
+		analyzer.analyse();
+    }
+	
+    public static void main(String[] args) throws FileNotFoundException, CompileError {
+        String source = "D:\\eclipse\\C0\\src\\1.c";
+        String outputPath = "out";
+        boolean text = true;
+        boolean debug = true;
+        if (debug) {
+            outputPath = "1.txt";
+            Analyze(source);
+            //wordAnalyze(source);
             return;
         }
-
-        var inputFileName = result.getString("input");
-        var outputFileName = result.getString("output");
-
-        InputStream input;
-        if (inputFileName.equals("-")) {
-            input = System.in;
-        } else {
-            try {
-                input = new FileInputStream(inputFileName);
-            } catch (FileNotFoundException e) {
-                System.err.println("Cannot find input file.");
-                e.printStackTrace();
-                System.exit(2);
-                return;
-            }
+        else {
+        	source = args[1];
+        	Analyze(source);
         }
-
-        PrintStream output;
-        if (outputFileName.equals("-")) {
-            output = System.out;
-        } else {
-            try {
-                output = new PrintStream(new FileOutputStream(outputFileName));
-            } catch (FileNotFoundException e) {
-                System.err.println("Cannot open output file.");
-                e.printStackTrace();
-                System.exit(2);
-                return;
-            }
-        }
-
-        Scanner scanner;
-        scanner = new Scanner(input);
-        var iter = new StringIter(scanner);
-        var tokenizer = tokenize(iter);
-
-        if (result.getBoolean("tokenize")) {
-            // tokenize
-            var tokens = new ArrayList<Token>();
-            try {
-                while (true) {
-                    var token = tokenizer.nextToken();
-                    if (token.getTokenType().equals(TokenType.EOF)) {
-                        break;
-                    }
-                    tokens.add(token);
-                }
-            } catch (Exception e) {
-                // 遇到错误不输出，直接退出
-                System.err.println(e);
-                System.exit(0);
-                return;
-            }
-            for (Token token : tokens) {
-                output.println(token.toString());
-            }
-        } else if (result.getBoolean("analyse")) {
-            // analyze
-            var analyzer = new Analyser(tokenizer);
-            List<Instruction> instructions;
-            try {
-                instructions = analyzer.analyse();
-            } catch (Exception e) {
-                // 遇到错误不输出，直接退出
-                System.err.println(e);
-                System.exit(0);
-                return;
-            }
-            for (Instruction instruction : instructions) {
-                output.println(instruction.toString());
-            }
-        } else {
-            System.err.println("Please specify either '--analyse' or '--tokenize'.");
-            System.exit(3);
-        }
-    }
-
-    private static ArgumentParser buildArgparse() {
-        var builder = ArgumentParsers.newFor("miniplc0-java");
-        var parser = builder.build();
-        parser.addArgument("-t", "--tokenize").help("Tokenize the input").action(Arguments.storeTrue());
-        parser.addArgument("-l", "--analyse").help("Analyze the input").action(Arguments.storeTrue());
-        parser.addArgument("-o", "--output").help("Set the output file").required(true).dest("output")
-                .action(Arguments.store());
-        parser.addArgument("file").required(true).dest("input").action(Arguments.store()).help("Input file");
-        return parser;
-    }
-
-    private static Tokenizer tokenize(StringIter iter) {
-        var tokenizer = new Tokenizer(iter);
-        return tokenizer;
     }
 }
