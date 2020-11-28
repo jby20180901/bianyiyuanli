@@ -51,7 +51,11 @@ public class App {
     }
 	
     public static void main(String[] args) throws FileNotFoundException, CompileError {
-        String source = "..\\1.c";
+		System.out.println(arg[0]);
+		System.out.println(arg[1]);
+		System.out.println(arg[2]);
+		System.out.println(arg[3]);
+        String source = "1.c";
         String outputPath = "out";
         boolean text = true;
         boolean debug = true;
