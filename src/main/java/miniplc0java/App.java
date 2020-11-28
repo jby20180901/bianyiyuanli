@@ -62,7 +62,6 @@ public class App {
             return;
         }
         else {
-        	source = args[1];
         	Analyze(source);
         }
     }
