@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import miniplc0java.analyser.Analyser;
-import miniplc0java.error.CompileError;
-import miniplc0java.instruction.Instruction;
-import miniplc0java.tokenizer.StringIter;
-import miniplc0java.tokenizer.Token;
-import miniplc0java.tokenizer.TokenType;
-import miniplc0java.tokenizer.Tokenizer;
+import analyser.Analyser;
+import error.CompileError;
+import error.TokenizeError;
+//import instruction.Instruction;
+import tokenizer.StringIter;
+import tokenizer.Token;
+import tokenizer.TokenType;
+import tokenizer.Tokenizer;
 
 import net.sourceforge.argparse4j.*;
 import net.sourceforge.argparse4j.impl.Arguments;
