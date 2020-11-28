@@ -71,7 +71,8 @@ public class App {
 			String source = args[1];
      	    String outputPath = args[3];
 			//Analyze(source);
-			wordAnalyze(source);
-        }
+			//wordAnalyze(source);
+			outAll(source);
+		}
     }
 }
