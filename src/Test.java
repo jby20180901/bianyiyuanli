@@ -53,5 +53,9 @@ public class Test {
             //wordAnalyze(source);
             return;
         }
+        else {
+        	source = args[1];
+        	Analyze(source);
+        }
     }
 }
