@@ -34,7 +34,9 @@ public class App {
 		scanner = new Scanner(is);
 		it = new StringIter(scanner);
 		Tokenizer wordAnalyzer = new Tokenizer(it);
-		while(System.out.print(it.nextChar()));
+		while(it.peekChar()!=null){
+			System.out.print(it.nextChar());
+		}
     }
 	private static void wordAnalyze(String source) throws FileNotFoundException, CompileError {
 		InputStream is=new FileInputStream(source);
