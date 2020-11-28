@@ -29,15 +29,15 @@ import net.sourceforge.argparse4j.inf.Namespace;
 public class App {
 	static StringIter it;
 	static Scanner scanner;
-	private static void outAll(String source) throws FileNotFoundException, CompileError {
-		InputStream is=new FileInputStream(source);
-		scanner = new Scanner(is);
-		it = new StringIter(scanner);
-		Tokenizer wordAnalyzer = new Tokenizer(it);
-		while(it.peekChar()!=null){
-			System.out.print(it.nextChar());
-		}
-    }
+	// private static void outAll(String source) throws FileNotFoundException, CompileError {
+	// 	InputStream is=new FileInputStream(source);
+	// 	scanner = new Scanner(is);
+	// 	it = new StringIter(scanner);
+	// 	Tokenizer wordAnalyzer = new Tokenizer(it);
+	// 	while(it.peekChar()!=null){
+	// 		System.out.print(it.nextChar());
+	// 	}
+    // }
 	private static void wordAnalyze(String source) throws FileNotFoundException, CompileError {
 		InputStream is=new FileInputStream(source);
 		scanner = new Scanner(is);
