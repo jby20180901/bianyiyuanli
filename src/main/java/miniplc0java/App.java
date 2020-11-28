@@ -18,7 +18,7 @@ import tokenizer.Token;
 import tokenizer.TokenType;
 import tokenizer.Tokenizer;
 
-public class Test {
+public class App {
 	static StringIter it;
 	static Scanner scanner;
 	private static void wordAnalyze(String source) throws FileNotFoundException, CompileError {
