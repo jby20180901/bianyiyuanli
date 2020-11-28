@@ -51,21 +51,17 @@ public class App {
     }
 	
     public static void main(String[] args) throws FileNotFoundException, CompileError {
-		System.out.println(args[0]);
-		System.out.println(args[1]);
-		System.out.println(args[2]);
-		System.out.println(args[3]);
-        String source = "1.c";
-        String outputPath = "out";
-        boolean text = true;
-        boolean debug = true;
-        if (debug) {
-            outputPath = "1.txt";
+        boolean debug = false;
+        if (debug) {	
+        	String source = "1.c";
+     	    String outputPath = "1.txt";
             Analyze(source);
             //wordAnalyze(source);
             return;
         }
         else {
+			String source = args[1];
+     	    String outputPath = args[3];
         	Analyze(source);
         }
     }
