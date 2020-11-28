@@ -51,7 +51,7 @@ public class App {
     }
 	
     public static void main(String[] args) throws FileNotFoundException, CompileError {
-        String source = "D:\\eclipse\\C0\\src\\1.c";
+        String source = "..\\1.c";
         String outputPath = "out";
         boolean text = true;
         boolean debug = true;
