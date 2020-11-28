@@ -1,4 +1,4 @@
-package miniplc0java.symboltable;
+package symboltable;
 
 public enum SymbolType {
 	Constant,//����

@@ -1,4 +1,4 @@
-package miniplc0java.instructioner;
+package instructioner;
 
 public enum InstructionType {
 	nop,

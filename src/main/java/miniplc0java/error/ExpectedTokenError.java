@@ -1,4 +1,4 @@
-package miniplc0java.error;
+package error;
 
 import java.util.ArrayList;
 import java.util.List;

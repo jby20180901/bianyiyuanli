@@ -1,4 +1,4 @@
-package miniplc0java.analyser;
+package analyser;
 
 import java.util.ArrayList;
 

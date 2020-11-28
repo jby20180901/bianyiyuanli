@@ -1,4 +1,4 @@
-package miniplc0java.tokenizer;
+package tokenizer;
 
 import util.Pos;
 

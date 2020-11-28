@@ -1,4 +1,4 @@
-package miniplc0java.util;
+package util;
 
 public class Pos {
     public Pos(int row, int col) {

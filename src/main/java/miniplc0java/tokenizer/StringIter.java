@@ -1,4 +1,4 @@
-package miniplc0java.tokenizer;
+package tokenizer;
 
 import java.util.ArrayList;
 import java.util.Optional;

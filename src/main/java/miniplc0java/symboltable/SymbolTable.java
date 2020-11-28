@@ -1,4 +1,4 @@
-package miniplc0java.symboltable;
+package symboltable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package miniplc0java.error;
+package error;
 
 import util.Pos;
 
