@@ -1,7 +1,6 @@
-package miniplc0java.tokenizer;
+package tokenizer;
 
-import miniplc0java.error.TokenizeError;
-import miniplc0java.util.Pos;
+import util.Pos;
 
 import java.util.Objects;
 
@@ -42,7 +41,7 @@ public class Token {
     }
 
     public String getValueString() {
-        if (value instanceof Integer || value instanceof String || value instanceof Character) {
+        if (value instanceof Integer || value instanceof String || value instanceof Character || value instanceof Double) {
             return value.toString();
         }
         throw new Error("No suitable cast for token value.");
@@ -95,3 +94,4 @@ public class Token {
                 .append("at: ").append(this.startPos).toString();
     }
 }
+
