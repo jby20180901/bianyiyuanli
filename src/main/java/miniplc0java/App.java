@@ -36,7 +36,8 @@ public class App {
 		Tokenizer wordAnalyzer = new Tokenizer(it);
 		Token a = wordAnalyzer.nextToken();
 		while(!(a.getTokenType().equals(TokenType.EOF))) {
-			System.out.println(a.getValueString()+"  "+a.getTokenType());
+			// System.out.println(a.getValueString()+"  "+a.getTokenType());
+			System.out.println(a.getValueString());
 			a = wordAnalyzer.nextToken();
 		}
     }
