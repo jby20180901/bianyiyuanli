@@ -1,4 +1,4 @@
-package symboltable;
+package miniplc0java.symboltable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,9 +8,9 @@ import error.ErrorCode;
 import util.Pos;
 
 public class FunctionEntry extends Entry{
-	private HashMap<String, VarEntry> argsMap;//²ÎÊý±í
-	private ArrayList<VarEntry> argsList;//²ÎÊý±í
-	private int varOffset;//º¯ÊýÄÚ²¿Æ«ÒÆ
+	private HashMap<String, VarEntry> argsMap;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private ArrayList<VarEntry> argsList;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private int varOffset;//ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½Æ«ï¿½ï¿½
 	
 	public FunctionEntry(String name, SymbolType symboltype, DataType datatype, int level, int offset, Pos pos) {
 		super(name,symboltype,datatype,level,offset,pos);

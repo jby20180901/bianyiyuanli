@@ -1,4 +1,4 @@
-package tokenizer;
+package miniplc0java.tokenizer;
 
 public enum TokenType {
 	/** none */
@@ -23,15 +23,15 @@ public enum TokenType {
     BREAK_KW,
     /** continue */
     CONTINUE_KW,
-    /** ÎÞ·ûºÅÕûÊý */
+    /** ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     UINT_LITERAL,
-    /** ¸¡µãÊý */
+    /** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     DOUBLE_LITERAL,
-    /** ×Ö·û´® */
+    /** ï¿½Ö·ï¿½ï¿½ï¿½ */
     STRING_LITERAL,
-    /** ×Ö·û */
+    /** ï¿½Ö·ï¿½ */
     CHAR_LITERAL,
-    /** ±êÊ¶·û */
+    /** ï¿½ï¿½Ê¶ï¿½ï¿½ */
     IDENT,
     /** + */
     PLUS,
@@ -71,13 +71,13 @@ public enum TokenType {
     COLON,
     /** ; */
     SEMICOLON,
-    /** ×¢ÊÍ */
+    /** ×¢ï¿½ï¿½ */
     COMMENT,
-    /** Ç°ÖÃ¸ººÅ */
+    /** Ç°ï¿½Ã¸ï¿½ï¿½ï¿½ */
     NEGATE,
-    /** #±í´ïÊ½Ç°ºóÖÕÖ¹·û */
+    /** #ï¿½ï¿½ï¿½ï¿½Ê½Ç°ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½ */
     STOP,
-    /** ÎÄ¼þÎ² */
+    /** ï¿½Ä¼ï¿½Î² */
     EOF;
 
     @Override
@@ -113,19 +113,19 @@ public enum TokenType {
             /** continue */
             case CONTINUE_KW:
                 return "continue";
-            /** ÎÞ·ûºÅÕûÊý */
+            /** ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
             case UINT_LITERAL:
                 return "unint";
-            /** ¸¡µãÊý */
+            /** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
             case DOUBLE_LITERAL:
                 return "double";
-            /** ×Ö·û´® */
+            /** ï¿½Ö·ï¿½ï¿½ï¿½ */
             case STRING_LITERAL:
                 return "string";
-            /** ×Ö·û */
+            /** ï¿½Ö·ï¿½ */
             case CHAR_LITERAL:
                 return "char";
-            /** ±êÊ¶·û */
+            /** ï¿½ï¿½Ê¶ï¿½ï¿½ */
             case IDENT:
                 return "identification";
             /** + */
@@ -185,10 +185,10 @@ public enum TokenType {
             /** ; */
             case SEMICOLON:
                 return "semicolon";
-            /** ×¢ÊÍ */
+            /** ×¢ï¿½ï¿½ */
             case COMMENT:
                 return "comment";
-            /** ÎÄ¼þÎ² */
+            /** ï¿½Ä¼ï¿½Î² */
             case EOF:
                 return "EOF";
             case NONE:
@@ -200,11 +200,11 @@ public enum TokenType {
 }
 
 /**
- * 0´ú±í<
- * 1´ú±í>
- * 2´ú±í=
- * 3´ú±íX
- * 4´ú±í½áÊø
+ * 0ï¿½ï¿½ï¿½ï¿½<
+ * 1ï¿½ï¿½ï¿½ï¿½>
+ * 2ï¿½ï¿½ï¿½ï¿½=
+ * 3ï¿½ï¿½ï¿½ï¿½X
+ * 4ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * |      | +    | *    | i    | (    | )    | <    | '-'  | as   | #    |
  * | +    | 1    | 0    | 0    | 0    | 1    | 1    | 0    | 0    | 1    |
  * | *    | 1    | 1    | 0    | 0    | 1    | 1    | 0    | 0    | 1    |
@@ -218,7 +218,7 @@ public enum TokenType {
  */
 /** 
  * + - 					PLUS MINUS 
- * Ç°ÖÃ- 				NEGATE
+ * Ç°ï¿½ï¿½- 				NEGATE
  * * \ 					MUL DIV 
  * == != < > <= >= 		EQ NEQ LT GT LE GE
  * as 					AS_KW 

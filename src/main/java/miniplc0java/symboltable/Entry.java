@@ -1,14 +1,14 @@
-package symboltable;
+package miniplc0java.symboltable;
 
 import util.Pos;
 
 public class Entry {
-	public SymbolType symboltype;//·ûºÅÀàÐÍ
-	public DataType datatype;//Êý¾ÝÀàÐÍ
-	public String name;//Ãû³Æ
-	public int level;//²ãÊý
-	public int offset;//µ±Ç°²ãµÄÆ«ÒÆ
-	public Pos pos;//´íÎóÎ»ÖÃ
+	public SymbolType symboltype;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public DataType datatype;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	public String name;//ï¿½ï¿½ï¿½ï¿½
+	public int level;//ï¿½ï¿½ï¿½ï¿½
+	public int offset;//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Æ«ï¿½ï¿½
+	public Pos pos;//ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 	
 	Entry(String name, SymbolType symboltype, DataType datatype, int level, int offset, Pos pos){
 		this.name = name;

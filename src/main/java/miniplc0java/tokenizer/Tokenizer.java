@@ -1,4 +1,4 @@
-package tokenizer;
+package miniplc0java.tokenizer;
 
 import error.ErrorCode;
 import error.TokenizeError;
@@ -12,17 +12,17 @@ public class Tokenizer {
         this.it = it;
     }
 
-    // ÕâÀï±¾À´ÊÇÏëÊµÏÖ Iterator<Token> µÄ£¬µ«ÊÇ Iterator ²»ÔÊÐíÅ×Òì³££¬ÓÚÊÇ¾ÍÕâÑùÁË
+    // ï¿½ï¿½ï¿½ï±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ Iterator<Token> ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ Iterator ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     /**
-     * »ñÈ¡ÏÂÒ»¸ö Token
+     * ï¿½ï¿½È¡ï¿½ï¿½Ò»ï¿½ï¿½ Token
      * 
      * @return
-     * @throws TokenizeError Èç¹û½âÎöÓÐÒì³£ÔòÅ×³ö
+     * @throws TokenizeError ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½×³ï¿½
      */
     public Token nextToken() throws TokenizeError {
         it.readAll();
 
-        // Ìø¹ýÖ®Ç°µÄËùÓÐ¿Õ°××Ö·û
+        // ï¿½ï¿½ï¿½ï¿½Ö®Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿Õ°ï¿½ï¿½Ö·ï¿½
         skipSpaceCharacters();
 
         if (it.isEOF()) {
@@ -46,19 +46,19 @@ public class Tokenizer {
     }
 
     private Token lexUIntorFloat() throws TokenizeError {
-        // ÇëÌî¿Õ£º
+        // ï¿½ï¿½ï¿½ï¿½Õ£ï¿½
         String num = "", num1 = "", num2 = "";
-        // Ö±µ½²é¿´ÏÂÒ»¸ö×Ö·û²»ÊÇÊý×ÖÎªÖ¹:
+        // Ö±ï¿½ï¿½ï¿½é¿´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÖ¹:
         while(Character.isDigit(it.peekChar())){
-        // -- Ç°½øÒ»¸ö×Ö·û£¬²¢´æ´¢Õâ¸ö×Ö·û
+        // -- Ç°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
             char peek = it.nextChar();
             num += peek;
         }
         if(it.peekChar()=='.'){
         	it.nextChar();
-            // Ö±µ½²é¿´ÏÂÒ»¸ö×Ö·û²»ÊÇÊý×ÖÎªÖ¹:
+            // Ö±ï¿½ï¿½ï¿½é¿´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÖ¹:
             while(Character.isDigit(it.peekChar())){
-            // -- Ç°½øÒ»¸ö×Ö·û£¬²¢´æ´¢Õâ¸ö×Ö·û
+            // -- Ç°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
                 char peek = it.nextChar();
                 num1 += peek;
             }
@@ -74,15 +74,15 @@ public class Tokenizer {
             		zhengfu = -1;
             		it.nextChar();
             	}
-                // Ö±µ½²é¿´ÏÂÒ»¸ö×Ö·û²»ÊÇÊý×ÖÎªÖ¹:
+                // Ö±ï¿½ï¿½ï¿½é¿´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÖ¹:
                 while(Character.isDigit(it.peekChar())){
-                // -- Ç°½øÒ»¸ö×Ö·û£¬²¢´æ´¢Õâ¸ö×Ö·û
+                // -- Ç°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
                     char peek = it.nextChar();
                     num2 += peek;
                 }
-                // ½âÎö´æ´¢µÄ×Ö·û´®ÎªÎÞ·ûºÅÕûÊý
+                // ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Îªï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 try{
-                // ½âÎö³É¹¦Ôò·µ»ØÎÞ·ûºÅÕûÊýÀàÐÍµÄtoken£¬·ñÔò·µ»Ø±àÒë´íÎó
+                // ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ò·µ»ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½tokenï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     int a = Integer.parseInt(num);
                     int b = Integer.parseInt(num1);
                     int c = zhengfu*Integer.parseInt(num2);
@@ -95,9 +95,9 @@ public class Tokenizer {
                 }
             }
             else{
-                // ½âÎö´æ´¢µÄ×Ö·û´®ÎªÎÞ·ûºÅÕûÊý
+                // ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Îªï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 try{
-                // ½âÎö³É¹¦Ôò·µ»ØÎÞ·ûºÅÕûÊýÀàÐÍµÄtoken£¬·ñÔò·µ»Ø±àÒë´íÎó
+                // ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ò·µ»ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½tokenï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                     int a = Integer.parseInt(num);
                     int b = Integer.parseInt(num1);
                     double ab = a + pow(10,-num1.length())*b;
@@ -111,9 +111,9 @@ public class Tokenizer {
         }
         else{
             //
-            // ½âÎö´æ´¢µÄ×Ö·û´®ÎªÎÞ·ûºÅÕûÊý
+            // ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Îªï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             try{
-            // ½âÎö³É¹¦Ôò·µ»ØÎÞ·ûºÅÕûÊýÀàÐÍµÄtoken£¬·ñÔò·µ»Ø±àÒë´íÎó
+            // ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ò·µ»ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½tokenï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 int a = Integer.parseInt(num);
                 //System.out.println("*"+a);
                 return new Token(TokenType.UINT_LITERAL, a, it.previousPos(), it.currentPos());
@@ -123,23 +123,23 @@ public class Tokenizer {
             }
         }
         //
-        // Token µÄ Value Ó¦ÌîÐ´Êý×ÖµÄÖµ
+        // Token ï¿½ï¿½ Value Ó¦ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Öµï¿½Öµ
 
         // throw new Error("Not implemented");
     }
 
     private Token lexIdentOrKeyword() throws TokenizeError {
-        // ÇëÌî¿Õ£º
+        // ï¿½ï¿½ï¿½ï¿½Õ£ï¿½
         String lex = "";
-        // Ö±µ½²é¿´ÏÂÒ»¸ö×Ö·û²»ÊÇÊý×Ö»ò×ÖÄ¸ÎªÖ¹:
+        // Ö±ï¿½ï¿½ï¿½é¿´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½Ä¸ÎªÖ¹:
         while(Character.isLetterOrDigit(it.peekChar())||it.peekChar()=='_'){
-        // -- Ç°½øÒ»¸ö×Ö·û£¬²¢´æ´¢Õâ¸ö×Ö·û    
+        // -- Ç°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½Ö·ï¿½    
             char peek = it.nextChar();
             lex += peek;
         }
         
         //
-        // ³¢ÊÔ½«´æ´¢µÄ×Ö·û´®½âÊÍÎª¹Ø¼ü×Ö
+        // ï¿½ï¿½ï¿½Ô½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Ø¼ï¿½ï¿½ï¿½
         if(lex.equals("fn")){
             return new Token(TokenType.FN_KW, lex, it.previousPos(), it.currentPos());
         }
@@ -174,10 +174,10 @@ public class Tokenizer {
         	//System.out.println("*"+lex);
             return new Token(TokenType.IDENT, lex, it.previousPos(), it.currentPos());
         }
-        // -- Èç¹ûÊÇ¹Ø¼ü×Ö£¬Ôò·µ»Ø¹Ø¼ü×ÖÀàÐÍµÄ token
-        // -- ·ñÔò£¬·µ»Ø±êÊ¶·û
+        // -- ï¿½ï¿½ï¿½ï¿½Ç¹Ø¼ï¿½ï¿½Ö£ï¿½ï¿½ò·µ»Ø¹Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ token
+        // -- ï¿½ï¿½ï¿½ò£¬·ï¿½ï¿½Ø±ï¿½Ê¶ï¿½ï¿½
         //
-        // Token µÄ Value Ó¦ÌîÐ´±êÊ¶·û»ò¹Ø¼ü×ÖµÄ×Ö·û´®
+        // Token ï¿½ï¿½ Value Ó¦ï¿½ï¿½Ð´ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½Öµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
         // throw new Error("Not implemented");
     }
 
@@ -236,16 +236,16 @@ public class Tokenizer {
             
             
             default:
-                // ²»ÈÏÊ¶Õâ¸öÊäÈë£¬ÃþÁË
+                // ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½
                 throw new TokenizeError(ErrorCode.NoError, it.previousPos());
         }
     }
 
     private Token newString() throws TokenizeError {
         String lex = "";
-        // Ö±µ½²é¿´ÏÂÒ»¸ö×Ö·û²»ÊÇÊý×Ö»ò×ÖÄ¸ÎªÖ¹:
+        // Ö±ï¿½ï¿½ï¿½é¿´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½Ä¸ÎªÖ¹:
         while(it.peekChar()!='"'){
-        // -- Ç°½øÒ»¸ö×Ö·û£¬²¢´æ´¢Õâ¸ö×Ö·û
+        // -- Ç°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
             if(it.peekChar()=='\\'){
                 char peek = it.nextChar();
                 peek = it.nextChar();
@@ -256,7 +256,7 @@ public class Tokenizer {
                     case 'n': lex += '\n'; break;
                     case 'r': lex += '\r'; break;
                     case 't': lex += '\t'; break;
-                    default: // ²»ÈÏÊ¶Õâ¸öÊäÈë£¬ÃþÁË
+                    default: // ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½
                         throw new TokenizeError(ErrorCode.NoError, it.previousPos());
                 }
             }
@@ -272,7 +272,7 @@ public class Tokenizer {
 
     private Token newChar() throws TokenizeError {
         char lex = ' ';
-        // -- Ç°½øÒ»¸ö×Ö·û£¬²¢´æ´¢Õâ¸ö×Ö·û
+        // -- Ç°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
         if(it.peekChar()=='\\'){
             char peek = it.nextChar();
             peek = it.nextChar();
@@ -283,7 +283,7 @@ public class Tokenizer {
                 case 'n': lex = '\n'; break;
                 case 'r': lex = '\r'; break;
                 case 't': lex = '\t'; break;
-                default: // ²»ÈÏÊ¶Õâ¸öÊäÈë£¬ÃþÁË
+                default: // ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½
                     throw new TokenizeError(ErrorCode.NoError, it.previousPos());
             }
         }

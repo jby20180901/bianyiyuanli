@@ -1,4 +1,4 @@
-package symboltable;
+package miniplc0java.symboltable;
 
 import util.Pos;
 

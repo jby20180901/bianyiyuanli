@@ -1,4 +1,4 @@
-package symboltable;
+package miniplc0java.symboltable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,26 +9,26 @@ import util.Pos;
 
 public class SymbolTable {
 	/**
-	 * Õû¸ö·ûºÅ±í
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å±ï¿½
 	 */
 	public static ArrayList<HashMap<String, Entry>> symboltable = new ArrayList<>();
 	
 	/**
-	 * ·ûºÅ±í²ãÊýÉÏÉý
+	 * ï¿½ï¿½ï¿½Å±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public static void levelup() {
 		symboltable.add(new HashMap<>());
 	}
 	
 	/**
-	 * ·ûºÅ±í²ãÊýÏÂ½µ
+	 * ï¿½ï¿½ï¿½Å±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
 	 */
 	public static void leveldown() {
 		symboltable.remove(symboltable.size() - 1);
 	}
 	
 	/**
-	 * ²åÈë±äÁ¿
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param level
 	 * @param name
 	 * @param isInitialized
@@ -50,7 +50,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * ²åÈëº¯Êý
+	 * ï¿½ï¿½ï¿½ëº¯ï¿½ï¿½
 	 * @param name
 	 * @param symboltype
 	 * @param datatype
@@ -72,7 +72,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * ¸üÐÂº¯Êý²ÎÊý
+	 * ï¿½ï¿½ï¿½Âºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param fucName
 	 * @param varName
 	 * @param symbolType
@@ -98,7 +98,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * È«±íËÑË÷±äÁ¿
+	 * È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param Var
 	 * @return
 	 */
@@ -116,7 +116,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * È«±íËÑË÷º¯Êý
+	 * È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param Func
 	 * @return
 	 */
@@ -134,7 +134,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * °´²ãËÑË÷±äÁ¿
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param Var
 	 * @param level
 	 * @return
@@ -151,7 +151,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * °´²ãËÑË÷º¯Êý
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param Func
 	 * @param level
 	 * @return

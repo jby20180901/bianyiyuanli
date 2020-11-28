@@ -1,8 +1,8 @@
-package symboltable;
+package miniplc0java.symboltable;
 
 public enum DataKeywordType {
-	/** int¹Ø¼ü×Ö */
+	/** intï¿½Ø¼ï¿½ï¿½ï¿½ */
     INT_KW,
-    /** double¹Ø¼ü×Ö */
+    /** doubleï¿½Ø¼ï¿½ï¿½ï¿½ */
     DOUBLE_KW;
 }
