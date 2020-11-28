@@ -32,15 +32,15 @@ public class Tokenizer {
         char peek = it.peekChar();
         if (Character.isDigit(peek)) {
         	Token token = lexUIntorFloat();
-        	System.out.println(token.getValueString());
+        	// System.out.println(token.getValueString());
             return token;
         } else if ((peek >= 'a'&&peek <= 'z')||(peek >= 'A'&&peek <= 'Z')||(peek == '_')) {
         	Token token = lexIdentOrKeyword();
-        	System.out.println(token.getValueString());
+        	// System.out.println(token.getValueString());
         	return token;
         } else {
         	Token token = lexOperatorOrUnknown();
-        	System.out.println(token.getValueString());
+        	// System.out.println(token.getValueString());
         	return token;
         }
     }
