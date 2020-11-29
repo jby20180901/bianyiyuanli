@@ -49,15 +49,15 @@ public class OperatorStack {
 	
 	public String toString() {
 		String out = "";
-		for(int i = p-1; i >= 0; i --) {
+		for(int i = 0; i < p ; i ++) {
 			if(stack.get(i) instanceof TokenType) {
-				out = out + " T " + (TokenType)stack.get(i); 
+				out = out + " (T)" + (TokenType)stack.get(i); 
 			}
 			else if(stack.get(i) instanceof DataType) {
-				out = out + " D " + (DataType)stack.get(i); 
+				out = out + " (D)" + (DataType)stack.get(i); 
 			}
 			else if(stack.get(i) instanceof DataKeywordType) {
-				out = out + " K " + (DataKeywordType)stack.get(i); 
+				out = out + " (K)" + (DataKeywordType)stack.get(i); 
 			}
 		}
 		return out;

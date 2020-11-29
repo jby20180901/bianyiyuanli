@@ -1,5 +1,5 @@
 package symboltable;
 
 public enum DataType {
-	INT,VOID,DOUBLE
+	INT,VOID,DOUBLE,STRING,CHAR
 }

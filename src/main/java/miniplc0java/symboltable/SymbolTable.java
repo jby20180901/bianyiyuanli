@@ -9,26 +9,26 @@ import util.Pos;
 
 public class SymbolTable {
 	/**
-	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å±ï¿½
+	 * Õû¸ö·ûºÅ±í
 	 */
 	public static ArrayList<HashMap<String, Entry>> symboltable = new ArrayList<>();
 	
 	/**
-	 * ï¿½ï¿½ï¿½Å±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ·ûºÅ±í²ãÊýÉÏÉý
 	 */
 	public static void levelup() {
 		symboltable.add(new HashMap<>());
 	}
 	
 	/**
-	 * ï¿½ï¿½ï¿½Å±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
+	 * ·ûºÅ±í²ãÊýÏÂ½µ
 	 */
 	public static void leveldown() {
 		symboltable.remove(symboltable.size() - 1);
 	}
 	
 	/**
-	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ²åÈë±äÁ¿
 	 * @param level
 	 * @param name
 	 * @param isInitialized
@@ -50,7 +50,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * ï¿½ï¿½ï¿½ëº¯ï¿½ï¿½
+	 * ²åÈëº¯Êý
 	 * @param name
 	 * @param symboltype
 	 * @param datatype
@@ -72,7 +72,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * ï¿½ï¿½ï¿½Âºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * ¸üÐÂº¯Êý²ÎÊý
 	 * @param fucName
 	 * @param varName
 	 * @param symbolType
@@ -98,7 +98,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * È«±íËÑË÷±äÁ¿
 	 * @param Var
 	 * @return
 	 */
@@ -116,7 +116,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * È«±íËÑË÷º¯Êý
 	 * @param Func
 	 * @return
 	 */
@@ -134,7 +134,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * °´²ãËÑË÷±äÁ¿
 	 * @param Var
 	 * @param level
 	 * @return
@@ -151,7 +151,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * °´²ãËÑË÷º¯Êý
 	 * @param Func
 	 * @param level
 	 * @return

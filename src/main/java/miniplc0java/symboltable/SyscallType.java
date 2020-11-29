@@ -1,72 +1,72 @@
 package symboltable;
 
 public enum SyscallType {
-	/** ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ð·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	/** ¶ÁÈëÒ»¸öÓÐ·ûºÅÕûÊý
 	  * fn getint() -> int; 
 	  */
    GETINT,
-   /** ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+   /** ¶ÁÈëÒ»¸ö¸¡µãÊý
 		fn getdouble() -> double;
 	 */
    GETDOUBLE,
-   /** ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½
+   /** ¶ÁÈëÒ»¸ö×Ö·û
 		fn getchar() -> int;
 	 */
    GETCHAR,
-   /** ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+   /** Êä³öÒ»¸öÕûÊý
 		fn putint(int) -> void;
 	 */
    PUTINT,
-   /** ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+   /** Êä³öÒ»¸ö¸¡µãÊý
 		fn putdouble(double) -> void;
 	 */
    PUTDOUBLE,
-   /** ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½
+   /** Êä³öÒ»¸ö×Ö·û
 		fn putchar(int) -> void;
     */
    PUTCHAR,
-   /** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½Ö³ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+   /** Êä³öÕûÊý´ú±íµÄÈ«¾Ö³£Á¿×Ö·û´®
 		fn putstr(int) -> void; 
 	 */
    PUTSTR,
-   /** ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+   /** Êä³öÒ»¸ö»»ÐÐ */
    PUTLN;
 	
 	@Override
     public String toString() {
         switch (this) {
 	        case GETINT:
-	            /** ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	            /** ¶ÁÈëÒ»¸ö¸¡µãÊý
 	        		fn getdouble() -> double;
 	        	 */
 	        	return "fuc getint()";
 	        case GETDOUBLE:
-	            /** ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½
+	            /** ¶ÁÈëÒ»¸ö×Ö·û
 	        		fn getchar() -> int;
 	        	 */
 	        	return "fuc getdouble()";
 	        case GETCHAR:
-	            /** ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	            /** Êä³öÒ»¸öÕûÊý
 	        		fn putint(int) -> void;
 	        	 */
 	        	return "fuc getchar()";
 	        case PUTINT:
-	            /** ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	            /** Êä³öÒ»¸ö¸¡µãÊý
 	        		fn putdouble(double) -> void;
 	        	 */
 	        	return "fuc putint()";
 	        case PUTDOUBLE:
-	            /** ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½
+	            /** Êä³öÒ»¸ö×Ö·û
 	        		fn putchar(int) -> void;
 	             */
 	        	return "fuc putdouble()";
 	        case PUTCHAR:
-	            /** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È«ï¿½Ö³ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+	            /** Êä³öÕûÊý´ú±íµÄÈ«¾Ö³£Á¿×Ö·û´®
 	        		fn putstr(int) -> void; 
 	        	 */
 	        	return "fuc putchar()";
 	        case PUTSTR:
-	            /** ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	            /** Êä³öÒ»¸ö»»ÐÐ */
 	        	return "fuc putstr()";
 	        case PUTLN:
 	        	return "fuc putln()";

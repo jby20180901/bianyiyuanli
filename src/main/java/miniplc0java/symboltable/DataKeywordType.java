@@ -1,8 +1,8 @@
 package symboltable;
 
 public enum DataKeywordType {
-	/** intï¿½Ø¼ï¿½ï¿½ï¿½ */
+	/** int¹Ø¼ü×Ö */
     INT_KW,
-    /** doubleï¿½Ø¼ï¿½ï¿½ï¿½ */
+    /** double¹Ø¼ü×Ö */
     DOUBLE_KW;
 }

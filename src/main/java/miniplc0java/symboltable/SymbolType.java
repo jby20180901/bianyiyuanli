@@ -1,8 +1,8 @@
 package symboltable;
 
 public enum SymbolType {
-	Constant,//ï¿½ï¿½ï¿½ï¿½
-    Variable,//ï¿½ï¿½ï¿½ï¿½
-    Function,//ï¿½ï¿½ï¿½ï¿½
-    Param//ï¿½ï¿½ï¿½ï¿½
+	Constant,//³£Á¿
+    Variable,//±äÁ¿
+    Function,//º¯Êý
+    Param//²ÎÊý
 }

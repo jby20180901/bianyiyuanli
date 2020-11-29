@@ -12,17 +12,17 @@ public class Tokenizer {
         this.it = it;
     }
 
-    // ï¿½ï¿½ï¿½ï±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ Iterator<Token> ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ Iterator ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    // ÕâÀï±¾À´ÊÇÏëÊµÏÖ Iterator<Token> µÄ£¬µ«ÊÇ Iterator ²»ÔÊÐíÅ×Òì³££¬ÓÚÊÇ¾ÍÕâÑùÁË
     /**
-     * ï¿½ï¿½È¡ï¿½ï¿½Ò»ï¿½ï¿½ Token
+     * »ñÈ¡ÏÂÒ»¸ö Token
      * 
      * @return
-     * @throws TokenizeError ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£ï¿½ï¿½ï¿½×³ï¿½
+     * @throws TokenizeError Èç¹û½âÎöÓÐÒì³£ÔòÅ×³ö
      */
     public Token nextToken() throws TokenizeError {
         it.readAll();
 
-        // ï¿½ï¿½ï¿½ï¿½Ö®Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿Õ°ï¿½ï¿½Ö·ï¿½
+        // Ìø¹ýÖ®Ç°µÄËùÓÐ¿Õ°××Ö·û
         skipSpaceCharacters();
 
         if (it.isEOF()) {
@@ -32,33 +32,33 @@ public class Tokenizer {
         char peek = it.peekChar();
         if (Character.isDigit(peek)) {
         	Token token = lexUIntorFloat();
-        	// System.out.println(token.getValueString());
+        	System.out.println(token.getValueString()+"                "+token.getTokenType());
             return token;
         } else if ((peek >= 'a'&&peek <= 'z')||(peek >= 'A'&&peek <= 'Z')||(peek == '_')) {
         	Token token = lexIdentOrKeyword();
-        	// System.out.println(token.getValueString());
+        	System.out.println(token.getValueString()+"                "+token.getTokenType());
         	return token;
         } else {
         	Token token = lexOperatorOrUnknown();
-        	// System.out.println(token.getValueString());
+        	System.out.println(token.getValueString()+"                "+token.getTokenType());
         	return token;
         }
     }
 
     private Token lexUIntorFloat() throws TokenizeError {
-        // ï¿½ï¿½ï¿½ï¿½Õ£ï¿½
+        // ÇëÌî¿Õ£º
         String num = "", num1 = "", num2 = "";
-        // Ö±ï¿½ï¿½ï¿½é¿´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÖ¹:
+        // Ö±µ½²é¿´ÏÂÒ»¸ö×Ö·û²»ÊÇÊý×ÖÎªÖ¹:
         while(Character.isDigit(it.peekChar())){
-        // -- Ç°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+        // -- Ç°½øÒ»¸ö×Ö·û£¬²¢´æ´¢Õâ¸ö×Ö·û
             char peek = it.nextChar();
             num += peek;
         }
         if(it.peekChar()=='.'){
         	it.nextChar();
-            // Ö±ï¿½ï¿½ï¿½é¿´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÖ¹:
+            // Ö±µ½²é¿´ÏÂÒ»¸ö×Ö·û²»ÊÇÊý×ÖÎªÖ¹:
             while(Character.isDigit(it.peekChar())){
-            // -- Ç°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+            // -- Ç°½øÒ»¸ö×Ö·û£¬²¢´æ´¢Õâ¸ö×Ö·û
                 char peek = it.nextChar();
                 num1 += peek;
             }
@@ -74,18 +74,18 @@ public class Tokenizer {
             		zhengfu = -1;
             		it.nextChar();
             	}
-                // Ö±ï¿½ï¿½ï¿½é¿´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÖ¹:
+                // Ö±µ½²é¿´ÏÂÒ»¸ö×Ö·û²»ÊÇÊý×ÖÎªÖ¹:
                 while(Character.isDigit(it.peekChar())){
-                // -- Ç°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+                // -- Ç°½øÒ»¸ö×Ö·û£¬²¢´æ´¢Õâ¸ö×Ö·û
                     char peek = it.nextChar();
                     num2 += peek;
                 }
-                // ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Îªï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                // ½âÎö´æ´¢µÄ×Ö·û´®ÎªÎÞ·ûºÅÕûÊý
                 try{
-                // ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ò·µ»ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½tokenï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-                    int a = Integer.parseInt(num);
-                    int b = Integer.parseInt(num1);
-                    int c = zhengfu*Integer.parseInt(num2);
+                // ½âÎö³É¹¦Ôò·µ»ØÎÞ·ûºÅÕûÊýÀàÐÍµÄtoken£¬·ñÔò·µ»Ø±àÒë´íÎó
+                	long a = Long.parseLong(num);
+                    long b = Long.parseLong(num1);
+                    long c = zhengfu*Long.parseLong(num2);
                     double abc = (a + pow(10,-num1.length())*b) * pow(10,c);
                     //System.out.println("*"+abc);
                     return new Token(TokenType.DOUBLE_LITERAL, abc, it.previousPos(), it.currentPos());
@@ -95,11 +95,11 @@ public class Tokenizer {
                 }
             }
             else{
-                // ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Îªï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                // ½âÎö´æ´¢µÄ×Ö·û´®ÎªÎÞ·ûºÅÕûÊý
                 try{
-                // ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ò·µ»ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½tokenï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-                    int a = Integer.parseInt(num);
-                    int b = Integer.parseInt(num1);
+                // ½âÎö³É¹¦Ôò·µ»ØÎÞ·ûºÅÕûÊýÀàÐÍµÄtoken£¬·ñÔò·µ»Ø±àÒë´íÎó
+                	long a = Long.parseLong(num);
+                    long b = Long.parseLong(num1);
                     double ab = a + pow(10,-num1.length())*b;
                     //System.out.println("*"+ab);
                     return new Token(TokenType.DOUBLE_LITERAL, ab, it.previousPos(), it.currentPos());
@@ -111,10 +111,10 @@ public class Tokenizer {
         }
         else{
             //
-            // ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½Îªï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            // ½âÎö´æ´¢µÄ×Ö·û´®ÎªÎÞ·ûºÅÕûÊý
             try{
-            // ï¿½ï¿½ï¿½ï¿½ï¿½É¹ï¿½ï¿½ò·µ»ï¿½ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½tokenï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»Ø±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-                int a = Integer.parseInt(num);
+            // ½âÎö³É¹¦Ôò·µ»ØÎÞ·ûºÅÕûÊýÀàÐÍµÄtoken£¬·ñÔò·µ»Ø±àÒë´íÎó
+            	long a = Long.parseLong(num);
                 //System.out.println("*"+a);
                 return new Token(TokenType.UINT_LITERAL, a, it.previousPos(), it.currentPos());
             }
@@ -123,23 +123,23 @@ public class Tokenizer {
             }
         }
         //
-        // Token ï¿½ï¿½ Value Ó¦ï¿½ï¿½Ð´ï¿½ï¿½ï¿½Öµï¿½Öµ
+        // Token µÄ Value Ó¦ÌîÐ´Êý×ÖµÄÖµ
 
         // throw new Error("Not implemented");
     }
 
     private Token lexIdentOrKeyword() throws TokenizeError {
-        // ï¿½ï¿½ï¿½ï¿½Õ£ï¿½
+        // ÇëÌî¿Õ£º
         String lex = "";
-        // Ö±ï¿½ï¿½ï¿½é¿´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½Ä¸ÎªÖ¹:
+        // Ö±µ½²é¿´ÏÂÒ»¸ö×Ö·û²»ÊÇÊý×Ö»ò×ÖÄ¸ÎªÖ¹:
         while(Character.isLetterOrDigit(it.peekChar())||it.peekChar()=='_'){
-        // -- Ç°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½Ö·ï¿½    
+        // -- Ç°½øÒ»¸ö×Ö·û£¬²¢´æ´¢Õâ¸ö×Ö·û    
             char peek = it.nextChar();
             lex += peek;
         }
         
         //
-        // ï¿½ï¿½ï¿½Ô½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Ø¼ï¿½ï¿½ï¿½
+        // ³¢ÊÔ½«´æ´¢µÄ×Ö·û´®½âÊÍÎª¹Ø¼ü×Ö
         if(lex.equals("fn")){
             return new Token(TokenType.FN_KW, lex, it.previousPos(), it.currentPos());
         }
@@ -174,10 +174,10 @@ public class Tokenizer {
         	//System.out.println("*"+lex);
             return new Token(TokenType.IDENT, lex, it.previousPos(), it.currentPos());
         }
-        // -- ï¿½ï¿½ï¿½ï¿½Ç¹Ø¼ï¿½ï¿½Ö£ï¿½ï¿½ò·µ»Ø¹Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ token
-        // -- ï¿½ï¿½ï¿½ò£¬·ï¿½ï¿½Ø±ï¿½Ê¶ï¿½ï¿½
+        // -- Èç¹ûÊÇ¹Ø¼ü×Ö£¬Ôò·µ»Ø¹Ø¼ü×ÖÀàÐÍµÄ token
+        // -- ·ñÔò£¬·µ»Ø±êÊ¶·û
         //
-        // Token ï¿½ï¿½ Value Ó¦ï¿½ï¿½Ð´ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½Ø¼ï¿½ï¿½Öµï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+        // Token µÄ Value Ó¦ÌîÐ´±êÊ¶·û»ò¹Ø¼ü×ÖµÄ×Ö·û´®
         // throw new Error("Not implemented");
     }
 
@@ -205,8 +205,11 @@ public class Tokenizer {
                 return CheckAssignOrEqual();
 
             case '!':
-                return new Token(TokenType.NEQ, "!=", it.previousPos(), it.currentPos());  
-
+            	if(it.nextChar()=='=')
+            		return new Token(TokenType.NEQ, "!=", it.previousPos(), it.currentPos());  
+            	else
+            		throw new TokenizeError(ErrorCode.NoError, it.previousPos());
+            	
             case '<':
                 return checkLTOrLE();
 
@@ -236,16 +239,16 @@ public class Tokenizer {
             
             
             default:
-                // ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½
+                // ²»ÈÏÊ¶Õâ¸öÊäÈë£¬ÃþÁË
                 throw new TokenizeError(ErrorCode.NoError, it.previousPos());
         }
     }
 
     private Token newString() throws TokenizeError {
         String lex = "";
-        // Ö±ï¿½ï¿½ï¿½é¿´ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½Ä¸ÎªÖ¹:
+        // Ö±µ½²é¿´ÏÂÒ»¸ö×Ö·û²»ÊÇÊý×Ö»ò×ÖÄ¸ÎªÖ¹:
         while(it.peekChar()!='"'){
-        // -- Ç°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+        // -- Ç°½øÒ»¸ö×Ö·û£¬²¢´æ´¢Õâ¸ö×Ö·û
             if(it.peekChar()=='\\'){
                 char peek = it.nextChar();
                 peek = it.nextChar();
@@ -256,7 +259,7 @@ public class Tokenizer {
                     case 'n': lex += '\n'; break;
                     case 'r': lex += '\r'; break;
                     case 't': lex += '\t'; break;
-                    default: // ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½
+                    default: // ²»ÈÏÊ¶Õâ¸öÊäÈë£¬ÃþÁË
                         throw new TokenizeError(ErrorCode.NoError, it.previousPos());
                 }
             }
@@ -272,7 +275,7 @@ public class Tokenizer {
 
     private Token newChar() throws TokenizeError {
         char lex = ' ';
-        // -- Ç°ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
+        // -- Ç°½øÒ»¸ö×Ö·û£¬²¢´æ´¢Õâ¸ö×Ö·û
         if(it.peekChar()=='\\'){
             char peek = it.nextChar();
             peek = it.nextChar();
@@ -283,7 +286,7 @@ public class Tokenizer {
                 case 'n': lex = '\n'; break;
                 case 'r': lex = '\r'; break;
                 case 't': lex = '\t'; break;
-                default: // ï¿½ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬ï¿½ï¿½ï¿½ï¿½
+                default: // ²»ÈÏÊ¶Õâ¸öÊäÈë£¬ÃþÁË
                     throw new TokenizeError(ErrorCode.NoError, it.previousPos());
             }
         }
