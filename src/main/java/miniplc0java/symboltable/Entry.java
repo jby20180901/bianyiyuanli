@@ -3,12 +3,12 @@ package symboltable;
 import util.Pos;
 
 public class Entry {
-	public SymbolType symboltype;//符号类型
-	public DataType datatype;//数据类型
-	public String name;//名称
-	public int level;//层数
-	public int offset;//当前层的偏移
-	public Pos pos;//错误位置
+	public SymbolType symboltype;//绗﹀彿绫诲瀷
+	public DataType datatype;//鏁版嵁绫诲瀷
+	public String name;//鍚嶇О
+	public int level;//灞傛暟
+	public int offset;//褰撳墠灞傜殑鍋忕Щ
+	public Pos pos;//閿欒浣嶇疆
 	
 	Entry(String name, SymbolType symboltype, DataType datatype, int level, int offset, Pos pos){
 		this.name = name;

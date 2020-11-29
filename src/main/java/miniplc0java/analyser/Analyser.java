@@ -29,6 +29,7 @@ public final class Analyser {
     boolean isVoid = false;
     int LPNum = 0;
     DataType nowReturn = null; //当前返回值类型
+    boolean isInLoop = false;	//当前在循环体内部
     /** 当前偷看的 token */
     Token peekedToken = null;
 
@@ -725,6 +726,7 @@ public final class Analyser {
         }
         functionEntry.datatype = datatype;
         nowReturn = datatype;
+        System.out.println("nowReturn:"+nowReturn);
         analyseFucBlockStmt();
 //        checkFlow();
     }
@@ -819,12 +821,16 @@ public final class Analyser {
     /**
      * block_stmt -> '{' stmt* '}'
      */
-    private void analyseBlockStmt() throws CompileError {
+    private boolean analyseBlockStmt() throws CompileError {
+    	boolean haveStmt = true;
     	level ++;
     	SymbolTable.levelup();
     	this.ifReturn[level] = 0;
     	expect(TokenType.L_BRACE);
     	int thisLevel  = level;
+    	if(check(TokenType.R_BRACE)) {
+    		haveStmt = false;
+    	}
         while(!(check(TokenType.R_BRACE)&&(level == thisLevel))){
             analyseStmt();
         }
@@ -832,6 +838,7 @@ public final class Analyser {
         setFlow();
     	level --;
     	SymbolTable.leveldown();
+    	return haveStmt;
     }
     
     /**
@@ -966,6 +973,7 @@ public final class Analyser {
      * if_stmt -> 'if' expr block_stmt ('else' 'if' expr block_stmt)* ('else' block_stmt)?
      */
     private void analyseIfStmt() throws CompileError {
+    	boolean checkDucElse = false;
         expect(TokenType.IF_KW);
         analyseExpr(TokenType.IF_KW);//表达式
         analyseBlockStmt();
@@ -975,6 +983,12 @@ public final class Analyser {
                 analyseBlockStmt();
             }
             else {
+            	if(!checkDucElse) {
+            		checkDucElse = true;
+            	}
+            	else {
+            		throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
+            	}
             	analyseBlockStmt();
             }
         }
@@ -986,13 +1000,18 @@ public final class Analyser {
     private void analyseWhileStmt() throws CompileError {
         expect(TokenType.WHILE_KW);
         analyseExpr(TokenType.WHILE_KW);//表达式整体分析
+        isInLoop = true;
         analyseBlockStmt();
+        isInLoop = false;
     }
 
     /**
      * break_stmt -> 'break' ';'
      */
     private void analyseBreakStmt() throws CompileError {
+    	if(!isInLoop) {
+    		throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
+    	}
         expect(TokenType.BREAK_KW);
         expect(TokenType.SEMICOLON);
     }
@@ -1001,6 +1020,9 @@ public final class Analyser {
      * continue_stmt -> 'continue' ';'
      */
     private void analyseContinueStmt() throws CompileError {
+    	if(!isInLoop) {
+    		throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
+    	}
         expect(TokenType.CONTINUE_KW);
         expect(TokenType.SEMICOLON);
     }
@@ -1020,6 +1042,15 @@ public final class Analyser {
             	throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
             }
             expect(TokenType.SEMICOLON);
+        }
+        else {
+        	dataType = DataType.VOID;  //表达式整体分析
+            if(dataType==null) {
+            	throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos()); 
+            }
+            else if(!dataType.equals(nowReturn)) {
+            	throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+            }
         }
         this.ifReturn[this.level] = 1;
 //    	System.out.println("num:"+level+" ifret:"+this.ifReturn[level]);
@@ -1059,6 +1090,7 @@ public final class Analyser {
     		else if(varEntry.isConstant==true) {
     			throw new AnalyzeError(ErrorCode.InvalidAssignment,nameToken.getStartPos());
     		}
+    		varEntry.setInitialized(true);
     	}
     	else {
     		throw new AnalyzeError(ErrorCode.InvalidAssignment,nameToken.getStartPos());

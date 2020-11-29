@@ -4,31 +4,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import error.AnalyzeError;
+import error.CompileError;
 import error.ErrorCode;
 import util.Pos;
 
 public class SymbolTable {
 	/**
-	 * Õû¸ö·ûºÅ±í
+	 * æ•´ä¸ªç¬¦å·è¡¨
 	 */
 	public static ArrayList<HashMap<String, Entry>> symboltable = new ArrayList<>();
 	
 	/**
-	 * ·ûºÅ±í²ãÊıÉÏÉı
+	 * ç¬¦å·è¡¨å±‚æ•°ä¸Šå‡
 	 */
 	public static void levelup() {
 		symboltable.add(new HashMap<>());
 	}
 	
 	/**
-	 * ·ûºÅ±í²ãÊıÏÂ½µ
+	 * ç¬¦å·è¡¨å±‚æ•°ä¸‹é™
+	 * @throws CompileError 
 	 */
-	public static void leveldown() {
+	public static void leveldown() throws CompileError {
+		checkVarEntryInit(symboltable.size() - 1);
 		symboltable.remove(symboltable.size() - 1);
 	}
 	
 	/**
-	 * ²åÈë±äÁ¿
+	 * æ’å…¥å˜é‡
 	 * @param level
 	 * @param name
 	 * @param isInitialized
@@ -50,7 +53,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * ²åÈëº¯Êı
+	 * æ’å…¥å‡½æ•°
 	 * @param name
 	 * @param symboltype
 	 * @param datatype
@@ -72,7 +75,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * ¸üĞÂº¯Êı²ÎÊı
+	 * æ›´æ–°å‡½æ•°å‚æ•°
 	 * @param fucName
 	 * @param varName
 	 * @param symbolType
@@ -98,7 +101,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * È«±íËÑË÷±äÁ¿
+	 * å…¨è¡¨æœç´¢å˜é‡
 	 * @param Var
 	 * @return
 	 */
@@ -116,7 +119,26 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * È«±íËÑË÷º¯Êı
+	 * å…¨å±‚æ£€æµ‹å˜é‡å®šä¹‰
+	 * @param Var
+	 * @return
+	 * @throws CompileError 
+	 */
+	public static void checkVarEntryInit(int level) throws CompileError {
+		HashMap<String, Entry> symbolTable;
+		symbolTable = symboltable.get(level);
+		for (String key:symbolTable.keySet()){
+			if(symbolTable.get(key) instanceof VarEntry) {
+				if(((VarEntry) symbolTable.get(key)).isInitialized != true) {
+					throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
+				}
+			}
+			
+        }
+	}
+	
+	/**
+	 * å…¨è¡¨æœç´¢å‡½æ•°
 	 * @param Func
 	 * @return
 	 */
@@ -134,7 +156,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * °´²ãËÑË÷±äÁ¿
+	 * æŒ‰å±‚æœç´¢å˜é‡
 	 * @param Var
 	 * @param level
 	 * @return
@@ -151,7 +173,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * °´²ãËÑË÷º¯Êı
+	 * æŒ‰å±‚æœç´¢å‡½æ•°
 	 * @param Func
 	 * @param level
 	 * @return
