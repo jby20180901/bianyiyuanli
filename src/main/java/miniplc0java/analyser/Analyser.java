@@ -20,22 +20,22 @@ import symboltable.DataType;
 
 public final class Analyser {
     Tokenizer tokenizer;
-    int level = 0;//����
-    private int functionOffset = 0;//����ƫ����
+    int level = 0;//层数
+    private int functionOffset = 0;//函数偏移量
     private int[][] priorty = new int[100][100];
     private TokenType[] priortyToken = new TokenType[20];
     ArrayList<Object> functionLPRecent = new ArrayList<>();
     int ifReturn[] = new int[1000];
     boolean isVoid = false;
     int LPNum = 0;
-    DataType nowReturn = null; //��ǰ����ֵ����
-    /** ��ǰ͵���� token */
+    DataType nowReturn = null; //当前返回值类型
+    /** 当前偷看的 token */
     Token peekedToken = null;
 
-    /** �������ź��� */
+    /** 大括号信号量 */
     int brace = 0;
 
-    /** ��һ��������ջƫ�� */
+    /** 下一个变量的栈偏移 */
     int nextOffset = 0;
     
     public int enumToInt(TokenType tokenType) {
@@ -103,7 +103,7 @@ public final class Analyser {
         this.tokenizer = tokenizer;
         /** 
          * + - 					PLUS MINUS 
-         * ǰ��- 				NEGATE
+         * 前置- 				NEGATE
          * * \ 					MUL DIV 
          * == != < > <= >= 		EQ NEQ LT GT LE GE
          * as 					AS_KW 
@@ -113,11 +113,11 @@ public final class Analyser {
          * # 					STOP
         */
         /**
-         * 0����<
-         * 1����>
-         * 2����=
-         * 3����X
-         * 4��������
+         * 0代表<
+         * 1代表>
+         * 2代表=
+         * 3代表X
+         * 4代表结束
          * |      | +    | *    | i    | (    | )    | <    | '-'  | as   | #    |
 		 * | +    | 1    | 0    | 0    | 0    | 1    | 1    | 0    | 0    | 1    |
 		 * | *    | 1    | 1    | 0    | 0    | 1    | 1    | 0    | 0    | 1    |
@@ -156,8 +156,8 @@ public final class Analyser {
         priortyToken[16] = TokenType.AS_KW;
         /** # */
         priortyToken[17] = TokenType.STOP;
-        for(int i=0;i<18;i++) {//ջ�� ��
-        	for(int j=0;j<18;j++) {//ջ�� ��
+        for(int i=0;i<18;i++) {//栈内 左
+        	for(int j=0;j<18;j++) {//栈外 右
     			if(i==0||i==1) {/** +- */
     				if(j==0||j==1) {/** +- */
             			priorty[i][j] = 1;
@@ -424,6 +424,7 @@ public final class Analyser {
         for(int i=0;i<1000;i++) {
         	this.ifReturn[i] = -1;
         }
+        functionLPRecent.add(-1000);
     }
 
     public void analyse() throws CompileError {
@@ -434,7 +435,7 @@ public final class Analyser {
     }
 
     /**
-     * �鿴��һ�� Token
+     * 查看下一个 Token
      * 
      * @return
      * @throws TokenizeError
@@ -447,7 +448,7 @@ public final class Analyser {
     }
 
     /**
-     * ��ȡ��һ�� Token
+     * 获取下一个 Token
      * 
      * @return
      * @throws TokenizeError
@@ -463,7 +464,7 @@ public final class Analyser {
     }
 
     /**
-     * �����һ�� token �������� tt���򷵻� true
+     * 如果下一个 token 的类型是 tt，则返回 true
      * 
      * @param tt
      * @return
@@ -475,10 +476,10 @@ public final class Analyser {
     }
 
     /**
-     * �����һ�� token �������� tt����ǰ��һ�� token ��������� token
+     * 如果下一个 token 的类型是 tt，则前进一个 token 并返回这个 token
      * 
-     * @param tt ����
-     * @return ���ƥ���򷵻���� token�����򷵻� null
+     * @param tt 类型
+     * @return 如果匹配则返回这个 token，否则返回 null
      * @throws TokenizeError
      */
     private Token nextIf(TokenType tt) throws TokenizeError {
@@ -491,10 +492,10 @@ public final class Analyser {
     }
     
     /**
-     * �����һ�� token �������� tt����ǰ��һ�� token ��������� token
+     * 如果下一个 token 的类型是 tt，则前进一个 token 并返回这个 token
      * 
-     * @param tt ����
-     * @return ���ƥ���򷵻���� token�����򷵻� null
+     * @param tt 类型
+     * @return 如果匹配则返回这个 token，否则返回 null
      * @throws TokenizeError
      */
     private Token seekIf(TokenType tt) throws TokenizeError {
@@ -507,11 +508,11 @@ public final class Analyser {
     }
 
     /**
-     * �����һ�� token �������� tt����ǰ��һ�� token �����أ������׳��쳣
+     * 如果下一个 token 的类型是 tt，则前进一个 token 并返回，否则抛出异常
      * 
-     * @param tt ����
-     * @return ��� token
-     * @throws CompileError ������Ͳ�ƥ��
+     * @param tt 类型
+     * @return 这个 token
+     * @throws CompileError 如果类型不匹配
      */
     private Token expect(TokenType tt) throws CompileError {
         var token = peek();
@@ -523,28 +524,28 @@ public final class Analyser {
     }
     
     /**
-     * ����һ���з�������
+     * 读入一个有符号整数
 	 * fn getint() -> int
-	 * ����һ��������
+	 * 读入一个浮点数
 	 * fn getdouble() -> double
-	 * ����һ���ַ�
+	 * 读入一个字符
 	 * fn getchar() -> int
-	 * ���һ������
+	 * 输出一个整数
 	 * fn putint(int) -> void
-	 * ���һ��������
+	 * 输出一个浮点数
 	 * fn putdouble(double) -> void
-	 * ���һ���ַ�
+	 * 输出一个字符
 	 * fn putchar(int) -> void
-	 * �����Ϊ���������ȫ�ֳ��������ַ������
+	 * 将编号为这个整数的全局常量看作字符串输出
 	 * fn putstr(int) -> void
-	 * ���һ������
+	 * 输出一个换行
 	 * fn putln() -> void
      * @throws CompileError
      */
     private void initSystemcall() throws CompileError {
     	Pos startPos = new Pos(0,0);
     	/** 
-    	 * ����һ���з�������
+    	 * 读入一个有符号整数
     	 * fn getint() -> int
 	 	 */
     	level ++;
@@ -553,7 +554,7 @@ public final class Analyser {
     	level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * ����һ��������
+    	 * 读入一个浮点数
     	 * fn getdouble() -> double
 	 	 */
     	level ++;
@@ -562,7 +563,7 @@ public final class Analyser {
     	level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * ����һ���ַ�
+    	 * 读入一个字符
     	 * fn getchar() -> int
 	 	 */
     	level ++;
@@ -571,59 +572,59 @@ public final class Analyser {
     	level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * ���һ������
+    	 * 输出一个整数
     	 * fn putint(int) -> void
 	 	 */
     	level ++;
     	SymbolTable.levelup();
     	SymbolTable.insertFunctionEntry("putint", SymbolType.Function, DataType.VOID, functionOffset, startPos);
-    	//��������������
+    	//这层增加这个参数
         SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.INT, 1, startPos);
-        //��������һ������
+        //函数增加一个参数
         SymbolTable.updateFunctionCallList("putint", "x", SymbolType.Variable, DataType.INT, 1, startPos, false);
         level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * ���һ��������
+    	 * 输出一个浮点数
     	 * fn putdouble(double) -> void
 	 	 */
         level ++;
     	SymbolTable.levelup();
     	SymbolTable.insertFunctionEntry("putdouble", SymbolType.Function, DataType.VOID, functionOffset, startPos);
-    	//��������������
+    	//这层增加这个参数
         SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.DOUBLE, 1, startPos);
-        //��������һ������
+        //函数增加一个参数
         SymbolTable.updateFunctionCallList("putdouble", "x", SymbolType.Variable, DataType.DOUBLE, 1, startPos, false);
         level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * ���һ���ַ�
+    	 * 输出一个字符
     	 * fn putchar(int) -> void
 	 	 */
         level ++;
     	SymbolTable.levelup();
     	SymbolTable.insertFunctionEntry("putchar", SymbolType.Function, DataType.VOID, functionOffset, startPos);
-    	//��������������
+    	//这层增加这个参数
         SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.INT, 1, startPos);
-        //��������һ������
+        //函数增加一个参数
         SymbolTable.updateFunctionCallList("putchar", "x", SymbolType.Variable, DataType.INT, 1, startPos, false);
         level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * �����Ϊ���������ȫ�ֳ��������ַ������
+    	 * 将编号为这个整数的全局常量看作字符串输出
     	 * fn putstr(int) -> void
 	 	 */
         level ++;
     	SymbolTable.levelup();
     	SymbolTable.insertFunctionEntry("putstr", SymbolType.Function, DataType.VOID, functionOffset, startPos);
-    	//��������������
+    	//这层增加这个参数
         SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.INT, 1, startPos);
-        //��������һ������
+        //函数增加一个参数
         SymbolTable.updateFunctionCallList("putstr", "x", SymbolType.Variable, DataType.INT, 1, startPos, false);
         level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * ���һ������
+    	 * 输出一个换行
     	 * fn putln() -> void
 	 	 */
         level ++;
@@ -651,7 +652,7 @@ public final class Analyser {
      * program -> item*
     */
     private void analyseProgram() throws CompileError {
-        //ѭ������Ƿ����β��
+        //循环检查是否程序尾部
         while(!check(TokenType.EOF)){
             analyseItem();
         }
@@ -663,11 +664,11 @@ public final class Analyser {
      * item -> function | decl_stmt
      */
     private void analyseItem() throws CompileError {
-        // ����һ�������ǲ���fn
+        // 检查第一个单词是不是fn
         if(check(TokenType.FN_KW)){
             analyseFuc();
         }
-        //����ǲ��Ǳ����������
+        //检查是不是变量声明语句
         else if(check(TokenType.LET_KW)||check(TokenType.CONST_KW)){
             analyseDeclStmt();
         }
@@ -682,11 +683,11 @@ public final class Analyser {
      * function -> 'fn' IDENT '(' function_param_list? ')' '->' ty block_stmt
      */
     private void analyseFuc() throws CompileError {
-    	DataType datatype = null;//����ֵ����
-    	FunctionEntry functionEntry;//���ɵĺ�������
-    	String fucName;//��������
+    	DataType datatype = null;//返回值类型
+    	FunctionEntry functionEntry;//生成的函数符号
+    	String fucName;//函数名称
     	int offset = 0;
-        // ����һ�������ǲ���fn
+        // 检查第一个单词是不是fn
         expect(TokenType.FN_KW);
         var fucNameToken = expect(TokenType.IDENT);
         fucName = (String) fucNameToken.getValue();
@@ -746,10 +747,10 @@ public final class Analyser {
      * function_param -> const? IDENT ':' ty 
      */
     private void analyseFucPara(Token fucNameToken,int offset) throws CompileError {
-    	DataType datatype = null;//��������
+    	DataType datatype = null;//数据类型
     	SymbolType symbolType = null;
-    	String varName = null;//������
-    	String fucName = (String)fucNameToken.getValue();//������
+    	String varName = null;//参数名
+    	String fucName = (String)fucNameToken.getValue();//函数名
     	boolean isConst = false;
     	if(nextIf(TokenType.CONST_KW)!=null) {
     		isConst = true;
@@ -777,14 +778,14 @@ public final class Analyser {
         else {
         	throw new AnalyzeError(ErrorCode.InvalidVariableDeclaration,varTypeToken.getStartPos());
         }
-        //��������������
+        //这层增加这个参数
         SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
-        //��������һ������
+        //函数增加一个参数
         SymbolTable.updateFunctionCallList(fucName, varName, symbolType, datatype, offset, varTypeToken.getStartPos(), isConst);
     }
 
     /**
-     * ���ÿ�����
+     * 设置控制流
      */
     private void setFlow() throws CompileError {
 //    	System.out.println("num:"+level+" ifret:"+this.ifReturn[level]);
@@ -800,7 +801,7 @@ public final class Analyser {
     }
     
     /**
-     * ��������
+     * 检查控制流
      */
     private void checkFlow() throws CompileError {
 //    	System.out.println("num:"+level+" ifret:"+this.ifReturn[level]);
@@ -897,12 +898,12 @@ public final class Analyser {
 	 * const_decl_stmt -> 'const' IDENT ':' ty '=' expr ';'
      */
     private void analyseDeclStmt() throws CompileError {
-    	DataType datatype = null ,rDataType = null;//��������
+    	DataType datatype = null ,rDataType = null;//数据类型
     	SymbolType symbolType = null;
-    	String varName = null;//������
+    	String varName = null;//参数名
     	boolean isConst = false;
     	int offset = 0;
-        // ����һ�������ǲ���let const
+        // 检查第一个单词是不是let const
     	if(nextIf(TokenType.CONST_KW)!=null) {
     		isConst = true;
     		symbolType = SymbolType.Constant;
@@ -910,7 +911,7 @@ public final class Analyser {
     	else if(nextIf(TokenType.LET_KW)!=null)  {
     		symbolType = SymbolType.Variable;
     	}
-    	//String fucName = (String)fucNameToken.getValue();//������
+    	//String fucName = (String)fucNameToken.getValue();//函数名
     	var paraNameToken = expect(TokenType.IDENT);
     	varName = (String)paraNameToken.getValue();
         expect(TokenType.COLON);
@@ -932,33 +933,33 @@ public final class Analyser {
         }
         if(isConst) {
         	expect(TokenType.ASSIGN);
-        	rDataType = analyseExpr(TokenType.ASSIGN);//����ʽ�������
+        	rDataType = analyseExpr(TokenType.ASSIGN);//表达式整体分析
         	if(!datatype.equals(rDataType)) {
             	throw new AnalyzeError(ErrorCode.InvalidInput,varTypeToken.getStartPos());
             }
         	expect(TokenType.SEMICOLON);
-        	//�����������
+        	//增加这个变量
             SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
         
         }
         else if(nextIf(TokenType.ASSIGN)!=null){
-        	rDataType = analyseExpr(TokenType.ASSIGN);//����ʽ�������
+        	rDataType = analyseExpr(TokenType.ASSIGN);//表达式整体分析
         	if(!datatype.equals(rDataType)) {
             	throw new AnalyzeError(ErrorCode.InvalidInput,varTypeToken.getStartPos());
             }
         	expect(TokenType.SEMICOLON);
-        	//�����������
+        	//增加这个变量
             SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
         }
         else {
         	expect(TokenType.SEMICOLON);
-        	//�����������
+        	//增加这个变量
             SymbolTable.insertVarEntry(level, varName, false, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
         }
     }
     
     /**
-     * �����ж�
+     * 条件判断
      */
     
     /**
@@ -966,11 +967,11 @@ public final class Analyser {
      */
     private void analyseIfStmt() throws CompileError {
         expect(TokenType.IF_KW);
-        analyseExpr(TokenType.IF_KW);//����ʽ
+        analyseExpr(TokenType.IF_KW);//表达式
         analyseBlockStmt();
         while(nextIf(TokenType.ELSE_KW)!=null){
             if(nextIf(TokenType.IF_KW)!=null){
-                analyseExpr(TokenType.IF_KW);//����ʽ�������
+                analyseExpr(TokenType.IF_KW);//表达式整体分析
                 analyseBlockStmt();
             }
             analyseBlockStmt();
@@ -982,7 +983,7 @@ public final class Analyser {
      */
     private void analyseWhileStmt() throws CompileError {
         expect(TokenType.WHILE_KW);
-        analyseExpr(TokenType.WHILE_KW);//����ʽ�������
+        analyseExpr(TokenType.WHILE_KW);//表达式整体分析
         analyseBlockStmt();
     }
 
@@ -1009,7 +1010,7 @@ public final class Analyser {
     	DataType dataType = null;
         Token token = expect(TokenType.RETURN_KW);
         if(nextIf(TokenType.SEMICOLON)==null){
-            dataType = analyseExpr(TokenType.RETURN_KW);  //����ʽ�������
+            dataType = analyseExpr(TokenType.RETURN_KW);  //表达式整体分析
             if(dataType==null) {
             	throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos()); 
             }
@@ -1026,12 +1027,12 @@ public final class Analyser {
      * expr_stmt -> expr ';'
      */
     private void analyseExprStmt() throws CompileError {
-        analyseAssignExpr();//�������ܵĸ�ֵ����ʽ
+        analyseAssignExpr();//处理可能的赋值表达式
         expect(TokenType.SEMICOLON);
     }
     
     /**
-     * ��ֵ����ʽ���п�����ת������ֵΪvoid�ĺ�������ʽ����
+     * 赋值表达式，有可能跳转到返回值为void的函数表达式处理
      * @throws CompileError
      */
     private DataType analyseAssignExpr() throws CompileError {
@@ -1049,7 +1050,7 @@ public final class Analyser {
     		varEntry = SymbolTable.findVarEntry((String)nameToken.getValue());
     		leftDataType = varEntry.datatype;
     		expect(TokenType.ASSIGN);
-    		rightDataType = analyseExpr(TokenType.ASSIGN);//����ʽ�������
+    		rightDataType = analyseExpr(TokenType.ASSIGN);//表达式整体分析
     		if(!leftDataType.equals(rightDataType)) {
     			throw new AnalyzeError(ErrorCode.InvalidAssignment,nameToken.getStartPos());
     		}
@@ -1064,7 +1065,7 @@ public final class Analyser {
     }
     
     /**
-     * ��������ʽ
+     * 函数调用式
      * @param functionToken
      * @return
      * @throws CompileError
@@ -1080,7 +1081,7 @@ public final class Analyser {
     		/**
     	     * call_param_list -> expr (',' expr)*
     	     */
-    		getDataType = analyseExpr(TokenType.L_PAREN);//����ʽ�������
+    		getDataType = analyseExpr(TokenType.L_PAREN);//表达式整体分析
     		baseDataType = functionEntry.getArgData(i);
     		if(baseDataType==null) {
     			throw new AnalyzeError(ErrorCode.InvalidInput,functionToken.getStartPos());
@@ -1090,7 +1091,7 @@ public final class Analyser {
     		}
 	        while(check(TokenType.COMMA)){
 	            expect(TokenType.COMMA);
-	            getDataType = analyseExpr(TokenType.COMMA);//����ʽ�������
+	            getDataType = analyseExpr(TokenType.COMMA);//表达式整体分析
 	            i ++;
 	    		baseDataType = functionEntry.getArgData(i);
 	    		if(baseDataType==null) {
@@ -1119,6 +1120,7 @@ public final class Analyser {
      * | group_expr
      */
     private DataType analyseExpr(TokenType recent) throws CompileError {
+    	TokenType recentToken = null;
     	OperatorStack stack = new OperatorStack();
     	DataType ret = DataType.VOID;
     	Token token = null;
@@ -1126,7 +1128,7 @@ public final class Analyser {
     	
     	/** 
          * + - 					PLUS MINUS 
-         * ǰ��- 				NEGATE
+         * 前置- 				NEGATE
          * * \ 					MUL DIV 
          * == != < > <= >= 		EQ NEQ LT GT LE GE
          * as 					AS_KW 
@@ -1140,12 +1142,14 @@ public final class Analyser {
     	 */
         while(true) {
         	if(check(TokenType.PLUS)) {//+
-        		recent = TokenType.PLUS;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.PLUS;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
         		if(priorty[i][j] == 0) {
         			next();
-        			stack.push(recent);
+        			stack.push(recentToken);
+        			recent = TokenType.PLUS;
         		}
         		else if(priorty[i][j] == 1) {
         			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])) {
@@ -1166,27 +1170,31 @@ public final class Analyser {
         		}
         	}
         	else if(check(TokenType.MINUS)) {//- '-'
+        		System.out.println(stack.toString());
         		token = seekIf(TokenType.MINUS);
         		/**
         		 * ASSIGN IF_KW WHILE_KW RETURN_KW ( + - * \ < > <= >= == != 
         		 */
         		if(recent.equals(TokenType.ASSIGN)||recent.equals(TokenType.IF_KW)||recent.equals(TokenType.WHILE_KW)||recent.equals(TokenType.RETURN_KW)||recent.equals(TokenType.L_PAREN)||recent.equals(TokenType.PLUS)||recent.equals(TokenType.MINUS)||recent.equals(TokenType.MUL)||recent.equals(TokenType.DIV)||recent.equals(TokenType.EQ)||recent.equals(TokenType.NEQ)||recent.equals(TokenType.GE)||recent.equals(TokenType.GT)||recent.equals(TokenType.LE)||recent.equals(TokenType.LT)) {
-        			recent = TokenType.NEGATE;
-        			int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        			//System.out.println("l----- "+recent);
+        			recentToken = TokenType.NEGATE; 
+        			int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
 	        		if(priorty[i][j] == 0) {
 	        			next();
-	        			stack.push(recent);
+	        			stack.push(recentToken);
+	        			recent = TokenType.NEGATE;
 	        		}
 	        		else if(priorty[i][j] == 3) {
 	        			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
 	        		}
         		}
         		else {
-	        		recent = TokenType.MINUS;
-	        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        			recentToken = TokenType.MINUS;
+	        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
 	        		if(priorty[i][j] == 0) {
 	        			next();
-	        			stack.push(recent);
+	        			stack.push(recentToken);
+	        			recent = TokenType.MINUS;
 	        		}
 	        		else if(priorty[i][j] == 1) {
 	        			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])) {
@@ -1208,12 +1216,14 @@ public final class Analyser {
         		}
         	}
         	else if(check(TokenType.MUL)) {//*
-        		recent = TokenType.MUL;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.MUL;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
         		if(priorty[i][j] == 0) {
         			next();
-        			stack.push(recent);
+        			stack.push(recentToken);
+        			recent = TokenType.MUL;
         		}
         		else if(priorty[i][j] == 1) {
         			if(judgeMD(priortyToken[i])) {
@@ -1234,12 +1244,14 @@ public final class Analyser {
         		}
         	}
         	else if(check(TokenType.DIV)) {//\
-        		recent = TokenType.DIV;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.DIV;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
         		if(priorty[i][j] == 0) {
         			next();
-        			stack.push(recent);
+        			stack.push(recentToken);
+        			recent = recentToken = TokenType.DIV;
         		}
         		else if(priorty[i][j] == 1) {
         			if(judgeMD(priortyToken[i])) {
@@ -1260,12 +1272,14 @@ public final class Analyser {
         		}
         	}
         	else if(check(TokenType.EQ)) {//==
-        		recent = TokenType.EQ;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.EQ;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
         		if(priorty[i][j] == 0) {
         			next();
-        			stack.push(recent);
+        			stack.push(recentToken);
+        			recent = TokenType.EQ;
         		}
         		else if(priorty[i][j] == 1) {
         			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
@@ -1286,12 +1300,14 @@ public final class Analyser {
         		}
         	}
         	else if(check(TokenType.NEQ)) {//!=
-        		recent = TokenType.NEQ;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.NEQ;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
         		if(priorty[i][j] == 0) {
         			next();
-        			stack.push(recent);
+        			stack.push(recentToken);
+        			recent = TokenType.NEQ;
         		}
         		else if(priorty[i][j] == 1) {
         			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
@@ -1312,12 +1328,14 @@ public final class Analyser {
         		}
         	}
         	else if(check(TokenType.LT)) {//<
-        		recent = TokenType.LT;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.LT;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
         		if(priorty[i][j] == 0) {
         			next();
-        			stack.push(recent);
+        			stack.push(recentToken);
+        			recent = TokenType.LT;
         		}
         		else if(priorty[i][j] == 1) {
         			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
@@ -1338,12 +1356,14 @@ public final class Analyser {
         		}
         	}
         	else if(check(TokenType.LE)) {//<=
-        		recent = TokenType.LE;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.LE;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
         		if(priorty[i][j] == 0) {
         			next();
-        			stack.push(recent);
+        			stack.push(recentToken);
+        			recent = TokenType.LE;
         		}
         		else if(priorty[i][j] == 1) {
         			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
@@ -1364,12 +1384,14 @@ public final class Analyser {
         		}
         	}
         	else if(check(TokenType.GT)) {//>
-        		recent = TokenType.GT;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.GT;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
         		if(priorty[i][j] == 0) {
         			next();
-        			stack.push(recent);
+        			stack.push(recentToken);
+        			recent = TokenType.GT;
         		}
         		else if(priorty[i][j] == 1) {
         			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
@@ -1390,12 +1412,14 @@ public final class Analyser {
         		}
         	}
         	else if(check(TokenType.GE)) {//>=
-        		recent = TokenType.GE;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.GE;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
         		if(priorty[i][j] == 0) {
         			next();
-        			stack.push(recent);
+        			stack.push(recentToken);
+        			recent = TokenType.GE;
         		}
         		else if(priorty[i][j] == 1) {
         			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
@@ -1416,12 +1440,14 @@ public final class Analyser {
         		}
         	}
         	else if(check(TokenType.AS_KW)) {//as
-        		recent = TokenType.AS_KW;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.AS_KW;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
         		if(priorty[i][j] == 0) {
         			next();
-        			stack.push(recent);
+        			stack.push(recentToken);
+        			recent = TokenType.AS_KW;
         		}
         		else if(priorty[i][j] == 1) {
         			if(priortyToken[i].equals(TokenType.R_PAREN)) {
@@ -1439,58 +1465,68 @@ public final class Analyser {
         		}
         	}
         	else if(check(TokenType.UINT_LITERAL)) {//IDENT
-        		recent = TokenType.UINT_LITERAL;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.UINT_LITERAL;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
         		if(priorty[i][j] == 0) {
         			next();
-        			stack.push(TokenType.UINT_LITERAL);
+        			stack.push(recentToken);
+        			recent = TokenType.UINT_LITERAL;
         		}
         		else if(priorty[i][j] == 3) {
         			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
         		}
         	}
         	else if(check(TokenType.DOUBLE_LITERAL)) {//IDENT
-        		recent = TokenType.DOUBLE_LITERAL;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.DOUBLE_LITERAL;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
         		if(priorty[i][j] == 0) {
         			next();
-        			stack.push(TokenType.DOUBLE_LITERAL);
+        			stack.push(recentToken);
+        			recent = TokenType.DOUBLE_LITERAL;
         		}
         		else if(priorty[i][j] == 3) {
         			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
         		}
         	}
         	else if(check(TokenType.IDENT)) {//IDENT
+        		System.out.println(stack.toString());
         		if(recent.equals(TokenType.AS_KW)) {
-        			recent = TokenType.IDENT;
-            		token = seekIf(recent);
+        			recentToken = TokenType.IDENT;
+            		token = seekIf(recentToken);
             		if(((String)token.getValue()).equals("int")) {
             			next();
             			stack.push(DataKeywordType.INT_KW);
+            			recent = TokenType.IDENT;
             		}
             		else if(((String)token.getValue()).equals("double")) {
             			next();
             			stack.push(DataKeywordType.DOUBLE_KW);
+            			recent = TokenType.IDENT;
             		}
         		}
         		else {
-        			recent = TokenType.IDENT;
-            		token = seekIf(recent);
+        			recentToken = TokenType.IDENT;
+            		token = seekIf(recentToken);
 	        		if(SymbolTable.findFunctionEntry((String)token.getValue())!=null){
 	        			next();
 	        			stack.push(analyseFunction(token));
+	        			recent = TokenType.IDENT;
 	        		}
 	        		else if(SymbolTable.findVarEntry((String)token.getValue())!=null){
-		        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+		        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
 		        		if(priorty[i][j] == 0) {
 		        			next();
 		        			if(SymbolTable.findVarEntry((String)token.getValue()).datatype.equals(DataType.INT)) {
 		        				stack.push(TokenType.UINT_LITERAL);
+		        				recent = TokenType.IDENT;
 		        			}
 		        			else if(SymbolTable.findVarEntry((String)token.getValue()).datatype.equals(DataType.DOUBLE)) {
 		        				stack.push(TokenType.DOUBLE_LITERAL);
+		        				recent = TokenType.IDENT;
 		        			}
 		        		}
 		        		else if(priorty[i][j] == 3) {
@@ -1503,22 +1539,28 @@ public final class Analyser {
         		}
         	}
         	else if(check(TokenType.L_PAREN)) {//(
-        		recent = TokenType.L_PAREN;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.L_PAREN;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
         		if(priorty[i][j] == 0) {
         			next();
         			LPNum ++;
-        			stack.push(recent);
+        			stack.push(recentToken);
+        			recent = TokenType.L_PAREN;
         		}
         		else if(priorty[i][j] == 3) {
+        			System.out.println(stack.toString());
         			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
         		}
         	}
         	else if(check(TokenType.R_PAREN)&&(LPNum > (int)functionLPRecent.get(functionLPRecent.size()-1))) {//)
-        		recent = TokenType.R_PAREN;
-        		token = seekIf(recent);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recent);
+        		System.out.println(stack.toString());
+        		recentToken = TokenType.R_PAREN;
+        		token = seekIf(recentToken);
+        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+//        		System.out.println(priorty[i][j]);
+//        		System.out.println(priortyToken[i]);
         		if(priorty[i][j] == 1) {
         			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
         				stackEoE(stack, token);
@@ -1532,17 +1574,22 @@ public final class Analyser {
         			else if(priortyToken[i].equals(TokenType.AS_KW)) {
         				stackEoT(stack, token);
         			}
+        			else if(judgeNum(priortyToken[i])) {
+        				stacko(stack, token);
+        			}
         		}
         		else if(priorty[i][j] == 2) {
         			next();
         			LPNum --;
-        			stack.push(recent);
+        			stack.push(recentToken);
+        			recent = TokenType.R_PAREN;
         		}
         		else if(priorty[i][j] == 3) {
         			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
         		}
         	}
         	else {//#
+        		System.out.println(stack.toString());
         		TokenType stop = TokenType.STOP;
         		int i = enumToInt(stack.getTopToken()), j = enumToInt(stop);
         		if(priorty[i][j] == 1) {
@@ -1565,7 +1612,7 @@ public final class Analyser {
         		else if(priorty[i][j] == 3) {
         			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
         		}
-        		else if(priorty[i][j] == 4) {//����
+        		else if(priorty[i][j] == 4) {//返回
         			ret = (DataType)stack.getTop();
         			break;
         		}
@@ -1575,8 +1622,8 @@ public final class Analyser {
     }
     
     /** 
-     * + - * \ < > <= >= == != ����
-     * EoE��
+     * + - * \ < > <= >= == != 操作
+     * EoE型
      * @throws AnalyzeError 
      */
     private OperatorStack stackEoE(OperatorStack stack, Token token) throws AnalyzeError {
@@ -1604,8 +1651,8 @@ public final class Analyser {
     }
     
     /**
-     * ( ) ����
-     * oEo��
+     * ( ) 操作
+     * oEo型
      */
     private OperatorStack stackoEo(OperatorStack stack, Token token) throws AnalyzeError {
     	DataType dataType = null;
@@ -1632,8 +1679,8 @@ public final class Analyser {
     }
     
     /**
-     * '-' ǰ�ø��Ų���
-     * oE��
+     * '-' 前置负号操作
+     * oE型
      */
     private OperatorStack stackoE(OperatorStack stack, Token token) throws AnalyzeError {
     	DataType dataType = null;
@@ -1653,8 +1700,8 @@ public final class Analyser {
     }
     
     /**
-     * AS����
-     * EoT��
+     * AS操作
+     * EoT型
      */
     private OperatorStack stackEoT(OperatorStack stack, Token token) throws AnalyzeError {
     	DataType dataType = null;
@@ -1687,8 +1734,8 @@ public final class Analyser {
     }
     
     /**
-     * ����ת��type
-     * o��
+     * 变量转换type
+     * o型
      * @param stack
      * @param token
      * @return
@@ -1720,28 +1767,28 @@ public final class Analyser {
     }
     
     /**
-     * �ж��ǲ���+-
+     * 判断是不是+-
      */
     private boolean judgePM(TokenType tokenType) {
     	return (TokenType.PLUS.equals(tokenType)||TokenType.MINUS.equals(tokenType));
     }
     
     /**
-     * �ж��ǲ���*\
+     * 判断是不是*\
      */
     private boolean judgeMD(TokenType tokenType) {
     	return (TokenType.MUL.equals(tokenType)||TokenType.DIV.equals(tokenType));
     }
     
     /**
-     * �ж��ǲ���<> <= >= == !=
+     * 判断是不是<> <= >= == !=
      */
     private boolean judgeCMP(TokenType tokenType) {
     	return (TokenType.LT.equals(tokenType)||TokenType.LE.equals(tokenType)||TokenType.GT.equals(tokenType)||TokenType.GE.equals(tokenType)||TokenType.EQ.equals(tokenType)||TokenType.NEQ.equals(tokenType));
     }
     
     /**
-     * �ж��ǲ��� uint double
+     * 判断是不是 uint double
      */
     private boolean judgeNum(TokenType tokenType) {
     	return (TokenType.UINT_LITERAL.equals(tokenType)||TokenType.DOUBLE_LITERAL.equals(tokenType));

@@ -29,6 +29,16 @@ import net.sourceforge.argparse4j.inf.Namespace;
 public class App {
 	static StringIter it;
 	static Scanner scanner;
+	private static void copy(String source) throws FileNotFoundException, CompileError {
+		InputStream is=new FileInputStream(source);
+		scanner = new Scanner(is);
+		it = new StringIter(scanner);
+		it.readAll();
+		while(!it.isEOF()) {
+			System.out.print(it.nextChar());
+		}
+    }
+	
 	private static void wordAnalyze(String source) throws FileNotFoundException, CompileError {
 		InputStream is=new FileInputStream(source);
 		scanner = new Scanner(is);
@@ -53,17 +63,20 @@ public class App {
     public static void main(String[] args) throws FileNotFoundException, CompileError {
         boolean debug = false;
         if (debug) {	
-        	String source = "1.c";
+        	String source = "./bin/1.c";
      	    String outputPath = "1.txt";
-            Analyze(source);
-            //wordAnalyze(source);
+//            Analyze(source);
+//            wordAnalyze(source);
+            copy(source);
             return;
         }
         else {
 			String source = args[1];
      	    String outputPath = args[3];
 			//Analyze(source);
-			wordAnalyze(source);
-        }
+			//wordAnalyze(source);
+			copy(source);
+		}
     }
 }
+
