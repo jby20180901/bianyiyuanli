@@ -73,9 +73,9 @@ public class App {
         else {
 			String source = args[1];
      	    String outputPath = args[3];
-			//Analyze(source);
+			Analyze(source);
 			//wordAnalyze(source);
-			copy(source);
+			// copy(source);
 		}
     }
 }
