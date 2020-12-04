@@ -2,24 +2,24 @@ package miniplc0java.analyser;
 
 import java.util.ArrayList;
 
-import error.AnalyzeError;
-import error.CompileError;
-import error.ErrorCode;
-import error.ExpectedTokenError;
-import error.TokenizeError;
-import instructioner.Assembler;
-import instructioner.FunctionDef;
-import instructioner.GlobalDef;
-import tokenizer.Token;
-import tokenizer.TokenType;
-import tokenizer.Tokenizer;
-import util.Pos;
-import symboltable.FunctionEntry;
-import symboltable.SymbolTable;
-import symboltable.SymbolType;
-import symboltable.VarEntry;
-import symboltable.DataKeywordType;
-import symboltable.DataType;
+import miniplc0java.error.AnalyzeError;
+import miniplc0java.error.CompileError;
+import miniplc0java.error.ErrorCode;
+import miniplc0java.error.ExpectedTokenError;
+import miniplc0java.error.TokenizeError;
+import miniplc0java.instructioner.Assembler;
+import miniplc0java.instructioner.FunctionDef;
+import miniplc0java.instructioner.GlobalDef;
+import miniplc0java.tokenizer.Token;
+import miniplc0java.tokenizer.TokenType;
+import miniplc0java.tokenizer.Tokenizer;
+import miniplc0java.util.Pos;
+import miniplc0java.symboltable.FunctionEntry;
+import miniplc0java.symboltable.SymbolTable;
+import miniplc0java.symboltable.SymbolType;
+import miniplc0java.symboltable.VarEntry;
+import miniplc0java.symboltable.DataKeywordType;
+import miniplc0java.symboltable.DataType;
 
 public final class Analyser {
 	Tokenizer tokenizer;

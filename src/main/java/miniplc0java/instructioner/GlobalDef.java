@@ -1,6 +1,6 @@
-package instructioner;
+package miniplc0java.instructioner;
 
-import symboltable.FunctionEntry;
+import miniplc0java.symboltable.FunctionEntry;
 
 public class GlobalDef {
 	// 是否为常量？非零值视为真

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b4d414f2-8ab1-4cd8-a81f-c7a71e5cb7ab" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/miniplc0java.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/OperatorStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/OperatorStack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/error/AnalyzeError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/error/AnalyzeError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/error/CompileError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/error/CompileError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/error/ExpectedTokenError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/error/ExpectedTokenError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/error/TokenizeError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/error/TokenizeError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/ChangeToByte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/ChangeToByte.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/FunctionDef.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/FunctionDef.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/GlobalDef.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/GlobalDef.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/Instruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/Instruction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/InstructionType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/InstructionType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/InstructionWirter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/InstructionWirter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/DataKeywordType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/DataKeywordType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/DataType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/DataType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/Entry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/Entry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/FunctionEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/FunctionEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/SymbolTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/SymbolTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/SymbolType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/SymbolType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/SyscallType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/SyscallType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/VarEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/symboltable/VarEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/StringIter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/StringIter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/TokenType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/TokenType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/Tokenizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/Tokenizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/util/Pos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/util/Pos.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/miniplc0java/AnalyserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/miniplc0java/AnalyserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/miniplc0java/MiniVmTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/miniplc0java/MiniVmTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/miniplc0java/TokenizerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/miniplc0java/TokenizerTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1lBrhrf2Uxxb1UqrQ65v68Rr4xG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b4d414f2-8ab1-4cd8-a81f-c7a71e5cb7ab" name="Default Changelist" comment="" />
+      <created>1607081449408</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1607081449408</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

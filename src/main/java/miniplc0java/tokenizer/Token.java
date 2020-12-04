@@ -1,6 +1,6 @@
-package tokenizer;
+package miniplc0java.tokenizer;
 
-import util.Pos;
+import miniplc0java.util.Pos;
 
 import java.util.Objects;
 

@@ -1,3 +1,4 @@
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -9,15 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import analyser.Analyser;
-import error.CompileError;
-import error.TokenizeError;
-import symboltable.SymbolTable;
+import miniplc0java.analyser.Analyser;
+import miniplc0java.error.CompileError;
+import miniplc0java.error.TokenizeError;
+import miniplc0java.symboltable.SymbolTable;
 //import instruction.Instruction;
-import tokenizer.StringIter;
-import tokenizer.Token;
-import tokenizer.TokenType;
-import tokenizer.Tokenizer;
+import miniplc0java.tokenizer.StringIter;
+import miniplc0java.tokenizer.Token;
+import miniplc0java.tokenizer.TokenType;
+import miniplc0java.tokenizer.Tokenizer;
 
 public class App {
 	static StringIter it;
