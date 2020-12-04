@@ -10,19 +10,19 @@ import util.Pos;
 
 public class SymbolTable {
 	/**
-	 * æ•´ä¸ªç¬¦å·è¡¨
+	 * Õû¸ö·ûºÅ±í
 	 */
 	public static ArrayList<HashMap<String, Entry>> symboltable = new ArrayList<>();
 	
 	/**
-	 * ç¬¦å·è¡¨å±‚æ•°ä¸Šå‡
+	 * ·ûºÅ±í²ãÊıÉÏÉı
 	 */
 	public static void levelup() {
 		symboltable.add(new HashMap<>());
 	}
 	
 	/**
-	 * ç¬¦å·è¡¨å±‚æ•°ä¸‹é™
+	 * ·ûºÅ±í²ãÊıÏÂ½µ
 	 * @throws CompileError 
 	 */
 	public static void leveldown() throws CompileError {
@@ -31,7 +31,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * æ’å…¥å˜é‡
+	 * ²åÈë±äÁ¿
 	 * @param level
 	 * @param name
 	 * @param isInitialized
@@ -53,7 +53,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * æ’å…¥å‡½æ•°
+	 * ²åÈëº¯Êı
 	 * @param name
 	 * @param symboltype
 	 * @param datatype
@@ -75,7 +75,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * æ›´æ–°å‡½æ•°å‚æ•°
+	 * ¸üĞÂº¯Êı²ÎÊı
 	 * @param fucName
 	 * @param varName
 	 * @param symbolType
@@ -85,7 +85,7 @@ public class SymbolTable {
 	 * @param isConstant
 	 * @throws AnalyzeError
 	 */
-	public static void updateFunctionCallList(String fucName, String varName, SymbolType symbolType, DataType dataType,int offset, Pos pos, boolean isConstant) throws AnalyzeError  {
+	public static void updateFunctionCallList(String fucName, String varName, Pos pos) throws AnalyzeError  {
 		HashMap<String, Entry> symbolTable = symboltable.get(0);;
 		FunctionEntry functionEntry;
 		if(!symbolTable.containsKey(fucName)) {
@@ -93,7 +93,7 @@ public class SymbolTable {
 		}
 		else if(symbolTable.get(fucName) instanceof FunctionEntry) {
 			functionEntry = (FunctionEntry) symbolTable.get(fucName);
-			functionEntry.addArgs(varName,new VarEntry(varName,symbolType,dataType,1,offset,pos,isConstant,true));
+			functionEntry.addArgs(varName, findVarEntry(varName));
 		}
 		else {
 			throw new AnalyzeError(ErrorCode.DuplicateDeclaration,pos);
@@ -101,7 +101,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * å…¨è¡¨æœç´¢å˜é‡
+	 * È«±íËÑË÷±äÁ¿
 	 * @param Var
 	 * @return
 	 */
@@ -119,7 +119,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * å…¨å±‚æ£€æµ‹å˜é‡å®šä¹‰
+	 * È«²ã¼ì²â±äÁ¿¶¨Òå
 	 * @param Var
 	 * @return
 	 * @throws CompileError 
@@ -138,7 +138,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * å…¨è¡¨æœç´¢å‡½æ•°
+	 * È«±íËÑË÷º¯Êı
 	 * @param Func
 	 * @return
 	 */
@@ -156,7 +156,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * æŒ‰å±‚æœç´¢å˜é‡
+	 * °´²ãËÑË÷±äÁ¿
 	 * @param Var
 	 * @param level
 	 * @return
@@ -173,7 +173,7 @@ public class SymbolTable {
 	}
 	
 	/**
-	 * æŒ‰å±‚æœç´¢å‡½æ•°
+	 * °´²ãËÑË÷º¯Êı
 	 * @param Func
 	 * @param level
 	 * @return

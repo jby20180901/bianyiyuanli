@@ -7,6 +7,9 @@ import error.CompileError;
 import error.ErrorCode;
 import error.ExpectedTokenError;
 import error.TokenizeError;
+import instructioner.Assembler;
+import instructioner.FunctionDef;
+import instructioner.GlobalDef;
 import tokenizer.Token;
 import tokenizer.TokenType;
 import tokenizer.Tokenizer;
@@ -20,23 +23,25 @@ import symboltable.DataType;
 
 public final class Analyser {
     Tokenizer tokenizer;
-    int level = 0;//å±‚æ•°
-    private int functionOffset = 0;//å‡½æ•°åç§»é‡
+    Assembler assembler;//»ã±àÆ÷
+    int level = 0;//²ãÊı
+    private int functionOffset = 0;//º¯ÊıÆ«ÒÆÁ¿
     private int[][] priorty = new int[100][100];
     private TokenType[] priortyToken = new TokenType[20];
     ArrayList<Object> functionLPRecent = new ArrayList<>();
+    FunctionEntry nowFunc = null;
     int ifReturn[] = new int[1000];
     boolean isVoid = false;
     int LPNum = 0;
-    DataType nowReturn = null; //å½“å‰è¿”å›å€¼ç±»å‹
-    boolean isInLoop = false;	//å½“å‰åœ¨å¾ªç¯ä½“å†…éƒ¨
-    /** å½“å‰å·çœ‹çš„ token */
+    DataType nowReturn = null; //µ±Ç°·µ»ØÖµÀàĞÍ
+    boolean isInLoop = false;	//µ±Ç°ÔÚÑ­»·ÌåÄÚ²¿
+    /** µ±Ç°Íµ¿´µÄ token */
     Token peekedToken = null;
 
-    /** å¤§æ‹¬å·ä¿¡å·é‡ */
+    /** ´óÀ¨ºÅĞÅºÅÁ¿ */
     int brace = 0;
 
-    /** ä¸‹ä¸€ä¸ªå˜é‡çš„æ ˆåç§» */
+    /** ÏÂÒ»¸ö±äÁ¿µÄÕ»Æ«ÒÆ */
     int nextOffset = 0;
     
     public int enumToInt(TokenType tokenType) {
@@ -104,7 +109,7 @@ public final class Analyser {
         this.tokenizer = tokenizer;
         /** 
          * + - 					PLUS MINUS 
-         * å‰ç½®- 				NEGATE
+         * Ç°ÖÃ- 				NEGATE
          * * \ 					MUL DIV 
          * == != < > <= >= 		EQ NEQ LT GT LE GE
          * as 					AS_KW 
@@ -114,11 +119,11 @@ public final class Analyser {
          * # 					STOP
         */
         /**
-         * 0ä»£è¡¨<
-         * 1ä»£è¡¨>
-         * 2ä»£è¡¨=
-         * 3ä»£è¡¨X
-         * 4ä»£è¡¨ç»“æŸ
+         * 0´ú±í<
+         * 1´ú±í>
+         * 2´ú±í=
+         * 3´ú±íX
+         * 4´ú±í½áÊø
          * |      | +    | *    | i    | (    | )    | <    | '-'  | as   | #    |
 		 * | +    | 1    | 0    | 0    | 0    | 1    | 1    | 0    | 0    | 1    |
 		 * | *    | 1    | 1    | 0    | 0    | 1    | 1    | 0    | 0    | 1    |
@@ -157,8 +162,8 @@ public final class Analyser {
         priortyToken[16] = TokenType.AS_KW;
         /** # */
         priortyToken[17] = TokenType.STOP;
-        for(int i=0;i<18;i++) {//æ ˆå†… å·¦
-        	for(int j=0;j<18;j++) {//æ ˆå¤– å³
+        for(int i=0;i<18;i++) {//Õ»ÄÚ ×ó
+        	for(int j=0;j<18;j++) {//Õ»Íâ ÓÒ
     			if(i==0||i==1) {/** +- */
     				if(j==0||j==1) {/** +- */
             			priorty[i][j] = 1;
@@ -427,6 +432,10 @@ public final class Analyser {
         }
         functionLPRecent.add(-1000);
     }
+    
+    public byte[] Assemble() {
+    	return this.assembler.toByte();
+    }
 
     public void analyse() throws CompileError {
     	SymbolTable.levelup();
@@ -436,7 +445,7 @@ public final class Analyser {
     }
 
     /**
-     * æŸ¥çœ‹ä¸‹ä¸€ä¸ª Token
+     * ²é¿´ÏÂÒ»¸ö Token
      * 
      * @return
      * @throws TokenizeError
@@ -449,7 +458,7 @@ public final class Analyser {
     }
 
     /**
-     * è·å–ä¸‹ä¸€ä¸ª Token
+     * »ñÈ¡ÏÂÒ»¸ö Token
      * 
      * @return
      * @throws TokenizeError
@@ -465,7 +474,7 @@ public final class Analyser {
     }
 
     /**
-     * å¦‚æœä¸‹ä¸€ä¸ª token çš„ç±»å‹æ˜¯ ttï¼Œåˆ™è¿”å› true
+     * Èç¹ûÏÂÒ»¸ö token µÄÀàĞÍÊÇ tt£¬Ôò·µ»Ø true
      * 
      * @param tt
      * @return
@@ -477,10 +486,10 @@ public final class Analyser {
     }
 
     /**
-     * å¦‚æœä¸‹ä¸€ä¸ª token çš„ç±»å‹æ˜¯ ttï¼Œåˆ™å‰è¿›ä¸€ä¸ª token å¹¶è¿”å›è¿™ä¸ª token
+     * Èç¹ûÏÂÒ»¸ö token µÄÀàĞÍÊÇ tt£¬ÔòÇ°½øÒ»¸ö token ²¢·µ»ØÕâ¸ö token
      * 
-     * @param tt ç±»å‹
-     * @return å¦‚æœåŒ¹é…åˆ™è¿”å›è¿™ä¸ª tokenï¼Œå¦åˆ™è¿”å› null
+     * @param tt ÀàĞÍ
+     * @return Èç¹ûÆ¥ÅäÔò·µ»ØÕâ¸ö token£¬·ñÔò·µ»Ø null
      * @throws TokenizeError
      */
     private Token nextIf(TokenType tt) throws TokenizeError {
@@ -493,10 +502,10 @@ public final class Analyser {
     }
     
     /**
-     * å¦‚æœä¸‹ä¸€ä¸ª token çš„ç±»å‹æ˜¯ ttï¼Œåˆ™å‰è¿›ä¸€ä¸ª token å¹¶è¿”å›è¿™ä¸ª token
+     * Èç¹ûÏÂÒ»¸ö token µÄÀàĞÍÊÇ tt£¬ÔòÇ°½øÒ»¸ö token ²¢·µ»ØÕâ¸ö token
      * 
-     * @param tt ç±»å‹
-     * @return å¦‚æœåŒ¹é…åˆ™è¿”å›è¿™ä¸ª tokenï¼Œå¦åˆ™è¿”å› null
+     * @param tt ÀàĞÍ
+     * @return Èç¹ûÆ¥ÅäÔò·µ»ØÕâ¸ö token£¬·ñÔò·µ»Ø null
      * @throws TokenizeError
      */
     private Token seekIf(TokenType tt) throws TokenizeError {
@@ -509,11 +518,11 @@ public final class Analyser {
     }
 
     /**
-     * å¦‚æœä¸‹ä¸€ä¸ª token çš„ç±»å‹æ˜¯ ttï¼Œåˆ™å‰è¿›ä¸€ä¸ª token å¹¶è¿”å›ï¼Œå¦åˆ™æŠ›å‡ºå¼‚å¸¸
+     * Èç¹ûÏÂÒ»¸ö token µÄÀàĞÍÊÇ tt£¬ÔòÇ°½øÒ»¸ö token ²¢·µ»Ø£¬·ñÔòÅ×³öÒì³£
      * 
-     * @param tt ç±»å‹
-     * @return è¿™ä¸ª token
-     * @throws CompileError å¦‚æœç±»å‹ä¸åŒ¹é…
+     * @param tt ÀàĞÍ
+     * @return Õâ¸ö token
+     * @throws CompileError Èç¹ûÀàĞÍ²»Æ¥Åä
      */
     private Token expect(TokenType tt) throws CompileError {
         var token = peek();
@@ -525,28 +534,28 @@ public final class Analyser {
     }
     
     /**
-     * è¯»å…¥ä¸€ä¸ªæœ‰ç¬¦å·æ•´æ•°
+     * ¶ÁÈëÒ»¸öÓĞ·ûºÅÕûÊı
 	 * fn getint() -> int
-	 * è¯»å…¥ä¸€ä¸ªæµ®ç‚¹æ•°
+	 * ¶ÁÈëÒ»¸ö¸¡µãÊı
 	 * fn getdouble() -> double
-	 * è¯»å…¥ä¸€ä¸ªå­—ç¬¦
+	 * ¶ÁÈëÒ»¸ö×Ö·û
 	 * fn getchar() -> int
-	 * è¾“å‡ºä¸€ä¸ªæ•´æ•°
+	 * Êä³öÒ»¸öÕûÊı
 	 * fn putint(int) -> void
-	 * è¾“å‡ºä¸€ä¸ªæµ®ç‚¹æ•°
+	 * Êä³öÒ»¸ö¸¡µãÊı
 	 * fn putdouble(double) -> void
-	 * è¾“å‡ºä¸€ä¸ªå­—ç¬¦
+	 * Êä³öÒ»¸ö×Ö·û
 	 * fn putchar(int) -> void
-	 * å°†ç¼–å·ä¸ºè¿™ä¸ªæ•´æ•°çš„å…¨å±€å¸¸é‡çœ‹ä½œå­—ç¬¦ä¸²è¾“å‡º
+	 * ½«±àºÅÎªÕâ¸öÕûÊıµÄÈ«¾Ö³£Á¿¿´×÷×Ö·û´®Êä³ö
 	 * fn putstr(int) -> void
-	 * è¾“å‡ºä¸€ä¸ªæ¢è¡Œ
+	 * Êä³öÒ»¸ö»»ĞĞ
 	 * fn putln() -> void
      * @throws CompileError
      */
     private void initSystemcall() throws CompileError {
     	Pos startPos = new Pos(0,0);
     	/** 
-    	 * è¯»å…¥ä¸€ä¸ªæœ‰ç¬¦å·æ•´æ•°
+    	 * ¶ÁÈëÒ»¸öÓĞ·ûºÅÕûÊı
     	 * fn getint() -> int
 	 	 */
     	level ++;
@@ -555,7 +564,7 @@ public final class Analyser {
     	level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * è¯»å…¥ä¸€ä¸ªæµ®ç‚¹æ•°
+    	 * ¶ÁÈëÒ»¸ö¸¡µãÊı
     	 * fn getdouble() -> double
 	 	 */
     	level ++;
@@ -564,7 +573,7 @@ public final class Analyser {
     	level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * è¯»å…¥ä¸€ä¸ªå­—ç¬¦
+    	 * ¶ÁÈëÒ»¸ö×Ö·û
     	 * fn getchar() -> int
 	 	 */
     	level ++;
@@ -573,59 +582,59 @@ public final class Analyser {
     	level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * è¾“å‡ºä¸€ä¸ªæ•´æ•°
+    	 * Êä³öÒ»¸öÕûÊı
     	 * fn putint(int) -> void
 	 	 */
     	level ++;
     	SymbolTable.levelup();
     	SymbolTable.insertFunctionEntry("putint", SymbolType.Function, DataType.VOID, functionOffset, startPos);
-    	//è¿™å±‚å¢åŠ è¿™ä¸ªå‚æ•°
+    	//Õâ²ãÔö¼ÓÕâ¸ö²ÎÊı
         SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.INT, 1, startPos);
-        //å‡½æ•°å¢åŠ ä¸€ä¸ªå‚æ•°
-        SymbolTable.updateFunctionCallList("putint", "x", SymbolType.Variable, DataType.INT, 1, startPos, false);
+        //º¯ÊıÔö¼ÓÒ»¸ö²ÎÊı
+        SymbolTable.updateFunctionCallList("putint", "x", startPos);
         level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * è¾“å‡ºä¸€ä¸ªæµ®ç‚¹æ•°
+    	 * Êä³öÒ»¸ö¸¡µãÊı
     	 * fn putdouble(double) -> void
 	 	 */
         level ++;
     	SymbolTable.levelup();
     	SymbolTable.insertFunctionEntry("putdouble", SymbolType.Function, DataType.VOID, functionOffset, startPos);
-    	//è¿™å±‚å¢åŠ è¿™ä¸ªå‚æ•°
+    	//Õâ²ãÔö¼ÓÕâ¸ö²ÎÊı
         SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.DOUBLE, 1, startPos);
-        //å‡½æ•°å¢åŠ ä¸€ä¸ªå‚æ•°
-        SymbolTable.updateFunctionCallList("putdouble", "x", SymbolType.Variable, DataType.DOUBLE, 1, startPos, false);
+        //º¯ÊıÔö¼ÓÒ»¸ö²ÎÊı
+        SymbolTable.updateFunctionCallList("putdouble", "x", startPos);
         level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * è¾“å‡ºä¸€ä¸ªå­—ç¬¦
+    	 * Êä³öÒ»¸ö×Ö·û
     	 * fn putchar(int) -> void
 	 	 */
         level ++;
     	SymbolTable.levelup();
     	SymbolTable.insertFunctionEntry("putchar", SymbolType.Function, DataType.VOID, functionOffset, startPos);
-    	//è¿™å±‚å¢åŠ è¿™ä¸ªå‚æ•°
+    	//Õâ²ãÔö¼ÓÕâ¸ö²ÎÊı
         SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.INT, 1, startPos);
-        //å‡½æ•°å¢åŠ ä¸€ä¸ªå‚æ•°
-        SymbolTable.updateFunctionCallList("putchar", "x", SymbolType.Variable, DataType.INT, 1, startPos, false);
+        //º¯ÊıÔö¼ÓÒ»¸ö²ÎÊı
+        SymbolTable.updateFunctionCallList("putchar", "x", startPos);
         level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * å°†ç¼–å·ä¸ºè¿™ä¸ªæ•´æ•°çš„å…¨å±€å¸¸é‡çœ‹ä½œå­—ç¬¦ä¸²è¾“å‡º
+    	 * ½«±àºÅÎªÕâ¸öÕûÊıµÄÈ«¾Ö³£Á¿¿´×÷×Ö·û´®Êä³ö
     	 * fn putstr(int) -> void
 	 	 */
         level ++;
     	SymbolTable.levelup();
     	SymbolTable.insertFunctionEntry("putstr", SymbolType.Function, DataType.VOID, functionOffset, startPos);
-    	//è¿™å±‚å¢åŠ è¿™ä¸ªå‚æ•°
+    	//Õâ²ãÔö¼ÓÕâ¸ö²ÎÊı
         SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.INT, 1, startPos);
-        //å‡½æ•°å¢åŠ ä¸€ä¸ªå‚æ•°
-        SymbolTable.updateFunctionCallList("putstr", "x", SymbolType.Variable, DataType.INT, 1, startPos, false);
+        //º¯ÊıÔö¼ÓÒ»¸ö²ÎÊı
+        SymbolTable.updateFunctionCallList("putstr", "x", startPos);
         level --;
     	SymbolTable.leveldown();
     	/** 
-    	 * è¾“å‡ºä¸€ä¸ªæ¢è¡Œ
+    	 * Êä³öÒ»¸ö»»ĞĞ
     	 * fn putln() -> void
 	 	 */
         level ++;
@@ -653,7 +662,7 @@ public final class Analyser {
      * program -> item*
     */
     private void analyseProgram() throws CompileError {
-        //å¾ªç¯æ£€æŸ¥æ˜¯å¦ç¨‹åºå°¾éƒ¨
+        //Ñ­»·¼ì²éÊÇ·ñ³ÌĞòÎ²²¿
         while(!check(TokenType.EOF)){
             analyseItem();
         }
@@ -665,11 +674,11 @@ public final class Analyser {
      * item -> function | decl_stmt
      */
     private void analyseItem() throws CompileError {
-        // æ£€æŸ¥ç¬¬ä¸€ä¸ªå•è¯æ˜¯ä¸æ˜¯fn
+        // ¼ì²éµÚÒ»¸öµ¥´ÊÊÇ²»ÊÇfn
         if(check(TokenType.FN_KW)){
             analyseFuc();
         }
-        //æ£€æŸ¥æ˜¯ä¸æ˜¯å˜é‡å£°æ˜è¯­å¥
+        //¼ì²éÊÇ²»ÊÇ±äÁ¿ÉùÃ÷Óï¾ä
         else if(check(TokenType.LET_KW)||check(TokenType.CONST_KW)){
             analyseDeclStmt();
         }
@@ -684,11 +693,13 @@ public final class Analyser {
      * function -> 'fn' IDENT '(' function_param_list? ')' '->' ty block_stmt
      */
     private void analyseFuc() throws CompileError {
-    	DataType datatype = null;//è¿”å›å€¼ç±»å‹
-    	FunctionEntry functionEntry;//ç”Ÿæˆçš„å‡½æ•°ç¬¦å·
-    	String fucName;//å‡½æ•°åç§°
+    	DataType datatype = null;//·µ»ØÖµÀàĞÍ
+    	FunctionEntry functionEntry;//Éú³ÉµÄº¯Êı·ûºÅ
+    	GlobalDef funcDef;
+    	FunctionDef funcDefi;
+    	String fucName;//º¯ÊıÃû³Æ
     	int offset = 0;
-        // æ£€æŸ¥ç¬¬ä¸€ä¸ªå•è¯æ˜¯ä¸æ˜¯fn
+        // ¼ì²éµÚÒ»¸öµ¥´ÊÊÇ²»ÊÇfn
         expect(TokenType.FN_KW);
         var fucNameToken = expect(TokenType.IDENT);
         fucName = (String) fucNameToken.getValue();
@@ -727,7 +738,14 @@ public final class Analyser {
         functionEntry.datatype = datatype;
         nowReturn = datatype;
         System.out.println("nowReturn:"+nowReturn);
+        funcDef = new GlobalDef(true, functionEntry);
+        assembler.addGlobalDef(funcDef, functionEntry.name);
+        funcDefi = new FunctionDef(functionEntry);
+        assembler.addFunctionDef(funcDefi, functionEntry.name);
+        funcDefi.updateNameOffset(assembler.findGlobalDefID(funcDef));
+        nowFunc = functionEntry;
         analyseFucBlockStmt();
+        nowFunc = null;
 //        checkFlow();
     }
 
@@ -749,10 +767,10 @@ public final class Analyser {
      * function_param -> const? IDENT ':' ty 
      */
     private void analyseFucPara(Token fucNameToken,int offset) throws CompileError {
-    	DataType datatype = null;//æ•°æ®ç±»å‹
+    	DataType datatype = null;//Êı¾İÀàĞÍ
     	SymbolType symbolType = null;
-    	String varName = null;//å‚æ•°å
-    	String fucName = (String)fucNameToken.getValue();//å‡½æ•°å
+    	String varName = null;//²ÎÊıÃû
+    	String fucName = (String)fucNameToken.getValue();//º¯ÊıÃû
     	boolean isConst = false;
     	if(nextIf(TokenType.CONST_KW)!=null) {
     		isConst = true;
@@ -780,14 +798,14 @@ public final class Analyser {
         else {
         	throw new AnalyzeError(ErrorCode.InvalidVariableDeclaration,varTypeToken.getStartPos());
         }
-        //è¿™å±‚å¢åŠ è¿™ä¸ªå‚æ•°
+        //Õâ²ãÔö¼ÓÕâ¸ö²ÎÊı
         SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
-        //å‡½æ•°å¢åŠ ä¸€ä¸ªå‚æ•°
-        SymbolTable.updateFunctionCallList(fucName, varName, symbolType, datatype, offset, varTypeToken.getStartPos(), isConst);
+        //º¯ÊıÔö¼ÓÒ»¸ö²ÎÊı
+        SymbolTable.updateFunctionCallList(fucName, varName, varTypeToken.getStartPos());
     }
 
     /**
-     * è®¾ç½®æ§åˆ¶æµ
+     * ÉèÖÃ¿ØÖÆÁ÷
      */
     private void setFlow() throws CompileError {
 //    	System.out.println("num:"+level+" ifret:"+this.ifReturn[level]);
@@ -803,7 +821,7 @@ public final class Analyser {
     }
     
     /**
-     * æ£€æŸ¥æ§åˆ¶æµ
+     * ¼ì²é¿ØÖÆÁ÷
      */
     private void checkFlow() throws CompileError {
 //    	System.out.println("num:"+level+" ifret:"+this.ifReturn[level]);
@@ -905,12 +923,12 @@ public final class Analyser {
 	 * const_decl_stmt -> 'const' IDENT ':' ty '=' expr ';'
      */
     private void analyseDeclStmt() throws CompileError {
-    	DataType datatype = null ,rDataType = null;//æ•°æ®ç±»å‹
+    	DataType datatype = null ,rDataType = null;//Êı¾İÀàĞÍ
     	SymbolType symbolType = null;
-    	String varName = null;//å‚æ•°å
+    	String varName = null;//²ÎÊıÃû
     	boolean isConst = false;
     	int offset = 0;
-        // æ£€æŸ¥ç¬¬ä¸€ä¸ªå•è¯æ˜¯ä¸æ˜¯let const
+        // ¼ì²éµÚÒ»¸öµ¥´ÊÊÇ²»ÊÇlet const
     	if(nextIf(TokenType.CONST_KW)!=null) {
     		isConst = true;
     		symbolType = SymbolType.Constant;
@@ -918,7 +936,7 @@ public final class Analyser {
     	else if(nextIf(TokenType.LET_KW)!=null)  {
     		symbolType = SymbolType.Variable;
     	}
-    	//String fucName = (String)fucNameToken.getValue();//å‡½æ•°å
+    	//String fucName = (String)fucNameToken.getValue();//º¯ÊıÃû
     	var paraNameToken = expect(TokenType.IDENT);
     	varName = (String)paraNameToken.getValue();
         expect(TokenType.COLON);
@@ -940,33 +958,45 @@ public final class Analyser {
         }
         if(isConst) {
         	expect(TokenType.ASSIGN);
-        	rDataType = analyseExpr(TokenType.ASSIGN);//è¡¨è¾¾å¼æ•´ä½“åˆ†æ
+        	rDataType = analyseExpr(TokenType.ASSIGN);//±í´ïÊ½ÕûÌå·ÖÎö
         	if(!datatype.equals(rDataType)) {
             	throw new AnalyzeError(ErrorCode.InvalidInput,varTypeToken.getStartPos());
             }
         	expect(TokenType.SEMICOLON);
-        	//å¢åŠ è¿™ä¸ªå˜é‡
+        	//Ôö¼ÓÕâ¸ö±äÁ¿
             SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
         
         }
         else if(nextIf(TokenType.ASSIGN)!=null){
-        	rDataType = analyseExpr(TokenType.ASSIGN);//è¡¨è¾¾å¼æ•´ä½“åˆ†æ
+        	rDataType = analyseExpr(TokenType.ASSIGN);//±í´ïÊ½ÕûÌå·ÖÎö
         	if(!datatype.equals(rDataType)) {
             	throw new AnalyzeError(ErrorCode.InvalidInput,varTypeToken.getStartPos());
             }
         	expect(TokenType.SEMICOLON);
-        	//å¢åŠ è¿™ä¸ªå˜é‡
+        	//Ôö¼ÓÕâ¸ö±äÁ¿
             SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
         }
         else {
         	expect(TokenType.SEMICOLON);
-        	//å¢åŠ è¿™ä¸ªå˜é‡
+        	//Ôö¼ÓÕâ¸ö±äÁ¿
             SymbolTable.insertVarEntry(level, varName, false, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
+        }
+        VarEntry varEntry = SymbolTable.findVarEntry(varName, level);
+        GlobalDef varDef = new GlobalDef(isConst, (DataType.INT.equals(datatype)?(long)0:(double)0.0));
+        if(nowFunc == null) {
+        	assembler.addGlobalDef(varDef, varName);
+        	varEntry.offset = assembler.findGlobalDefID(varDef);
+        }
+        else {
+        	FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+        	varEntry.offset = funcDef.getLocSlots();
+        	funcDef.updateLocSlots(funcDef.getLocSlots()+1);
+        	nowFunc.offset ++;
         }
     }
     
     /**
-     * æ¡ä»¶åˆ¤æ–­
+     * Ìõ¼şÅĞ¶Ï
      */
     
     /**
@@ -975,11 +1005,11 @@ public final class Analyser {
     private void analyseIfStmt() throws CompileError {
     	boolean checkDucElse = false;
         expect(TokenType.IF_KW);
-        analyseExpr(TokenType.IF_KW);//è¡¨è¾¾å¼
+        analyseExpr(TokenType.IF_KW);//±í´ïÊ½
         analyseBlockStmt();
         while(nextIf(TokenType.ELSE_KW)!=null){
             if(nextIf(TokenType.IF_KW)!=null){
-                analyseExpr(TokenType.IF_KW);//è¡¨è¾¾å¼æ•´ä½“åˆ†æ
+                analyseExpr(TokenType.IF_KW);//±í´ïÊ½ÕûÌå·ÖÎö
                 analyseBlockStmt();
             }
             else {
@@ -999,7 +1029,7 @@ public final class Analyser {
      */
     private void analyseWhileStmt() throws CompileError {
         expect(TokenType.WHILE_KW);
-        analyseExpr(TokenType.WHILE_KW);//è¡¨è¾¾å¼æ•´ä½“åˆ†æ
+        analyseExpr(TokenType.WHILE_KW);//±í´ïÊ½ÕûÌå·ÖÎö
         isInLoop = true;
         analyseBlockStmt();
         isInLoop = false;
@@ -1034,7 +1064,7 @@ public final class Analyser {
     	DataType dataType = null;
         Token token = expect(TokenType.RETURN_KW);
         if(nextIf(TokenType.SEMICOLON)==null){
-            dataType = analyseExpr(TokenType.RETURN_KW);  //è¡¨è¾¾å¼æ•´ä½“åˆ†æ
+            dataType = analyseExpr(TokenType.RETURN_KW);  //±í´ïÊ½ÕûÌå·ÖÎö
             if(dataType==null) {
             	throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos()); 
             }
@@ -1044,7 +1074,7 @@ public final class Analyser {
             expect(TokenType.SEMICOLON);
         }
         else {
-        	dataType = DataType.VOID;  //è¡¨è¾¾å¼æ•´ä½“åˆ†æ
+        	dataType = DataType.VOID;  //±í´ïÊ½ÕûÌå·ÖÎö
             if(dataType==null) {
             	throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos()); 
             }
@@ -1060,12 +1090,12 @@ public final class Analyser {
      * expr_stmt -> expr ';'
      */
     private void analyseExprStmt() throws CompileError {
-        analyseAssignExpr();//å¤„ç†å¯èƒ½çš„èµ‹å€¼è¡¨è¾¾å¼
+        analyseAssignExpr();//´¦Àí¿ÉÄÜµÄ¸³Öµ±í´ïÊ½
         expect(TokenType.SEMICOLON);
     }
     
     /**
-     * èµ‹å€¼è¡¨è¾¾å¼ï¼Œæœ‰å¯èƒ½è·³è½¬åˆ°è¿”å›å€¼ä¸ºvoidçš„å‡½æ•°è¡¨è¾¾å¼å¤„ç†
+     * ¸³Öµ±í´ïÊ½£¬ÓĞ¿ÉÄÜÌø×ªµ½·µ»ØÖµÎªvoidµÄº¯Êı±í´ïÊ½´¦Àí
      * @throws CompileError
      */
     private DataType analyseAssignExpr() throws CompileError {
@@ -1083,7 +1113,7 @@ public final class Analyser {
     		varEntry = SymbolTable.findVarEntry((String)nameToken.getValue());
     		leftDataType = varEntry.datatype;
     		expect(TokenType.ASSIGN);
-    		rightDataType = analyseExpr(TokenType.ASSIGN);//è¡¨è¾¾å¼æ•´ä½“åˆ†æ
+    		rightDataType = analyseExpr(TokenType.ASSIGN);//±í´ïÊ½ÕûÌå·ÖÎö
     		if(!leftDataType.equals(rightDataType)) {
     			throw new AnalyzeError(ErrorCode.InvalidAssignment,nameToken.getStartPos());
     		}
@@ -1099,7 +1129,7 @@ public final class Analyser {
     }
     
     /**
-     * å‡½æ•°è°ƒç”¨å¼
+     * º¯Êıµ÷ÓÃÊ½
      * @param functionToken
      * @return
      * @throws CompileError
@@ -1112,21 +1142,21 @@ public final class Analyser {
     	LPNum ++;
     	functionLPRecent.add(LPNum);
     	 /**
-         * è¯»å…¥ä¸€ä¸ªæœ‰ç¬¦å·æ•´æ•°
+         * ¶ÁÈëÒ»¸öÓĞ·ûºÅÕûÊı
     	 * fn getint() -> int
-    	 * è¯»å…¥ä¸€ä¸ªæµ®ç‚¹æ•°
+    	 * ¶ÁÈëÒ»¸ö¸¡µãÊı
     	 * fn getdouble() -> double
-    	 * è¯»å…¥ä¸€ä¸ªå­—ç¬¦
+    	 * ¶ÁÈëÒ»¸ö×Ö·û
     	 * fn getchar() -> int
-    	 * è¾“å‡ºä¸€ä¸ªæ•´æ•°
+    	 * Êä³öÒ»¸öÕûÊı
     	 * fn putint(int) -> void
-    	 * è¾“å‡ºä¸€ä¸ªæµ®ç‚¹æ•°
+    	 * Êä³öÒ»¸ö¸¡µãÊı
     	 * fn putdouble(double) -> void
-    	 * è¾“å‡ºä¸€ä¸ªå­—ç¬¦
+    	 * Êä³öÒ»¸ö×Ö·û
     	 * fn putchar(int) -> void
-    	 * å°†ç¼–å·ä¸ºè¿™ä¸ªæ•´æ•°çš„å…¨å±€å¸¸é‡çœ‹ä½œå­—ç¬¦ä¸²è¾“å‡º
+    	 * ½«±àºÅÎªÕâ¸öÕûÊıµÄÈ«¾Ö³£Á¿¿´×÷×Ö·û´®Êä³ö
     	 * fn putstr(int) -> void
-    	 * è¾“å‡ºä¸€ä¸ªæ¢è¡Œ
+    	 * Êä³öÒ»¸ö»»ĞĞ
     	 * fn putln() -> void
          * @throws CompileError
          */
@@ -1158,7 +1188,7 @@ public final class Analyser {
     		/**
     	     * call_param_list -> expr (',' expr)*
     	     */
-    		getDataType = analyseExpr(TokenType.L_PAREN);//è¡¨è¾¾å¼æ•´ä½“åˆ†æ
+    		getDataType = analyseExpr(TokenType.L_PAREN);//±í´ïÊ½ÕûÌå·ÖÎö
     		baseDataType = functionEntry.getArgData(i);
     		if(baseDataType==null) {
     			throw new AnalyzeError(ErrorCode.InvalidInput,functionToken.getStartPos());
@@ -1168,7 +1198,7 @@ public final class Analyser {
     		}
 	        while(check(TokenType.COMMA)){
 	            expect(TokenType.COMMA);
-	            getDataType = analyseExpr(TokenType.COMMA);//è¡¨è¾¾å¼æ•´ä½“åˆ†æ
+	            getDataType = analyseExpr(TokenType.COMMA);//±í´ïÊ½ÕûÌå·ÖÎö
 	            i ++;
 	    		baseDataType = functionEntry.getArgData(i);
 	    		if(baseDataType==null) {
@@ -1186,7 +1216,7 @@ public final class Analyser {
     }
     
     /**
-     * è¯»å…¥ä¸€ä¸ªæœ‰ç¬¦å·æ•´æ•°
+     * ¶ÁÈëÒ»¸öÓĞ·ûºÅÕûÊı
 	 * fn getint() -> int
 	 */
     private DataType analyseGetint() throws CompileError {
@@ -1194,7 +1224,7 @@ public final class Analyser {
     }
     
     /**
-	 * è¯»å…¥ä¸€ä¸ªæµ®ç‚¹æ•°
+	 * ¶ÁÈëÒ»¸ö¸¡µãÊı
 	 * fn getdouble() -> double
 	 */ 
     private DataType analyseGetdouble() throws CompileError {
@@ -1202,7 +1232,7 @@ public final class Analyser {
     }
     
     /** 
-	 * è¯»å…¥ä¸€ä¸ªå­—ç¬¦
+	 * ¶ÁÈëÒ»¸ö×Ö·û
 	 * fn getchar() -> int
 	 */ 
     private DataType analyseGetchar() throws CompileError {
@@ -1210,7 +1240,7 @@ public final class Analyser {
     }
     
     /** 
-	 * è¾“å‡ºä¸€ä¸ªæ•´æ•°
+	 * Êä³öÒ»¸öÕûÊı
 	 * fn putint(int) -> void
 	 */ 
     private DataType analysePutint() throws CompileError {
@@ -1222,7 +1252,7 @@ public final class Analyser {
     }
     
     /** 
-	 * è¾“å‡ºä¸€ä¸ªæµ®ç‚¹æ•°
+	 * Êä³öÒ»¸ö¸¡µãÊı
 	 * fn putdouble(double) -> void
 	 */ 
     private DataType analysePutdouble() throws CompileError {
@@ -1234,7 +1264,7 @@ public final class Analyser {
     }
     
     /** 
-	 * è¾“å‡ºä¸€ä¸ªå­—ç¬¦
+	 * Êä³öÒ»¸ö×Ö·û
 	 * fn putchar(int) -> void
 	 */ 
     private DataType analysePutchar() throws CompileError {
@@ -1243,7 +1273,7 @@ public final class Analyser {
     }
     
 	/** 
-	 * å°†ç¼–å·ä¸ºè¿™ä¸ªæ•´æ•°çš„å…¨å±€å¸¸é‡çœ‹ä½œå­—ç¬¦ä¸²è¾“å‡º
+	 * ½«±àºÅÎªÕâ¸öÕûÊıµÄÈ«¾Ö³£Á¿¿´×÷×Ö·û´®Êä³ö
 	 * fn putstr(int) -> void
 	 */ 
     private DataType analysePutstr() throws CompileError {
@@ -1252,7 +1282,7 @@ public final class Analyser {
     }
     
 	/** 
-	 * è¾“å‡ºä¸€ä¸ªæ¢è¡Œ
+	 * Êä³öÒ»¸ö»»ĞĞ
 	 * fn putln() -> void
      */
     private DataType analysePutln() throws CompileError {
@@ -1279,7 +1309,7 @@ public final class Analyser {
     	
     	/** 
          * + - 					PLUS MINUS 
-         * å‰ç½®- 				NEGATE
+         * Ç°ÖÃ- 				NEGATE
          * * \ 					MUL DIV 
          * == != < > <= >= 		EQ NEQ LT GT LE GE
          * as 					AS_KW 
@@ -1777,7 +1807,7 @@ public final class Analyser {
         		else if(priorty[i][j] == 3) {
         			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
         		}
-        		else if(priorty[i][j] == 4) {//è¿”å›
+        		else if(priorty[i][j] == 4) {//·µ»Ø
         			ret = (DataType)stack.getTop();
         			break;
         		}
@@ -1787,8 +1817,8 @@ public final class Analyser {
     }
     
     /** 
-     * + - * \ < > <= >= == != æ“ä½œ
-     * EoEå‹
+     * + - * \ < > <= >= == != ²Ù×÷
+     * EoEĞÍ
      * @throws AnalyzeError 
      */
     private OperatorStack stackEoE(OperatorStack stack, Token token) throws AnalyzeError {
@@ -1816,8 +1846,8 @@ public final class Analyser {
     }
     
     /**
-     * ( ) æ“ä½œ
-     * oEoå‹
+     * ( ) ²Ù×÷
+     * oEoĞÍ
      */
     private OperatorStack stackoEo(OperatorStack stack, Token token) throws AnalyzeError {
     	DataType dataType = null;
@@ -1844,8 +1874,8 @@ public final class Analyser {
     }
     
     /**
-     * '-' å‰ç½®è´Ÿå·æ“ä½œ
-     * oEå‹
+     * '-' Ç°ÖÃ¸ººÅ²Ù×÷
+     * oEĞÍ
      */
     private OperatorStack stackoE(OperatorStack stack, Token token) throws AnalyzeError {
     	DataType dataType = null;
@@ -1865,8 +1895,8 @@ public final class Analyser {
     }
     
     /**
-     * ASæ“ä½œ
-     * EoTå‹
+     * AS²Ù×÷
+     * EoTĞÍ
      */
     private OperatorStack stackEoT(OperatorStack stack, Token token) throws AnalyzeError {
     	DataType dataType = null;
@@ -1899,8 +1929,8 @@ public final class Analyser {
     }
     
     /**
-     * å˜é‡è½¬æ¢type
-     * oå‹
+     * ±äÁ¿×ª»»type
+     * oĞÍ
      * @param stack
      * @param token
      * @return
@@ -1932,28 +1962,28 @@ public final class Analyser {
     }
     
     /**
-     * åˆ¤æ–­æ˜¯ä¸æ˜¯+-
+     * ÅĞ¶ÏÊÇ²»ÊÇ+-
      */
     private boolean judgePM(TokenType tokenType) {
     	return (TokenType.PLUS.equals(tokenType)||TokenType.MINUS.equals(tokenType));
     }
     
     /**
-     * åˆ¤æ–­æ˜¯ä¸æ˜¯*\
+     * ÅĞ¶ÏÊÇ²»ÊÇ*\
      */
     private boolean judgeMD(TokenType tokenType) {
     	return (TokenType.MUL.equals(tokenType)||TokenType.DIV.equals(tokenType));
     }
     
     /**
-     * åˆ¤æ–­æ˜¯ä¸æ˜¯<> <= >= == !=
+     * ÅĞ¶ÏÊÇ²»ÊÇ<> <= >= == !=
      */
     private boolean judgeCMP(TokenType tokenType) {
     	return (TokenType.LT.equals(tokenType)||TokenType.LE.equals(tokenType)||TokenType.GT.equals(tokenType)||TokenType.GE.equals(tokenType)||TokenType.EQ.equals(tokenType)||TokenType.NEQ.equals(tokenType));
     }
     
     /**
-     * åˆ¤æ–­æ˜¯ä¸æ˜¯ uint double
+     * ÅĞ¶ÏÊÇ²»ÊÇ uint double
      */
     private boolean judgeNum(TokenType tokenType) {
     	return (TokenType.UINT_LITERAL.equals(tokenType)||TokenType.DOUBLE_LITERAL.equals(tokenType));

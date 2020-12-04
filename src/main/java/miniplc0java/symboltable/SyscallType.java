@@ -1,72 +1,72 @@
 package symboltable;
 
 public enum SyscallType {
-	/** è¯»å…¥ä¸€ä¸ªæœ‰ç¬¦å·æ•´æ•°
+	/** ¶ÁÈëÒ»¸öÓĞ·ûºÅÕûÊı
 	  * fn getint() -> int; 
 	  */
    GETINT,
-   /** è¯»å…¥ä¸€ä¸ªæµ®ç‚¹æ•°
+   /** ¶ÁÈëÒ»¸ö¸¡µãÊı
 		fn getdouble() -> double;
 	 */
    GETDOUBLE,
-   /** è¯»å…¥ä¸€ä¸ªå­—ç¬¦
+   /** ¶ÁÈëÒ»¸ö×Ö·û
 		fn getchar() -> int;
 	 */
    GETCHAR,
-   /** è¾“å‡ºä¸€ä¸ªæ•´æ•°
+   /** Êä³öÒ»¸öÕûÊı
 		fn putint(int) -> void;
 	 */
    PUTINT,
-   /** è¾“å‡ºä¸€ä¸ªæµ®ç‚¹æ•°
+   /** Êä³öÒ»¸ö¸¡µãÊı
 		fn putdouble(double) -> void;
 	 */
    PUTDOUBLE,
-   /** è¾“å‡ºä¸€ä¸ªå­—ç¬¦
+   /** Êä³öÒ»¸ö×Ö·û
 		fn putchar(int) -> void;
     */
    PUTCHAR,
-   /** è¾“å‡ºæ•´æ•°ä»£è¡¨çš„å…¨å±€å¸¸é‡å­—ç¬¦ä¸²
+   /** Êä³öÕûÊı´ú±íµÄÈ«¾Ö³£Á¿×Ö·û´®
 		fn putstr(int) -> void; 
 	 */
    PUTSTR,
-   /** è¾“å‡ºä¸€ä¸ªæ¢è¡Œ */
+   /** Êä³öÒ»¸ö»»ĞĞ */
    PUTLN;
 	
 	@Override
     public String toString() {
         switch (this) {
 	        case GETINT:
-	            /** è¯»å…¥ä¸€ä¸ªæµ®ç‚¹æ•°
+	            /** ¶ÁÈëÒ»¸ö¸¡µãÊı
 	        		fn getdouble() -> double;
 	        	 */
 	        	return "fuc getint()";
 	        case GETDOUBLE:
-	            /** è¯»å…¥ä¸€ä¸ªå­—ç¬¦
+	            /** ¶ÁÈëÒ»¸ö×Ö·û
 	        		fn getchar() -> int;
 	        	 */
 	        	return "fuc getdouble()";
 	        case GETCHAR:
-	            /** è¾“å‡ºä¸€ä¸ªæ•´æ•°
+	            /** Êä³öÒ»¸öÕûÊı
 	        		fn putint(int) -> void;
 	        	 */
 	        	return "fuc getchar()";
 	        case PUTINT:
-	            /** è¾“å‡ºä¸€ä¸ªæµ®ç‚¹æ•°
+	            /** Êä³öÒ»¸ö¸¡µãÊı
 	        		fn putdouble(double) -> void;
 	        	 */
 	        	return "fuc putint()";
 	        case PUTDOUBLE:
-	            /** è¾“å‡ºä¸€ä¸ªå­—ç¬¦
+	            /** Êä³öÒ»¸ö×Ö·û
 	        		fn putchar(int) -> void;
 	             */
 	        	return "fuc putdouble()";
 	        case PUTCHAR:
-	            /** è¾“å‡ºæ•´æ•°ä»£è¡¨çš„å…¨å±€å¸¸é‡å­—ç¬¦ä¸²
+	            /** Êä³öÕûÊı´ú±íµÄÈ«¾Ö³£Á¿×Ö·û´®
 	        		fn putstr(int) -> void; 
 	        	 */
 	        	return "fuc putchar()";
 	        case PUTSTR:
-	            /** è¾“å‡ºä¸€ä¸ªæ¢è¡Œ */
+	            /** Êä³öÒ»¸ö»»ĞĞ */
 	        	return "fuc putstr()";
 	        case PUTLN:
 	        	return "fuc putln()";

@@ -5,6 +5,7 @@ import util.Pos;
 public class VarEntry extends Entry{
 	public boolean isConstant;
     public boolean isInitialized;
+    public int offset;//ÔÚÄ³Ò»¿éµÄÆ«ÒÆ
     
     public VarEntry(String name, SymbolType symboltype, DataType datatype, int level, int offset,Pos pos, boolean isConstant, boolean isInitialized) {
     	super(name,symboltype,datatype,level,offset,pos);

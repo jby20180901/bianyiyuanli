@@ -1,8 +1,8 @@
 package symboltable;
 
 public enum SymbolType {
-	Constant,//甯搁噺
-    Variable,//鍙橀噺
-    Function,//鍑芥暟
-    Param//鍙傛暟
+	Constant,//常量
+    Variable,//变量
+    Function,//函数
+    Param//参数
 }

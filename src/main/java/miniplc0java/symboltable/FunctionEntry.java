@@ -8,9 +8,9 @@ import error.ErrorCode;
 import util.Pos;
 
 public class FunctionEntry extends Entry{
-	private HashMap<String, VarEntry> argsMap;//å‚æ•°è¡¨
-	private ArrayList<VarEntry> argsList;//å‚æ•°è¡¨
-	private int varOffset;//å‡½æ•°å†…éƒ¨åç§»
+	private HashMap<String, VarEntry> argsMap;//²ÎÊı±í
+	private ArrayList<VarEntry> argsList;//²ÎÊı±í
+	private int varOffset;//º¯ÊıÄÚ²¿²ÎÊıÆ«ÒÆ
 	
 	public FunctionEntry(String name, SymbolType symboltype, DataType datatype, int level, int offset, Pos pos) {
 		super(name,symboltype,datatype,level,offset,pos);
