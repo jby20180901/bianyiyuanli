@@ -1,9 +1,9 @@
-package instructioner;
+package miniplc0java.instructioner;
 
 import java.util.ArrayList;
 
-import symboltable.DataType;
-import symboltable.FunctionEntry;
+import miniplc0java.symboltable.DataType;
+import miniplc0java.symboltable.FunctionEntry;
 
 public class FunctionDef {
 	// 函数名称在全局变量中的位置

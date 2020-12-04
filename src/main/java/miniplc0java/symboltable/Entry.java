@@ -1,6 +1,6 @@
-package symboltable;
+package miniplc0java.symboltable;
 
-import util.Pos;
+import miniplc0java.util.Pos;
 
 public class Entry {
 	public SymbolType symboltype;//符号类型

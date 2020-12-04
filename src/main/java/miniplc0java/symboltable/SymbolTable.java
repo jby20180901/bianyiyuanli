@@ -1,12 +1,12 @@
-package symboltable;
+package miniplc0java.symboltable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import error.AnalyzeError;
-import error.CompileError;
-import error.ErrorCode;
-import util.Pos;
+import miniplc0java.error.AnalyzeError;
+import miniplc0java.error.CompileError;
+import miniplc0java.error.ErrorCode;
+import miniplc0java.util.Pos;
 
 public class SymbolTable {
 	/**

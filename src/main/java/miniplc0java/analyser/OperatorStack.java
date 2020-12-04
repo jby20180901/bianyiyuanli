@@ -2,9 +2,9 @@ package miniplc0java.analyser;
 
 import java.util.ArrayList;
 
-import symboltable.DataKeywordType;
-import symboltable.DataType;
-import tokenizer.TokenType;
+import miniplc0java.symboltable.DataKeywordType;
+import miniplc0java.symboltable.DataType;
+import miniplc0java.tokenizer.TokenType;
 
 public class OperatorStack {
 	private ArrayList<Object> stack = new ArrayList<>();

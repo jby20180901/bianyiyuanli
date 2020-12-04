@@ -1,4 +1,4 @@
-package symboltable;
+package miniplc0java.symboltable;
 
 public enum DataKeywordType {
     /** int关键字 */

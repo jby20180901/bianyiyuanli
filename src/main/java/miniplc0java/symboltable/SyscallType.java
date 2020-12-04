@@ -1,4 +1,4 @@
-package symboltable;
+package miniplc0java.symboltable;
 
 public enum SyscallType {
 	/** 读入一个有符号整数
