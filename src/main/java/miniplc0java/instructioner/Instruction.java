@@ -3,7 +3,7 @@ package instructioner;
 import java.util.Objects;
 
 public class Instruction {
-	private InstructionType opt;
+    private InstructionType opt;
     Integer x;
     Long y;
     int type;
@@ -21,7 +21,7 @@ public class Instruction {
         this.y = (long) 0;
         this.type = 2;
     }
-    
+
     public Instruction(InstructionType opt, Long y) {
         this.opt = opt;
         this.x = 0;
@@ -60,25 +60,25 @@ public class Instruction {
         this.x = x;
     }
 
-	public byte[] toByte() {
-		byte ret[];
-		if(this.type == 1) {
-			ret = new byte[1];
-			ret[0] = this.opt.toAssemble();
-		}
-		else if(this.type == 2) {
-			ret = new byte[1];
-			ret[0] = this.opt.toAssemble();
-			ret = ChangeToByte.concat(ret, ChangeToByte.intToByte((int)this.x));
-		}
-		else if(this.type == 3) {
-			ret = new byte[1];
-			ret[0] = this.opt.toAssemble();
-			ret = ChangeToByte.concat(ret, ChangeToByte.longToByte((long)this.y));
-		}
-		else {
-			ret = null;
-		}
-		return ret;
-	}
+    public byte[] toByte() {
+        byte ret[];
+        if(this.type == 1) {
+            ret = new byte[1];
+            ret[0] = this.opt.toAssemble();
+        }
+        else if(this.type == 2) {
+            ret = new byte[1];
+            ret[0] = this.opt.toAssemble();
+            ret = ChangeToByte.concat(ret, ChangeToByte.intToByte((int)this.x));
+        }
+        else if(this.type == 3) {
+            ret = new byte[1];
+            ret[0] = this.opt.toAssemble();
+            ret = ChangeToByte.concat(ret, ChangeToByte.longToByte((long)this.y));
+        }
+        else {
+            ret = null;
+        }
+        return ret;
+    }
 }

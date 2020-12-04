@@ -3,15 +3,15 @@ package instructioner;
 import symboltable.FunctionEntry;
 
 public class GlobalDef {
-	// ÊÇ·ñÎª³£Á¿£¿·ÇÁãÖµÊÓÎªÕæ
+	// æ˜¯å¦ä¸ºå¸¸é‡ï¼Ÿéé›¶å€¼è§†ä¸ºçœŸ
 	byte is_const ;
-	// Êı×éµÄ³¤¶È
+	// æ•°ç»„çš„é•¿åº¦
 	int count;
-	// Öµ
+	// å€¼
 	byte items[];
-	
+
 	/**
-	 * º¯ÊıÃû ×ª byte[]
+	 * å‡½æ•°å è½¬ byte[]
 	 * @param isConst
 	 * @param Func
 	 */
@@ -22,9 +22,9 @@ public class GlobalDef {
 		this.items = new byte[count];
 		this.items = FuncName.getBytes();
 	}
-	
+
 	/**
-	 * String ×ª byte[]
+	 * String è½¬ byte[]
 	 * @param isConst
 	 * @param outStr
 	 */
@@ -34,9 +34,9 @@ public class GlobalDef {
 		this.items = new byte[count];
 		this.items = outStr.getBytes();
 	}
-	
+
 	/**
-	 * char(Êµ¼ÊÊÇint) ×ª byte[]
+	 * char(å®é™…æ˜¯int) è½¬ byte[]
 	 * @param isConst
 	 * @param outChar
 	 */
@@ -46,13 +46,13 @@ public class GlobalDef {
 		this.count = 8;
 		this.items = new byte[count];
 		for (int ix = 0; ix < 8; ++ix) {
-            int offset = 64 - (ix + 1) * 8;
-            this.items[ix] = (byte) ((charValue >> offset) & 0xff);
-        }
+			int offset = 64 - (ix + 1) * 8;
+			this.items[ix] = (byte) ((charValue >> offset) & 0xff);
+		}
 	}
-	
+
 	/**
-	 * int ×ª byte[]
+	 * int è½¬ byte[]
 	 * @param isConst
 	 * @param longNum
 	 */
@@ -61,13 +61,13 @@ public class GlobalDef {
 		this.count = 8;
 		this.items = new byte[count];
 		for (int ix = 0; ix < 8; ++ix) {
-            int offset = 64 - (ix + 1) * 8;
-            this.items[ix] = (byte) ((longNum >> offset) & 0xff);
-        }
+			int offset = 64 - (ix + 1) * 8;
+			this.items[ix] = (byte) ((longNum >> offset) & 0xff);
+		}
 	}
 
 	/**
-	 * double ×ª byte[]
+	 * double è½¬ byte[]
 	 * @param isConst
 	 * @param doubleNum
 	 */
@@ -78,9 +78,9 @@ public class GlobalDef {
 		this.items = new byte[count];
 		for (int i = 0; i < 8; i++) {
 			this.items[i] = (byte) ((doubleValue >> 8 * i) & 0xff);
-		}	
+		}
 	}
-	
+
 	public byte[] toByte() {
 		byte[] isCount = new byte[1];
 		isCount[0] = is_const;

@@ -26,12 +26,12 @@ public class Assembler {
 		this.functions = new ArrayList<FunctionDef>();
 		this.functionsMap = new HashMap<String,FunctionDef>();
 	}
-	
+
 	public void addGlobalDef(GlobalDef def, String name) {
 		globals.add(def);
 		globalsMap.put(name, def);
 	}
-	
+
 	public GlobalDef findGlobalDef(String name) {
 		if(globalsMap.containsKey(name)) {
 			if(globalsMap.get(name) instanceof GlobalDef) {
@@ -40,7 +40,7 @@ public class Assembler {
 		}
 		return null;
 	}
-	
+
 	public int findGlobalDefID(GlobalDef def) {
 		for(int i = 0; i < globals.size(); i ++) {
 			if(def.equals(globals.get(i))){
@@ -49,12 +49,12 @@ public class Assembler {
 		}
 		return -1;
 	}
-	
+
 	public void addFunctionDef(FunctionDef def,String name) {
 		functions.add(def);
 		functionsMap.put(name, def);
 	}
-	
+
 	public FunctionDef findFunctionDef(String name) {
 		if(functionsMap.containsKey(name)) {
 			if(functionsMap.get(name) instanceof FunctionDef) {
@@ -63,7 +63,7 @@ public class Assembler {
 		}
 		return null;
 	}
-	
+
 	public byte[] toByte() {
 		byte ret[];
 		ret = this.magic;

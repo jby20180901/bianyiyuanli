@@ -1,77 +1,77 @@
 package symboltable;
 
 public enum SyscallType {
-	/** ¶ÁÈëÒ»¸öÓĞ·ûºÅÕûÊı
-	  * fn getint() -> int; 
-	  */
-   GETINT,
-   /** ¶ÁÈëÒ»¸ö¸¡µãÊı
-		fn getdouble() -> double;
+	/** è¯»å…¥ä¸€ä¸ªæœ‰ç¬¦å·æ•´æ•°
+	 * fn getint() -> int;
 	 */
-   GETDOUBLE,
-   /** ¶ÁÈëÒ»¸ö×Ö·û
-		fn getchar() -> int;
+	GETINT,
+	/** è¯»å…¥ä¸€ä¸ªæµ®ç‚¹æ•°
+	 fn getdouble() -> double;
 	 */
-   GETCHAR,
-   /** Êä³öÒ»¸öÕûÊı
-		fn putint(int) -> void;
+	GETDOUBLE,
+	/** è¯»å…¥ä¸€ä¸ªå­—ç¬¦
+	 fn getchar() -> int;
 	 */
-   PUTINT,
-   /** Êä³öÒ»¸ö¸¡µãÊı
-		fn putdouble(double) -> void;
+	GETCHAR,
+	/** è¾“å‡ºä¸€ä¸ªæ•´æ•°
+	 fn putint(int) -> void;
 	 */
-   PUTDOUBLE,
-   /** Êä³öÒ»¸ö×Ö·û
-		fn putchar(int) -> void;
-    */
-   PUTCHAR,
-   /** Êä³öÕûÊı´ú±íµÄÈ«¾Ö³£Á¿×Ö·û´®
-		fn putstr(int) -> void; 
+	PUTINT,
+	/** è¾“å‡ºä¸€ä¸ªæµ®ç‚¹æ•°
+	 fn putdouble(double) -> void;
 	 */
-   PUTSTR,
-   /** Êä³öÒ»¸ö»»ĞĞ */
-   PUTLN;
-	
+	PUTDOUBLE,
+	/** è¾“å‡ºä¸€ä¸ªå­—ç¬¦
+	 fn putchar(int) -> void;
+	 */
+	PUTCHAR,
+	/** è¾“å‡ºæ•´æ•°ä»£è¡¨çš„å…¨å±€å¸¸é‡å­—ç¬¦ä¸²
+	 fn putstr(int) -> void;
+	 */
+	PUTSTR,
+	/** è¾“å‡ºä¸€ä¸ªæ¢è¡Œ */
+	PUTLN;
+
 	@Override
-    public String toString() {
-        switch (this) {
-	        case GETINT:
-	            /** ¶ÁÈëÒ»¸ö¸¡µãÊı
-	        		fn getdouble() -> double;
-	        	 */
-	        	return "fuc getint()";
-	        case GETDOUBLE:
-	            /** ¶ÁÈëÒ»¸ö×Ö·û
-	        		fn getchar() -> int;
-	        	 */
-	        	return "fuc getdouble()";
-	        case GETCHAR:
-	            /** Êä³öÒ»¸öÕûÊı
-	        		fn putint(int) -> void;
-	        	 */
-	        	return "fuc getchar()";
-	        case PUTINT:
-	            /** Êä³öÒ»¸ö¸¡µãÊı
-	        		fn putdouble(double) -> void;
-	        	 */
-	        	return "fuc putint()";
-	        case PUTDOUBLE:
-	            /** Êä³öÒ»¸ö×Ö·û
-	        		fn putchar(int) -> void;
-	             */
-	        	return "fuc putdouble()";
-	        case PUTCHAR:
-	            /** Êä³öÕûÊı´ú±íµÄÈ«¾Ö³£Á¿×Ö·û´®
-	        		fn putstr(int) -> void; 
-	        	 */
-	        	return "fuc putchar()";
-	        case PUTSTR:
-	            /** Êä³öÒ»¸ö»»ĞĞ */
-	        	return "fuc putstr()";
-	        case PUTLN:
-	        	return "fuc putln()";
-	        default:
-                return "InvalidSyscall";
-        }
-    }
+	public String toString() {
+		switch (this) {
+			case GETINT:
+				/** è¯»å…¥ä¸€ä¸ªæµ®ç‚¹æ•°
+				 fn getdouble() -> double;
+				 */
+				return "fuc getint()";
+			case GETDOUBLE:
+				/** è¯»å…¥ä¸€ä¸ªå­—ç¬¦
+				 fn getchar() -> int;
+				 */
+				return "fuc getdouble()";
+			case GETCHAR:
+				/** è¾“å‡ºä¸€ä¸ªæ•´æ•°
+				 fn putint(int) -> void;
+				 */
+				return "fuc getchar()";
+			case PUTINT:
+				/** è¾“å‡ºä¸€ä¸ªæµ®ç‚¹æ•°
+				 fn putdouble(double) -> void;
+				 */
+				return "fuc putint()";
+			case PUTDOUBLE:
+				/** è¾“å‡ºä¸€ä¸ªå­—ç¬¦
+				 fn putchar(int) -> void;
+				 */
+				return "fuc putdouble()";
+			case PUTCHAR:
+				/** è¾“å‡ºæ•´æ•°ä»£è¡¨çš„å…¨å±€å¸¸é‡å­—ç¬¦ä¸²
+				 fn putstr(int) -> void;
+				 */
+				return "fuc putchar()";
+			case PUTSTR:
+				/** è¾“å‡ºä¸€ä¸ªæ¢è¡Œ */
+				return "fuc putstr()";
+			case PUTLN:
+				return "fuc putln()";
+			default:
+				return "InvalidSyscall";
+		}
+	}
 }

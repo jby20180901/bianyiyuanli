@@ -10,28 +10,28 @@ import util.Pos;
 
 public class SymbolTable {
 	/**
-	 * Õû¸ö·ûºÅ±í
+	 * æ•´ä¸ªç¬¦å·è¡¨
 	 */
 	public static ArrayList<HashMap<String, Entry>> symboltable = new ArrayList<>();
-	
+
 	/**
-	 * ·ûºÅ±í²ãÊıÉÏÉı
+	 * ç¬¦å·è¡¨å±‚æ•°ä¸Šå‡
 	 */
 	public static void levelup() {
 		symboltable.add(new HashMap<>());
 	}
-	
+
 	/**
-	 * ·ûºÅ±í²ãÊıÏÂ½µ
-	 * @throws CompileError 
+	 * ç¬¦å·è¡¨å±‚æ•°ä¸‹é™
+	 * @throws CompileError
 	 */
 	public static void leveldown() throws CompileError {
 		checkVarEntryInit(symboltable.size() - 1);
 		symboltable.remove(symboltable.size() - 1);
 	}
-	
+
 	/**
-	 * ²åÈë±äÁ¿
+	 * æ’å…¥å˜é‡
 	 * @param level
 	 * @param name
 	 * @param isInitialized
@@ -51,9 +51,9 @@ public class SymbolTable {
 			symbolTable.put(name, new VarEntry(name,symboltype,datatype,level,offset,pos,isConstant,isInitialized));
 		}
 	}
-	
+
 	/**
-	 * ²åÈëº¯Êı
+	 * æ’å…¥å‡½æ•°
 	 * @param name
 	 * @param symboltype
 	 * @param datatype
@@ -73,9 +73,9 @@ public class SymbolTable {
 			return fuc;
 		}
 	}
-	
+
 	/**
-	 * ¸üĞÂº¯Êı²ÎÊı
+	 * æ›´æ–°å‡½æ•°å‚æ•°
 	 * @param fucName
 	 * @param varName
 	 * @param symbolType
@@ -99,9 +99,9 @@ public class SymbolTable {
 			throw new AnalyzeError(ErrorCode.DuplicateDeclaration,pos);
 		}
 	}
-	
+
 	/**
-	 * È«±íËÑË÷±äÁ¿
+	 * å…¨è¡¨æœç´¢å˜é‡
 	 * @param Var
 	 * @return
 	 */
@@ -117,12 +117,12 @@ public class SymbolTable {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * È«²ã¼ì²â±äÁ¿¶¨Òå
+	 * å…¨å±‚æ£€æµ‹å˜é‡å®šä¹‰
 	 * @param Var
 	 * @return
-	 * @throws CompileError 
+	 * @throws CompileError
 	 */
 	public static void checkVarEntryInit(int level) throws CompileError {
 		HashMap<String, Entry> symbolTable;
@@ -133,12 +133,12 @@ public class SymbolTable {
 					throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
 				}
 			}
-			
-        }
+
+		}
 	}
-	
+
 	/**
-	 * È«±íËÑË÷º¯Êı
+	 * å…¨è¡¨æœç´¢å‡½æ•°
 	 * @param Func
 	 * @return
 	 */
@@ -154,9 +154,9 @@ public class SymbolTable {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * °´²ãËÑË÷±äÁ¿
+	 * æŒ‰å±‚æœç´¢å˜é‡
 	 * @param Var
 	 * @param level
 	 * @return
@@ -171,9 +171,9 @@ public class SymbolTable {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * °´²ãËÑË÷º¯Êı
+	 * æŒ‰å±‚æœç´¢å‡½æ•°
 	 * @param Func
 	 * @param level
 	 * @return

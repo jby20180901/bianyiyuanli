@@ -1,9 +1,8 @@
-package miniplc0java;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -13,18 +12,12 @@ import java.util.Scanner;
 import analyser.Analyser;
 import error.CompileError;
 import error.TokenizeError;
+import symboltable.SymbolTable;
 //import instruction.Instruction;
 import tokenizer.StringIter;
 import tokenizer.Token;
 import tokenizer.TokenType;
 import tokenizer.Tokenizer;
-
-import net.sourceforge.argparse4j.*;
-import net.sourceforge.argparse4j.impl.Arguments;
-import net.sourceforge.argparse4j.inf.ArgumentAction;
-import net.sourceforge.argparse4j.inf.ArgumentParser;
-import net.sourceforge.argparse4j.inf.ArgumentParserException;
-import net.sourceforge.argparse4j.inf.Namespace;
 
 public class App {
 	static StringIter it;
@@ -37,8 +30,8 @@ public class App {
 		while(!it.isEOF()) {
 			System.out.print(it.nextChar());
 		}
-    }
-	
+	}
+
 	private static void wordAnalyze(String source) throws FileNotFoundException, CompileError {
 		InputStream is=new FileInputStream(source);
 		scanner = new Scanner(is);
@@ -49,34 +42,75 @@ public class App {
 			System.out.println(a.getValueString()+"  "+a.getTokenType());
 			a = wordAnalyzer.nextToken();
 		}
-    }
+	}
 
-	private static void Analyze(String source) throws FileNotFoundException, CompileError {
+	private static void Analyze(String source ,String gotos) throws CompileError, IOException {
 		InputStream is=new FileInputStream(source);
+		FileOutputStream iss = new FileOutputStream(gotos);
 		scanner = new Scanner(is);
 		it = new StringIter(scanner);
 		Tokenizer wordAnalyzer = new Tokenizer(it);
 		Analyser analyzer = new Analyser(wordAnalyzer);
 		analyzer.analyse();
-    }
-	
-    public static void main(String[] args) throws FileNotFoundException, CompileError {
-        boolean debug = false;
-        if (debug) {	
-        	String source = "./bin/1.c";
-     	    String outputPath = "1.txt";
-//            Analyze(source);
-//            wordAnalyze(source);
-            copy(source);
-            return;
-        }
-        else {
-			String source = args[1];
-     	    String outputPath = args[3];
-			Analyze(source);
-			//wordAnalyze(source);
-			// copy(source);
-		}
-    }
-}
+		iss.write(analyzer.Assemble());
+		iss.close();
+	}
 
+	public static void main(String[] args) throws CompileError, IOException {
+//        boolean debug = true;
+		boolean debug = false;
+		if (debug) {
+			boolean all = true;
+//        	boolean all = false;
+			int totalNum = 30;
+			int totalNum1 = 1;
+			if(all) {
+				for(int i=1;i<=totalNum;i++) {
+					SymbolTable.symboltable.clear();
+					System.out.println();
+					System.out.println("----------------------------------------");
+					System.out.println();
+					System.out.println("CASE+"+i);
+					System.out.println();
+					String source = "./bin/"+i+".c";
+					String outputPath = "1.txt";
+					Analyze(source, "./out.o");
+//	                wordAnalyze(source);
+//	                copy(source);
+				}
+				for(int i=1;i<=totalNum1;i++) {
+					SymbolTable.symboltable.clear();
+					System.out.println();
+					System.out.println("----------------------------------------");
+					System.out.println();
+					System.out.println("CASE-SF+"+i);
+					System.out.println();
+					String source = "./bin/"+i+".cpp";
+					String outputPath = "1.txt";
+					Analyze(source,"./out.o");
+//	                wordAnalyze(source);
+//	                copy(source);
+				}
+			}
+			else {
+				SymbolTable.symboltable.clear();
+				System.out.println();
+				System.out.println("----------------------------------------");
+				System.out.println();
+				System.out.println();
+				String source = "./bin/1.cpp";
+				String outputPath = "1.txt";
+				Analyze(source, "./out.o");
+//                wordAnalyze(source);
+//                copy(source);
+			}
+			return;
+		}
+		else {
+			String source = args[1];
+			String outputPath = args[3];
+			Analyze(source,outputPath);
+//			wordAnalyze(source);
+		}
+	}
+}

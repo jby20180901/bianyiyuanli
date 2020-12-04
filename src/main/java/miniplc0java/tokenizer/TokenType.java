@@ -1,7 +1,7 @@
 package tokenizer;
 
 public enum TokenType {
-	/** none */
+    /** none */
     NONE,
     /** fn */
     FN_KW,
@@ -23,15 +23,15 @@ public enum TokenType {
     BREAK_KW,
     /** continue */
     CONTINUE_KW,
-    /** ÎŞ·ûºÅÕûÊı */
+    /** æ— ç¬¦å·æ•´æ•° */
     UINT_LITERAL,
-    /** ¸¡µãÊı */
+    /** æµ®ç‚¹æ•° */
     DOUBLE_LITERAL,
-    /** ×Ö·û´® */
+    /** å­—ç¬¦ä¸² */
     STRING_LITERAL,
-    /** ×Ö·û */
+    /** å­—ç¬¦ */
     CHAR_LITERAL,
-    /** ±êÊ¶·û */
+    /** æ ‡è¯†ç¬¦ */
     IDENT,
     /** + */
     PLUS,
@@ -71,13 +71,13 @@ public enum TokenType {
     COLON,
     /** ; */
     SEMICOLON,
-    /** ×¢ÊÍ */
+    /** æ³¨é‡Š */
     COMMENT,
-    /** Ç°ÖÃ¸ººÅ */
+    /** å‰ç½®è´Ÿå· */
     NEGATE,
-    /** #±í´ïÊ½Ç°ºóÖÕÖ¹·û */
+    /** #è¡¨è¾¾å¼å‰åç»ˆæ­¢ç¬¦ */
     STOP,
-    /** ÎÄ¼şÎ² */
+    /** æ–‡ä»¶å°¾ */
     EOF;
 
     @Override
@@ -113,19 +113,19 @@ public enum TokenType {
             /** continue */
             case CONTINUE_KW:
                 return "continue";
-            /** ÎŞ·ûºÅÕûÊı */
+            /** æ— ç¬¦å·æ•´æ•° */
             case UINT_LITERAL:
                 return "unint";
-            /** ¸¡µãÊı */
+            /** æµ®ç‚¹æ•° */
             case DOUBLE_LITERAL:
                 return "double";
-            /** ×Ö·û´® */
+            /** å­—ç¬¦ä¸² */
             case STRING_LITERAL:
                 return "string";
-            /** ×Ö·û */
+            /** å­—ç¬¦ */
             case CHAR_LITERAL:
                 return "char";
-            /** ±êÊ¶·û */
+            /** æ ‡è¯†ç¬¦ */
             case IDENT:
                 return "identification";
             /** + */
@@ -185,16 +185,16 @@ public enum TokenType {
             /** ; */
             case SEMICOLON:
                 return "semicolon";
-            /** ×¢ÊÍ */
+            /** æ³¨é‡Š */
             case COMMENT:
                 return "comment";
-            /** Ç°ÖÃ¸ººÅ */
+            /** å‰ç½®è´Ÿå· */
             case NEGATE:
-            	return "NEGATE";
-            /** #±í´ïÊ½Ç°ºóÖÕÖ¹·û */
+                return "NEGATE";
+            /** #è¡¨è¾¾å¼å‰åç»ˆæ­¢ç¬¦ */
             case STOP:
                 return "STOP";
-            /** ÎÄ¼şÎ² */
+            /** æ–‡ä»¶å°¾ */
             case EOF:
                 return "EOF";
             case NONE:
@@ -206,11 +206,11 @@ public enum TokenType {
 }
 
 /**
- * 0´ú±í<
- * 1´ú±í>
- * 2´ú±í=
- * 3´ú±íX
- * 4´ú±í½áÊø
+ * 0ä»£è¡¨<
+ * 1ä»£è¡¨>
+ * 2ä»£è¡¨=
+ * 3ä»£è¡¨X
+ * 4ä»£è¡¨ç»“æŸ
  * |      | +    | *    | i    | (    | )    | <    | '-'  | as   | #    |
  * | +    | 1    | 0    | 0    | 0    | 1    | 1    | 0    | 0    | 1    |
  * | *    | 1    | 1    | 0    | 0    | 1    | 1    | 0    | 0    | 1    |
@@ -222,9 +222,9 @@ public enum TokenType {
  * | as   | 1    | 1    | 3    | 3    | 1    | 1    | 3    | 1    | 1    |
  * | #    | 0    | 0    | 0    | 0    | 3    | 0    | 0    | 0    | 4    |
  */
-/** 
- * + - 					PLUS MINUS 
- * Ç°ÖÃ- 				NEGATE
+/**
+ * + - 					PLUS MINUS
+ * å‰ç½®- 				NEGATE
  * * \ 					MUL DIV 
  * == != < > <= >= 		EQ NEQ LT GT LE GE
  * as 					AS_KW 
@@ -232,7 +232,7 @@ public enum TokenType {
  * ( 					L_PAREN 
  * ) 					R_PAREN
  * # 					STOP
-*/
+ */
 //throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
 /**
  * + - * \ == != < > <= >= AS_KW IDENT ( ) #

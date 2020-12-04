@@ -8,16 +8,16 @@ import error.ErrorCode;
 import util.Pos;
 
 public class FunctionEntry extends Entry{
-	private HashMap<String, VarEntry> argsMap;//²ÎÊı±í
-	private ArrayList<VarEntry> argsList;//²ÎÊı±í
-	private int varOffset;//º¯ÊıÄÚ²¿²ÎÊıÆ«ÒÆ
-	
+	private HashMap<String, VarEntry> argsMap;//å‚æ•°è¡¨
+	private ArrayList<VarEntry> argsList;//å‚æ•°è¡¨
+	private int varOffset;//å‡½æ•°å†…éƒ¨å‚æ•°åç§»
+
 	public FunctionEntry(String name, SymbolType symboltype, DataType datatype, int level, int offset, Pos pos) {
 		super(name,symboltype,datatype,level,offset,pos);
 		this.argsMap = new HashMap<>();
 		this.argsList = new ArrayList<>();
 	}
-	
+
 	public void addArgs(String name,VarEntry var) throws AnalyzeError{
 		if(argsMap.containsKey(name)) {
 			throw new AnalyzeError(ErrorCode.DuplicateDeclaration,this.pos);
@@ -25,22 +25,22 @@ public class FunctionEntry extends Entry{
 		argsMap.put(name, var);
 		argsList.add(var);
 	}
-	
+
 	public DataType getArgData(int index) {
 		if(index >= getSize()) {
 			return null;
 		}
 		return argsList.get(index).datatype;
 	}
-	
+
 	public int getSize() {
 		return argsMap.size();
 	}
-	
+
 	public int getVarOffset() {
 		return varOffset;
 	}
-	
+
 	public void setVarOffset(int newOffset) {
 		this.varOffset = newOffset;
 	}

@@ -1,4 +1,4 @@
-package analyser;
+package miniplc0java.analyser;
 
 import java.util.ArrayList;
 
@@ -22,109 +22,109 @@ import symboltable.DataKeywordType;
 import symboltable.DataType;
 
 public final class Analyser {
-    Tokenizer tokenizer;
-    Assembler assembler;//ª„±‡∆˜
-    int level = 0;//≤„ ˝
-    private int functionOffset = 0;//∫Ø ˝∆´“∆¡ø
-    private int[][] priorty = new int[100][100];
-    private TokenType[] priortyToken = new TokenType[20];
-    ArrayList<Object> functionLPRecent = new ArrayList<>();
-    FunctionEntry nowFunc = null;
-    int ifReturn[] = new int[1000];
-    boolean isVoid = false;
-    int LPNum = 0;
-    DataType nowReturn = null; //µ±«∞∑µªÿ÷µ¿‡–Õ
-    boolean isInLoop = false;	//µ±«∞‘⁄—≠ª∑ÃÂƒ⁄≤ø
-    /** µ±«∞Õµø¥µƒ token */
-    Token peekedToken = null;
+	Tokenizer tokenizer;
+	Assembler assembler;//Ê±áÁºñÂô®
+	int level = 0;//Â±ÇÊï∞
+	private int functionOffset = 0;//ÂáΩÊï∞ÂÅèÁßªÈáè
+	private int[][] priorty = new int[100][100];
+	private TokenType[] priortyToken = new TokenType[20];
+	ArrayList<Object> functionLPRecent = new ArrayList<>();
+	FunctionEntry nowFunc = null;
+	int ifReturn[] = new int[1000];
+	boolean isVoid = false;
+	int LPNum = 0;
+	DataType nowReturn = null; //ÂΩìÂâçËøîÂõûÂÄºÁ±ªÂûã
+	boolean isInLoop = false;	//ÂΩìÂâçÂú®Âæ™ÁéØ‰ΩìÂÜÖÈÉ®
+	/** ÂΩìÂâçÂÅ∑ÁúãÁöÑ token */
+	Token peekedToken = null;
 
-    /** ¥Û¿®∫≈–≈∫≈¡ø */
-    int brace = 0;
+	/** Â§ßÊã¨Âè∑‰ø°Âè∑Èáè */
+	int brace = 0;
 
-    /** œ¬“ª∏ˆ±‰¡øµƒ’ª∆´“∆ */
-    int nextOffset = 0;
-    
-    public int enumToInt(TokenType tokenType) {
-    	int ret;
-        if(tokenType.equals(TokenType.PLUS)) {
-        	ret = 0;
-        }
-        else if(tokenType.equals(TokenType.MINUS)) {
-        	ret = 1;
-        }
-        else if(tokenType.equals(TokenType.MUL)) {
-        	ret = 2;
-        }
-        else if(tokenType.equals(TokenType.DIV)) {
-        	ret = 3;
-        }
-        else if(tokenType.equals(TokenType.UINT_LITERAL)) {
-        	ret = 4;
-        }
-        else if(tokenType.equals(TokenType.DOUBLE_LITERAL)) {
-        	ret = 5;
-        }
-        else if(tokenType.equals(TokenType.IDENT)) {
-        	ret = 6;
-        }
-        else if(tokenType.equals(TokenType.L_PAREN)) {
-        	ret = 7;
-        }
-        else if(tokenType.equals(TokenType.R_PAREN)) {
-        	ret = 8;
-        }
-        else if(tokenType.equals(TokenType.EQ)) {
-        	ret = 9;
-        }
-        else if(tokenType.equals(TokenType.NEQ)) {
-        	ret = 10;
-        }
-        else if(tokenType.equals(TokenType.LT)) {
-        	ret = 11;
-        }
-        else if(tokenType.equals(TokenType.GT)) {
-        	ret = 12;
-        }
-        else if(tokenType.equals(TokenType.LE)) {
-        	ret = 13;
-        }
-        else if(tokenType.equals(TokenType.GE)) {
-        	ret = 14;
-        }
-        else if(tokenType.equals(TokenType.NEGATE)) {
-        	ret = 15;
-        }
-        else if(tokenType.equals(TokenType.AS_KW)) {
-        	ret = 16;
-        }
-        else if(tokenType.equals(TokenType.STOP)) {
-        	ret = 17;
-        }
-        else {
-        	ret = -1;
-        }
-        return ret;
-    }
-    public Analyser(Tokenizer tokenizer) {
-        this.tokenizer = tokenizer;
-        /** 
-         * + - 					PLUS MINUS 
-         * «∞÷√- 				NEGATE
-         * * \ 					MUL DIV 
-         * == != < > <= >= 		EQ NEQ LT GT LE GE
-         * as 					AS_KW 
-         * uint double ident 	UINT_LITERAL DOUBLE_LITERAL IDENT
-         * ( 					L_PAREN 
-         * ) 					R_PAREN
-         * # 					STOP
-        */
-        /**
-         * 0¥˙±Ì<
-         * 1¥˙±Ì>
-         * 2¥˙±Ì=
-         * 3¥˙±ÌX
-         * 4¥˙±ÌΩ· ¯
-         * |      | +    | *    | i    | (    | )    | <    | '-'  | as   | #    |
+	/** ‰∏ã‰∏Ä‰∏™ÂèòÈáèÁöÑÊ†àÂÅèÁßª */
+	int nextOffset = 0;
+
+	public int enumToInt(TokenType tokenType) {
+		int ret;
+		if(tokenType.equals(TokenType.PLUS)) {
+			ret = 0;
+		}
+		else if(tokenType.equals(TokenType.MINUS)) {
+			ret = 1;
+		}
+		else if(tokenType.equals(TokenType.MUL)) {
+			ret = 2;
+		}
+		else if(tokenType.equals(TokenType.DIV)) {
+			ret = 3;
+		}
+		else if(tokenType.equals(TokenType.UINT_LITERAL)) {
+			ret = 4;
+		}
+		else if(tokenType.equals(TokenType.DOUBLE_LITERAL)) {
+			ret = 5;
+		}
+		else if(tokenType.equals(TokenType.IDENT)) {
+			ret = 6;
+		}
+		else if(tokenType.equals(TokenType.L_PAREN)) {
+			ret = 7;
+		}
+		else if(tokenType.equals(TokenType.R_PAREN)) {
+			ret = 8;
+		}
+		else if(tokenType.equals(TokenType.EQ)) {
+			ret = 9;
+		}
+		else if(tokenType.equals(TokenType.NEQ)) {
+			ret = 10;
+		}
+		else if(tokenType.equals(TokenType.LT)) {
+			ret = 11;
+		}
+		else if(tokenType.equals(TokenType.GT)) {
+			ret = 12;
+		}
+		else if(tokenType.equals(TokenType.LE)) {
+			ret = 13;
+		}
+		else if(tokenType.equals(TokenType.GE)) {
+			ret = 14;
+		}
+		else if(tokenType.equals(TokenType.NEGATE)) {
+			ret = 15;
+		}
+		else if(tokenType.equals(TokenType.AS_KW)) {
+			ret = 16;
+		}
+		else if(tokenType.equals(TokenType.STOP)) {
+			ret = 17;
+		}
+		else {
+			ret = -1;
+		}
+		return ret;
+	}
+	public Analyser(Tokenizer tokenizer) {
+		this.tokenizer = tokenizer;
+		/**
+		 * + - 					PLUS MINUS
+		 * ÂâçÁΩÆ- 				NEGATE
+		 * * \ 					MUL DIV
+		 * == != < > <= >= 		EQ NEQ LT GT LE GE
+		 * as 					AS_KW
+		 * uint double ident 	UINT_LITERAL DOUBLE_LITERAL IDENT
+		 * ( 					L_PAREN
+		 * ) 					R_PAREN
+		 * # 					STOP
+		 */
+		/**
+		 * 0‰ª£Ë°®<
+		 * 1‰ª£Ë°®>
+		 * 2‰ª£Ë°®=
+		 * 3‰ª£Ë°®X
+		 * 4‰ª£Ë°®ÁªìÊùü
+		 * |      | +    | *    | i    | (    | )    | <    | '-'  | as   | #    |
 		 * | +    | 1    | 0    | 0    | 0    | 1    | 1    | 0    | 0    | 1    |
 		 * | *    | 1    | 1    | 0    | 0    | 1    | 1    | 0    | 0    | 1    |
 		 * | i    | 1    | 1    | 3    | 3    | 1    | 1    | 3    | 1    | 1    |
@@ -134,1697 +134,1697 @@ public final class Analyser {
 		 * | '-'  | 1    | 1    | 0    | 3    | 1    | 1    | 0    | 1    | 1    |
 		 * | as   | 1    | 1    | 3    | 3    | 1    | 1    | 3    | 1    | 1    |
 		 * | #    | 0    | 0    | 0    | 0    | 3    | 0    | 0    | 0    | 4    |
-         */
-        /** +- */
-        priortyToken[0] = TokenType.PLUS;
-        priortyToken[1] = TokenType.MINUS;
-        /** *\ */
-        priortyToken[2] = TokenType.MUL;
-        priortyToken[3] = TokenType.DIV;
-        /** uint double ident */
-        priortyToken[4] = TokenType.UINT_LITERAL;  
-        priortyToken[5] = TokenType.DOUBLE_LITERAL;
-        priortyToken[6] = TokenType.IDENT;
-        /** ( */
-        priortyToken[7] = TokenType.L_PAREN;
-        /** ) */
-        priortyToken[8] = TokenType.R_PAREN;
-        /** == != < > <= >= */
-        priortyToken[9] = TokenType.EQ;
-        priortyToken[10] = TokenType.NEQ;
-        priortyToken[11] = TokenType.LT;
-        priortyToken[12] = TokenType.GT;
-        priortyToken[13] = TokenType.LE;
-        priortyToken[14] = TokenType.GE;
-        /** '-' */
-        priortyToken[15] = TokenType.NEGATE;
-        /** as */
-        priortyToken[16] = TokenType.AS_KW;
-        /** # */
-        priortyToken[17] = TokenType.STOP;
-        for(int i=0;i<18;i++) {//’ªƒ⁄ ◊Û
-        	for(int j=0;j<18;j++) {//’ªÕ‚ ”“
-    			if(i==0||i==1) {/** +- */
-    				if(j==0||j==1) {/** +- */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==2||j==3) {/** *\ */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==4||j==5||j==6) {/** uint double ident */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==7) {/** ( */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==8) {/** ) */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==15) {/** '-' */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==16) {/** as */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==17) {/** # */
-            			priorty[i][j] = 1;
-            		}
-        		}
-        		else if(i==2||i==3) {/** *\ */
-        			if(j==0||j==1) {/** +- */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==2||j==3) {/** *\ */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==4||j==5||j==6) {/** uint double ident */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==7) {/** ( */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==8) {/** ) */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==15) {/** '-' */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==16) {/** as */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==17) {/** # */
-            			priorty[i][j] = 1;
-            		}
-        		}
-        		else if(i==4||i==5||i==6) {/** uint double ident */
-        			if(j==0||j==1) {/** +- */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==2||j==3) {/** *\ */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==4||j==5||j==6) {/** uint double ident */
-            			priorty[i][j] = 3;
-            		}
-            		else if(j==7) {/** ( */
-            			priorty[i][j] = 3;
-            		}
-            		else if(j==8) {/** ) */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==15) {/** '-' */
-            			priorty[i][j] = 3;
-            		}
-            		else if(j==16) {/** as */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==17) {/** # */
-            			priorty[i][j] = 1;
-            		}
-        		}
-        		else if(i==7) {/** ( */
-        			if(j==0||j==1) {/** +- */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==2||j==3) {/** *\ */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==4||j==5||j==6) {/** uint double ident */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==7) {/** ( */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==8) {/** ) */
-            			priorty[i][j] = 2;
-            		}
-            		else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==15) {/** '-' */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==16) {/** as */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==17) {/** # */
-            			priorty[i][j] = 3;
-            		}
-        		}
-        		else if(i==8) {/** ) */
-        			if(j==0||j==1) {/** +- */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==2||j==3) {/** *\ */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==4||j==5||j==6) {/** uint double ident */
-            			priorty[i][j] = 3;
-            		}
-            		else if(j==7) {/** ( */
-            			priorty[i][j] = 3;
-            		}
-            		else if(j==8) {/** ) */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==15) {/** '-' */
-            			priorty[i][j] = 3;
-            		}
-            		else if(j==16) {/** as */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==17) {/** # */
-            			priorty[i][j] = 1;
-            		}
-        		}
-        		else if(i==9||i==10||i==11||i==12||i==13||i==14) {/** == != < > <= >= */
-        			if(j==0||j==1) {/** +- */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==2||j==3) {/** *\ */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==4||j==5||j==6) {/** uint double ident */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==7) {/** ( */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==8) {/** ) */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==15) {/** '-' */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==16) {/** as */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==17) {/** # */
-            			priorty[i][j] = 1;
-            		}
-        		}
-        		else if(i==15) {/** '-' */
-        			if(j==0||j==1) {/** +- */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==2||j==3) {/** *\ */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==4||j==5||j==6) {/** uint double ident */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==7) {/** ( */
-            			priorty[i][j] = 3;
-            		}
-            		else if(j==8) {/** ) */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==15) {/** '-' */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==16) {/** as */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==17) {/** # */
-            			priorty[i][j] = 1;
-            		}
-        		}
-        		else if(i==16) {/** as */
-        			if(j==0||j==1) {/** +- */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==2||j==3) {/** *\ */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==4||j==5||j==6) {/** uint double ident */
-            			priorty[i][j] = 3;
-            		}
-            		else if(j==7) {/** ( */
-            			priorty[i][j] = 3;
-            		}
-            		else if(j==8) {/** ) */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==15) {/** '-' */
-            			priorty[i][j] = 3;
-            		}
-            		else if(j==16) {/** as */
-            			priorty[i][j] = 1;
-            		}
-            		else if(j==17) {/** # */
-            			priorty[i][j] = 1;
-            		}
-        		}
-        		else if(i==17) {/** # */
-        			if(j==0||j==1) {/** +- */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==2||j==3) {/** *\ */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==4||j==5||j==6) {/** uint double ident */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==7) {/** ( */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==8) {/** ) */
-            			priorty[i][j] = 3;
-            		}
-            		else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==15) {/** '-' */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==16) {/** as */
-            			priorty[i][j] = 0;
-            		}
-            		else if(j==17) {/** # */
-            			priorty[i][j] = 4;
-            		}
-        		}
-        	}
-        }
-        for(int i=0;i<1000;i++) {
-        	this.ifReturn[i] = -1;
-        }
-        functionLPRecent.add(-1000);
-    }
-    
-    public byte[] Assemble() {
-    	return this.assembler.toByte();
-    }
+		 */
+		/** +- */
+		priortyToken[0] = TokenType.PLUS;
+		priortyToken[1] = TokenType.MINUS;
+		/** *\ */
+		priortyToken[2] = TokenType.MUL;
+		priortyToken[3] = TokenType.DIV;
+		/** uint double ident */
+		priortyToken[4] = TokenType.UINT_LITERAL;
+		priortyToken[5] = TokenType.DOUBLE_LITERAL;
+		priortyToken[6] = TokenType.IDENT;
+		/** ( */
+		priortyToken[7] = TokenType.L_PAREN;
+		/** ) */
+		priortyToken[8] = TokenType.R_PAREN;
+		/** == != < > <= >= */
+		priortyToken[9] = TokenType.EQ;
+		priortyToken[10] = TokenType.NEQ;
+		priortyToken[11] = TokenType.LT;
+		priortyToken[12] = TokenType.GT;
+		priortyToken[13] = TokenType.LE;
+		priortyToken[14] = TokenType.GE;
+		/** '-' */
+		priortyToken[15] = TokenType.NEGATE;
+		/** as */
+		priortyToken[16] = TokenType.AS_KW;
+		/** # */
+		priortyToken[17] = TokenType.STOP;
+		for(int i=0;i<18;i++) {//Ê†àÂÜÖ Â∑¶
+			for(int j=0;j<18;j++) {//Ê†àÂ§ñ Âè≥
+				if(i==0||i==1) {/** +- */
+					if(j==0||j==1) {/** +- */
+						priorty[i][j] = 1;
+					}
+					else if(j==2||j==3) {/** *\ */
+						priorty[i][j] = 0;
+					}
+					else if(j==4||j==5||j==6) {/** uint double ident */
+						priorty[i][j] = 0;
+					}
+					else if(j==7) {/** ( */
+						priorty[i][j] = 0;
+					}
+					else if(j==8) {/** ) */
+						priorty[i][j] = 1;
+					}
+					else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
+						priorty[i][j] = 1;
+					}
+					else if(j==15) {/** '-' */
+						priorty[i][j] = 0;
+					}
+					else if(j==16) {/** as */
+						priorty[i][j] = 0;
+					}
+					else if(j==17) {/** # */
+						priorty[i][j] = 1;
+					}
+				}
+				else if(i==2||i==3) {/** *\ */
+					if(j==0||j==1) {/** +- */
+						priorty[i][j] = 1;
+					}
+					else if(j==2||j==3) {/** *\ */
+						priorty[i][j] = 1;
+					}
+					else if(j==4||j==5||j==6) {/** uint double ident */
+						priorty[i][j] = 0;
+					}
+					else if(j==7) {/** ( */
+						priorty[i][j] = 0;
+					}
+					else if(j==8) {/** ) */
+						priorty[i][j] = 1;
+					}
+					else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
+						priorty[i][j] = 1;
+					}
+					else if(j==15) {/** '-' */
+						priorty[i][j] = 0;
+					}
+					else if(j==16) {/** as */
+						priorty[i][j] = 0;
+					}
+					else if(j==17) {/** # */
+						priorty[i][j] = 1;
+					}
+				}
+				else if(i==4||i==5||i==6) {/** uint double ident */
+					if(j==0||j==1) {/** +- */
+						priorty[i][j] = 1;
+					}
+					else if(j==2||j==3) {/** *\ */
+						priorty[i][j] = 1;
+					}
+					else if(j==4||j==5||j==6) {/** uint double ident */
+						priorty[i][j] = 3;
+					}
+					else if(j==7) {/** ( */
+						priorty[i][j] = 3;
+					}
+					else if(j==8) {/** ) */
+						priorty[i][j] = 1;
+					}
+					else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
+						priorty[i][j] = 1;
+					}
+					else if(j==15) {/** '-' */
+						priorty[i][j] = 3;
+					}
+					else if(j==16) {/** as */
+						priorty[i][j] = 1;
+					}
+					else if(j==17) {/** # */
+						priorty[i][j] = 1;
+					}
+				}
+				else if(i==7) {/** ( */
+					if(j==0||j==1) {/** +- */
+						priorty[i][j] = 0;
+					}
+					else if(j==2||j==3) {/** *\ */
+						priorty[i][j] = 0;
+					}
+					else if(j==4||j==5||j==6) {/** uint double ident */
+						priorty[i][j] = 0;
+					}
+					else if(j==7) {/** ( */
+						priorty[i][j] = 0;
+					}
+					else if(j==8) {/** ) */
+						priorty[i][j] = 2;
+					}
+					else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
+						priorty[i][j] = 0;
+					}
+					else if(j==15) {/** '-' */
+						priorty[i][j] = 0;
+					}
+					else if(j==16) {/** as */
+						priorty[i][j] = 0;
+					}
+					else if(j==17) {/** # */
+						priorty[i][j] = 3;
+					}
+				}
+				else if(i==8) {/** ) */
+					if(j==0||j==1) {/** +- */
+						priorty[i][j] = 1;
+					}
+					else if(j==2||j==3) {/** *\ */
+						priorty[i][j] = 1;
+					}
+					else if(j==4||j==5||j==6) {/** uint double ident */
+						priorty[i][j] = 3;
+					}
+					else if(j==7) {/** ( */
+						priorty[i][j] = 3;
+					}
+					else if(j==8) {/** ) */
+						priorty[i][j] = 1;
+					}
+					else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
+						priorty[i][j] = 1;
+					}
+					else if(j==15) {/** '-' */
+						priorty[i][j] = 3;
+					}
+					else if(j==16) {/** as */
+						priorty[i][j] = 1;
+					}
+					else if(j==17) {/** # */
+						priorty[i][j] = 1;
+					}
+				}
+				else if(i==9||i==10||i==11||i==12||i==13||i==14) {/** == != < > <= >= */
+					if(j==0||j==1) {/** +- */
+						priorty[i][j] = 0;
+					}
+					else if(j==2||j==3) {/** *\ */
+						priorty[i][j] = 0;
+					}
+					else if(j==4||j==5||j==6) {/** uint double ident */
+						priorty[i][j] = 0;
+					}
+					else if(j==7) {/** ( */
+						priorty[i][j] = 0;
+					}
+					else if(j==8) {/** ) */
+						priorty[i][j] = 1;
+					}
+					else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
+						priorty[i][j] = 1;
+					}
+					else if(j==15) {/** '-' */
+						priorty[i][j] = 0;
+					}
+					else if(j==16) {/** as */
+						priorty[i][j] = 0;
+					}
+					else if(j==17) {/** # */
+						priorty[i][j] = 1;
+					}
+				}
+				else if(i==15) {/** '-' */
+					if(j==0||j==1) {/** +- */
+						priorty[i][j] = 1;
+					}
+					else if(j==2||j==3) {/** *\ */
+						priorty[i][j] = 1;
+					}
+					else if(j==4||j==5||j==6) {/** uint double ident */
+						priorty[i][j] = 0;
+					}
+					else if(j==7) {/** ( */
+						priorty[i][j] = 3;
+					}
+					else if(j==8) {/** ) */
+						priorty[i][j] = 1;
+					}
+					else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
+						priorty[i][j] = 1;
+					}
+					else if(j==15) {/** '-' */
+						priorty[i][j] = 0;
+					}
+					else if(j==16) {/** as */
+						priorty[i][j] = 1;
+					}
+					else if(j==17) {/** # */
+						priorty[i][j] = 1;
+					}
+				}
+				else if(i==16) {/** as */
+					if(j==0||j==1) {/** +- */
+						priorty[i][j] = 1;
+					}
+					else if(j==2||j==3) {/** *\ */
+						priorty[i][j] = 1;
+					}
+					else if(j==4||j==5||j==6) {/** uint double ident */
+						priorty[i][j] = 3;
+					}
+					else if(j==7) {/** ( */
+						priorty[i][j] = 3;
+					}
+					else if(j==8) {/** ) */
+						priorty[i][j] = 1;
+					}
+					else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
+						priorty[i][j] = 1;
+					}
+					else if(j==15) {/** '-' */
+						priorty[i][j] = 3;
+					}
+					else if(j==16) {/** as */
+						priorty[i][j] = 1;
+					}
+					else if(j==17) {/** # */
+						priorty[i][j] = 1;
+					}
+				}
+				else if(i==17) {/** # */
+					if(j==0||j==1) {/** +- */
+						priorty[i][j] = 0;
+					}
+					else if(j==2||j==3) {/** *\ */
+						priorty[i][j] = 0;
+					}
+					else if(j==4||j==5||j==6) {/** uint double ident */
+						priorty[i][j] = 0;
+					}
+					else if(j==7) {/** ( */
+						priorty[i][j] = 0;
+					}
+					else if(j==8) {/** ) */
+						priorty[i][j] = 3;
+					}
+					else if(j==9||j==10||j==11||j==12||j==13||j==14) {/** == != < > <= >= */
+						priorty[i][j] = 0;
+					}
+					else if(j==15) {/** '-' */
+						priorty[i][j] = 0;
+					}
+					else if(j==16) {/** as */
+						priorty[i][j] = 0;
+					}
+					else if(j==17) {/** # */
+						priorty[i][j] = 4;
+					}
+				}
+			}
+		}
+		for(int i=0;i<1000;i++) {
+			this.ifReturn[i] = -1;
+		}
+		functionLPRecent.add(-1000);
+	}
 
-    public void analyse() throws CompileError {
-    	SymbolTable.levelup();
-    	initSystemcall();
-        analyseProgram();
-        startAtMain();
-    }
+	public byte[] Assemble() {
+		return this.assembler.toByte();
+	}
 
-    /**
-     * ≤Èø¥œ¬“ª∏ˆ Token
-     * 
-     * @return
-     * @throws TokenizeError
-     */
-    private Token peek() throws TokenizeError {
-        if (peekedToken == null) {
-            peekedToken = tokenizer.nextToken();
-        }
-        return peekedToken;
-    }
+	public void analyse() throws CompileError {
+		SymbolTable.levelup();
+		initSystemcall();
+		analyseProgram();
+		startAtMain();
+	}
 
-    /**
-     * ªÒ»°œ¬“ª∏ˆ Token
-     * 
-     * @return
-     * @throws TokenizeError
-     */
-    private Token next() throws TokenizeError {
-        if (peekedToken != null) {
-            var token = peekedToken;
-            peekedToken = null;
-            return token;
-        } else {
-            return tokenizer.nextToken();
-        }
-    }
+	/**
+	 * Êü•Áúã‰∏ã‰∏Ä‰∏™ Token
+	 *
+	 * @return
+	 * @throws TokenizeError
+	 */
+	private Token peek() throws TokenizeError {
+		if (peekedToken == null) {
+			peekedToken = tokenizer.nextToken();
+		}
+		return peekedToken;
+	}
 
-    /**
-     * »Áπ˚œ¬“ª∏ˆ token µƒ¿‡–Õ « tt£¨‘Ú∑µªÿ true
-     * 
-     * @param tt
-     * @return
-     * @throws TokenizeError
-     */
-    private boolean check(TokenType tt) throws TokenizeError {
-        var token = peek();
-        return token.getTokenType() == tt;
-    }
+	/**
+	 * Ëé∑Âèñ‰∏ã‰∏Ä‰∏™ Token
+	 *
+	 * @return
+	 * @throws TokenizeError
+	 */
+	private Token next() throws TokenizeError {
+		if (peekedToken != null) {
+			var token = peekedToken;
+			peekedToken = null;
+			return token;
+		} else {
+			return tokenizer.nextToken();
+		}
+	}
 
-    /**
-     * »Áπ˚œ¬“ª∏ˆ token µƒ¿‡–Õ « tt£¨‘Ú«∞Ω¯“ª∏ˆ token ≤¢∑µªÿ’‚∏ˆ token
-     * 
-     * @param tt ¿‡–Õ
-     * @return »Áπ˚∆•≈‰‘Ú∑µªÿ’‚∏ˆ token£¨∑Ò‘Ú∑µªÿ null
-     * @throws TokenizeError
-     */
-    private Token nextIf(TokenType tt) throws TokenizeError {
-        var token = peek();
-        if (token.getTokenType() == tt) {
-            return next();
-        } else {
-            return null;
-        }
-    }
-    
-    /**
-     * »Áπ˚œ¬“ª∏ˆ token µƒ¿‡–Õ « tt£¨‘Ú«∞Ω¯“ª∏ˆ token ≤¢∑µªÿ’‚∏ˆ token
-     * 
-     * @param tt ¿‡–Õ
-     * @return »Áπ˚∆•≈‰‘Ú∑µªÿ’‚∏ˆ token£¨∑Ò‘Ú∑µªÿ null
-     * @throws TokenizeError
-     */
-    private Token seekIf(TokenType tt) throws TokenizeError {
-        var token = peek();
-        if (token.getTokenType() == tt) {
-            return token;
-        } else {
-            return null;
-        }
-    }
+	/**
+	 * Â¶ÇÊûú‰∏ã‰∏Ä‰∏™ token ÁöÑÁ±ªÂûãÊòØ ttÔºåÂàôËøîÂõû true
+	 *
+	 * @param tt
+	 * @return
+	 * @throws TokenizeError
+	 */
+	private boolean check(TokenType tt) throws TokenizeError {
+		var token = peek();
+		return token.getTokenType() == tt;
+	}
 
-    /**
-     * »Áπ˚œ¬“ª∏ˆ token µƒ¿‡–Õ « tt£¨‘Ú«∞Ω¯“ª∏ˆ token ≤¢∑µªÿ£¨∑Ò‘Ú≈◊≥ˆ“Ï≥£
-     * 
-     * @param tt ¿‡–Õ
-     * @return ’‚∏ˆ token
-     * @throws CompileError »Áπ˚¿‡–Õ≤ª∆•≈‰
-     */
-    private Token expect(TokenType tt) throws CompileError {
-        var token = peek();
-        if (token.getTokenType() == tt) {
-            return next();
-        } else {
-            throw new ExpectedTokenError(tt, token);
-        }
-    }
-    
-    /**
-     * ∂¡»Î“ª∏ˆ”–∑˚∫≈’˚ ˝
+	/**
+	 * Â¶ÇÊûú‰∏ã‰∏Ä‰∏™ token ÁöÑÁ±ªÂûãÊòØ ttÔºåÂàôÂâçËøõ‰∏Ä‰∏™ token Âπ∂ËøîÂõûËøô‰∏™ token
+	 *
+	 * @param tt Á±ªÂûã
+	 * @return Â¶ÇÊûúÂåπÈÖçÂàôËøîÂõûËøô‰∏™ tokenÔºåÂê¶ÂàôËøîÂõû null
+	 * @throws TokenizeError
+	 */
+	private Token nextIf(TokenType tt) throws TokenizeError {
+		var token = peek();
+		if (token.getTokenType() == tt) {
+			return next();
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Â¶ÇÊûú‰∏ã‰∏Ä‰∏™ token ÁöÑÁ±ªÂûãÊòØ ttÔºåÂàôÂâçËøõ‰∏Ä‰∏™ token Âπ∂ËøîÂõûËøô‰∏™ token
+	 *
+	 * @param tt Á±ªÂûã
+	 * @return Â¶ÇÊûúÂåπÈÖçÂàôËøîÂõûËøô‰∏™ tokenÔºåÂê¶ÂàôËøîÂõû null
+	 * @throws TokenizeError
+	 */
+	private Token seekIf(TokenType tt) throws TokenizeError {
+		var token = peek();
+		if (token.getTokenType() == tt) {
+			return token;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * Â¶ÇÊûú‰∏ã‰∏Ä‰∏™ token ÁöÑÁ±ªÂûãÊòØ ttÔºåÂàôÂâçËøõ‰∏Ä‰∏™ token Âπ∂ËøîÂõûÔºåÂê¶ÂàôÊäõÂá∫ÂºÇÂ∏∏
+	 *
+	 * @param tt Á±ªÂûã
+	 * @return Ëøô‰∏™ token
+	 * @throws CompileError Â¶ÇÊûúÁ±ªÂûã‰∏çÂåπÈÖç
+	 */
+	private Token expect(TokenType tt) throws CompileError {
+		var token = peek();
+		if (token.getTokenType() == tt) {
+			return next();
+		} else {
+			throw new ExpectedTokenError(tt, token);
+		}
+	}
+
+	/**
+	 * ËØªÂÖ•‰∏Ä‰∏™ÊúâÁ¨¶Âè∑Êï¥Êï∞
 	 * fn getint() -> int
-	 * ∂¡»Î“ª∏ˆ∏°µ„ ˝
+	 * ËØªÂÖ•‰∏Ä‰∏™ÊµÆÁÇπÊï∞
 	 * fn getdouble() -> double
-	 * ∂¡»Î“ª∏ˆ◊÷∑˚
+	 * ËØªÂÖ•‰∏Ä‰∏™Â≠óÁ¨¶
 	 * fn getchar() -> int
-	 *  ‰≥ˆ“ª∏ˆ’˚ ˝
+	 * ËæìÂá∫‰∏Ä‰∏™Êï¥Êï∞
 	 * fn putint(int) -> void
-	 *  ‰≥ˆ“ª∏ˆ∏°µ„ ˝
+	 * ËæìÂá∫‰∏Ä‰∏™ÊµÆÁÇπÊï∞
 	 * fn putdouble(double) -> void
-	 *  ‰≥ˆ“ª∏ˆ◊÷∑˚
+	 * ËæìÂá∫‰∏Ä‰∏™Â≠óÁ¨¶
 	 * fn putchar(int) -> void
-	 * Ω´±‡∫≈Œ™’‚∏ˆ’˚ ˝µƒ»´æ÷≥£¡øø¥◊˜◊÷∑˚¥Æ ‰≥ˆ
+	 * Â∞ÜÁºñÂè∑‰∏∫Ëøô‰∏™Êï¥Êï∞ÁöÑÂÖ®Â±ÄÂ∏∏ÈáèÁúã‰ΩúÂ≠óÁ¨¶‰∏≤ËæìÂá∫
 	 * fn putstr(int) -> void
-	 *  ‰≥ˆ“ª∏ˆªª––
+	 * ËæìÂá∫‰∏Ä‰∏™Êç¢Ë°å
 	 * fn putln() -> void
-     * @throws CompileError
-     */
-    private void initSystemcall() throws CompileError {
-    	Pos startPos = new Pos(0,0);
-    	/** 
-    	 * ∂¡»Î“ª∏ˆ”–∑˚∫≈’˚ ˝
-    	 * fn getint() -> int
-	 	 */
-    	level ++;
-    	SymbolTable.levelup();
-    	SymbolTable.insertFunctionEntry("getint", SymbolType.Function, DataType.INT, functionOffset, startPos);
-    	level --;
-    	SymbolTable.leveldown();
-    	/** 
-    	 * ∂¡»Î“ª∏ˆ∏°µ„ ˝
-    	 * fn getdouble() -> double
-	 	 */
-    	level ++;
-    	SymbolTable.levelup();
-    	SymbolTable.insertFunctionEntry("getdouble", SymbolType.Function, DataType.DOUBLE, functionOffset, startPos);
-    	level --;
-    	SymbolTable.leveldown();
-    	/** 
-    	 * ∂¡»Î“ª∏ˆ◊÷∑˚
-    	 * fn getchar() -> int
-	 	 */
-    	level ++;
-    	SymbolTable.levelup();
-    	SymbolTable.insertFunctionEntry("getchar", SymbolType.Function, DataType.INT, functionOffset, startPos);
-    	level --;
-    	SymbolTable.leveldown();
-    	/** 
-    	 *  ‰≥ˆ“ª∏ˆ’˚ ˝
-    	 * fn putint(int) -> void
-	 	 */
-    	level ++;
-    	SymbolTable.levelup();
-    	SymbolTable.insertFunctionEntry("putint", SymbolType.Function, DataType.VOID, functionOffset, startPos);
-    	//’‚≤„‘ˆº”’‚∏ˆ≤Œ ˝
-        SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.INT, 1, startPos);
-        //∫Ø ˝‘ˆº”“ª∏ˆ≤Œ ˝
-        SymbolTable.updateFunctionCallList("putint", "x", startPos);
-        level --;
-    	SymbolTable.leveldown();
-    	/** 
-    	 *  ‰≥ˆ“ª∏ˆ∏°µ„ ˝
-    	 * fn putdouble(double) -> void
-	 	 */
-        level ++;
-    	SymbolTable.levelup();
-    	SymbolTable.insertFunctionEntry("putdouble", SymbolType.Function, DataType.VOID, functionOffset, startPos);
-    	//’‚≤„‘ˆº”’‚∏ˆ≤Œ ˝
-        SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.DOUBLE, 1, startPos);
-        //∫Ø ˝‘ˆº”“ª∏ˆ≤Œ ˝
-        SymbolTable.updateFunctionCallList("putdouble", "x", startPos);
-        level --;
-    	SymbolTable.leveldown();
-    	/** 
-    	 *  ‰≥ˆ“ª∏ˆ◊÷∑˚
-    	 * fn putchar(int) -> void
-	 	 */
-        level ++;
-    	SymbolTable.levelup();
-    	SymbolTable.insertFunctionEntry("putchar", SymbolType.Function, DataType.VOID, functionOffset, startPos);
-    	//’‚≤„‘ˆº”’‚∏ˆ≤Œ ˝
-        SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.INT, 1, startPos);
-        //∫Ø ˝‘ˆº”“ª∏ˆ≤Œ ˝
-        SymbolTable.updateFunctionCallList("putchar", "x", startPos);
-        level --;
-    	SymbolTable.leveldown();
-    	/** 
-    	 * Ω´±‡∫≈Œ™’‚∏ˆ’˚ ˝µƒ»´æ÷≥£¡øø¥◊˜◊÷∑˚¥Æ ‰≥ˆ
-    	 * fn putstr(int) -> void
-	 	 */
-        level ++;
-    	SymbolTable.levelup();
-    	SymbolTable.insertFunctionEntry("putstr", SymbolType.Function, DataType.VOID, functionOffset, startPos);
-    	//’‚≤„‘ˆº”’‚∏ˆ≤Œ ˝
-        SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.INT, 1, startPos);
-        //∫Ø ˝‘ˆº”“ª∏ˆ≤Œ ˝
-        SymbolTable.updateFunctionCallList("putstr", "x", startPos);
-        level --;
-    	SymbolTable.leveldown();
-    	/** 
-    	 *  ‰≥ˆ“ª∏ˆªª––
-    	 * fn putln() -> void
-	 	 */
-        level ++;
-    	SymbolTable.levelup();
-    	SymbolTable.insertFunctionEntry("putln", SymbolType.Function, DataType.VOID, functionOffset, startPos);
-    	level --;
-    	SymbolTable.leveldown();
-    }
-    
-    /**
-     * 
-     * @throws CompileError
-     */
-    private void startAtMain() throws CompileError {
-    	Pos pos = new Pos(0,0);
-    	if(SymbolTable.findFunctionEntry("main") != null) {
-    		
-    	}
-    	else {
-    		throw new AnalyzeError(ErrorCode.NoBegin,pos);
-    	}
-    }
-    
-    /**
-     * program -> item*
-    */
-    private void analyseProgram() throws CompileError {
-        //—≠ª∑ºÏ≤È «∑Ò≥Ã–ÚŒ≤≤ø
-        while(!check(TokenType.EOF)){
-            analyseItem();
-        }
-        expect(TokenType.EOF);
-    }
+	 * @throws CompileError
+	 */
+	private void initSystemcall() throws CompileError {
+		Pos startPos = new Pos(0,0);
+		/**
+		 * ËØªÂÖ•‰∏Ä‰∏™ÊúâÁ¨¶Âè∑Êï¥Êï∞
+		 * fn getint() -> int
+		 */
+		level ++;
+		SymbolTable.levelup();
+		SymbolTable.insertFunctionEntry("getint", SymbolType.Function, DataType.INT, functionOffset, startPos);
+		level --;
+		SymbolTable.leveldown();
+		/**
+		 * ËØªÂÖ•‰∏Ä‰∏™ÊµÆÁÇπÊï∞
+		 * fn getdouble() -> double
+		 */
+		level ++;
+		SymbolTable.levelup();
+		SymbolTable.insertFunctionEntry("getdouble", SymbolType.Function, DataType.DOUBLE, functionOffset, startPos);
+		level --;
+		SymbolTable.leveldown();
+		/**
+		 * ËØªÂÖ•‰∏Ä‰∏™Â≠óÁ¨¶
+		 * fn getchar() -> int
+		 */
+		level ++;
+		SymbolTable.levelup();
+		SymbolTable.insertFunctionEntry("getchar", SymbolType.Function, DataType.INT, functionOffset, startPos);
+		level --;
+		SymbolTable.leveldown();
+		/**
+		 * ËæìÂá∫‰∏Ä‰∏™Êï¥Êï∞
+		 * fn putint(int) -> void
+		 */
+		level ++;
+		SymbolTable.levelup();
+		SymbolTable.insertFunctionEntry("putint", SymbolType.Function, DataType.VOID, functionOffset, startPos);
+		//ËøôÂ±ÇÂ¢ûÂä†Ëøô‰∏™ÂèÇÊï∞
+		SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.INT, 1, startPos);
+		//ÂáΩÊï∞Â¢ûÂä†‰∏Ä‰∏™ÂèÇÊï∞
+		SymbolTable.updateFunctionCallList("putint", "x", startPos);
+		level --;
+		SymbolTable.leveldown();
+		/**
+		 * ËæìÂá∫‰∏Ä‰∏™ÊµÆÁÇπÊï∞
+		 * fn putdouble(double) -> void
+		 */
+		level ++;
+		SymbolTable.levelup();
+		SymbolTable.insertFunctionEntry("putdouble", SymbolType.Function, DataType.VOID, functionOffset, startPos);
+		//ËøôÂ±ÇÂ¢ûÂä†Ëøô‰∏™ÂèÇÊï∞
+		SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.DOUBLE, 1, startPos);
+		//ÂáΩÊï∞Â¢ûÂä†‰∏Ä‰∏™ÂèÇÊï∞
+		SymbolTable.updateFunctionCallList("putdouble", "x", startPos);
+		level --;
+		SymbolTable.leveldown();
+		/**
+		 * ËæìÂá∫‰∏Ä‰∏™Â≠óÁ¨¶
+		 * fn putchar(int) -> void
+		 */
+		level ++;
+		SymbolTable.levelup();
+		SymbolTable.insertFunctionEntry("putchar", SymbolType.Function, DataType.VOID, functionOffset, startPos);
+		//ËøôÂ±ÇÂ¢ûÂä†Ëøô‰∏™ÂèÇÊï∞
+		SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.INT, 1, startPos);
+		//ÂáΩÊï∞Â¢ûÂä†‰∏Ä‰∏™ÂèÇÊï∞
+		SymbolTable.updateFunctionCallList("putchar", "x", startPos);
+		level --;
+		SymbolTable.leveldown();
+		/**
+		 * Â∞ÜÁºñÂè∑‰∏∫Ëøô‰∏™Êï¥Êï∞ÁöÑÂÖ®Â±ÄÂ∏∏ÈáèÁúã‰ΩúÂ≠óÁ¨¶‰∏≤ËæìÂá∫
+		 * fn putstr(int) -> void
+		 */
+		level ++;
+		SymbolTable.levelup();
+		SymbolTable.insertFunctionEntry("putstr", SymbolType.Function, DataType.VOID, functionOffset, startPos);
+		//ËøôÂ±ÇÂ¢ûÂä†Ëøô‰∏™ÂèÇÊï∞
+		SymbolTable.insertVarEntry(1, "x", true, false, SymbolType.Variable, DataType.INT, 1, startPos);
+		//ÂáΩÊï∞Â¢ûÂä†‰∏Ä‰∏™ÂèÇÊï∞
+		SymbolTable.updateFunctionCallList("putstr", "x", startPos);
+		level --;
+		SymbolTable.leveldown();
+		/**
+		 * ËæìÂá∫‰∏Ä‰∏™Êç¢Ë°å
+		 * fn putln() -> void
+		 */
+		level ++;
+		SymbolTable.levelup();
+		SymbolTable.insertFunctionEntry("putln", SymbolType.Function, DataType.VOID, functionOffset, startPos);
+		level --;
+		SymbolTable.leveldown();
+	}
+
+	/**
+	 *
+	 * @throws CompileError
+	 */
+	private void startAtMain() throws CompileError {
+		Pos pos = new Pos(0,0);
+		if(SymbolTable.findFunctionEntry("main") != null) {
+
+		}
+		else {
+			throw new AnalyzeError(ErrorCode.NoBegin,pos);
+		}
+	}
+
+	/**
+	 * program -> item*
+	 */
+	private void analyseProgram() throws CompileError {
+		//Âæ™ÁéØÊ£ÄÊü•ÊòØÂê¶Á®ãÂ∫èÂ∞æÈÉ®
+		while(!check(TokenType.EOF)){
+			analyseItem();
+		}
+		expect(TokenType.EOF);
+	}
 
 
-    /**
-     * item -> function | decl_stmt
-     */
-    private void analyseItem() throws CompileError {
-        // ºÏ≤Èµ⁄“ª∏ˆµ•¥  «≤ª «fn
-        if(check(TokenType.FN_KW)){
-            analyseFuc();
-        }
-        //ºÏ≤È «≤ª «±‰¡ø…˘√˜”Ôæ‰
-        else if(check(TokenType.LET_KW)||check(TokenType.CONST_KW)){
-            analyseDeclStmt();
-        }
-        else{
-            expect(TokenType.FN_KW);
-            expect(TokenType.LET_KW);
-            expect(TokenType.CONST_KW);
-        }
-    }
+	/**
+	 * item -> function | decl_stmt
+	 */
+	private void analyseItem() throws CompileError {
+		// Ê£ÄÊü•Á¨¨‰∏Ä‰∏™ÂçïËØçÊòØ‰∏çÊòØfn
+		if(check(TokenType.FN_KW)){
+			analyseFuc();
+		}
+		//Ê£ÄÊü•ÊòØ‰∏çÊòØÂèòÈáèÂ£∞ÊòéËØ≠Âè•
+		else if(check(TokenType.LET_KW)||check(TokenType.CONST_KW)){
+			analyseDeclStmt();
+		}
+		else{
+			expect(TokenType.FN_KW);
+			expect(TokenType.LET_KW);
+			expect(TokenType.CONST_KW);
+		}
+	}
 
-    /**
-     * function -> 'fn' IDENT '(' function_param_list? ')' '->' ty block_stmt
-     */
-    private void analyseFuc() throws CompileError {
-    	DataType datatype = null;//∑µªÿ÷µ¿‡–Õ
-    	FunctionEntry functionEntry;//…˙≥…µƒ∫Ø ˝∑˚∫≈
-    	GlobalDef funcDef;
-    	FunctionDef funcDefi;
-    	String fucName;//∫Ø ˝√˚≥∆
-    	int offset = 0;
-        // ºÏ≤Èµ⁄“ª∏ˆµ•¥  «≤ª «fn
-        expect(TokenType.FN_KW);
-        var fucNameToken = expect(TokenType.IDENT);
-        fucName = (String) fucNameToken.getValue();
-        functionEntry = SymbolTable.insertFunctionEntry(fucName, SymbolType.Function, null, functionOffset,fucNameToken.getStartPos());
-        //String name, SymbolType symboltype, DataType datatype, int offset, Pos pos
-        expect(TokenType.L_PAREN);
-        LPNum ++;
-        level ++;
-        SymbolTable.levelup();
-        if(!TokenType.R_PAREN.equals(peek().getTokenType())) {
-        	offset = analyseFuncList(fucNameToken);
-        }
-        functionEntry.setVarOffset(offset);
-        expect(TokenType.R_PAREN);
-        LPNum --;
-        expect(TokenType.ARROW);
-        /**
-         * ty -> IDENT
-         */
-        var fucTypeToken = expect(TokenType.IDENT);
-        if(((String)fucTypeToken.getValue()).equals("int")) {
-        	datatype = DataType.INT;
-        	isVoid = false;
-        }
-        else if(((String)fucTypeToken.getValue()).equals("double")) {
-        	datatype = DataType.DOUBLE;
-        	isVoid = false;
-        }
-        else if(((String)fucTypeToken.getValue()).equals("void")) {
-        	datatype = DataType.VOID;
-        	isVoid = true;
-        }
-        else {
-        	throw new AnalyzeError(ErrorCode.InvalidVariableDeclaration,fucTypeToken.getStartPos());
-        }
-        functionEntry.datatype = datatype;
-        nowReturn = datatype;
-        System.out.println("nowReturn:"+nowReturn);
-        funcDef = new GlobalDef(true, functionEntry);
-        assembler.addGlobalDef(funcDef, functionEntry.name);
-        funcDefi = new FunctionDef(functionEntry);
-        assembler.addFunctionDef(funcDefi, functionEntry.name);
-        funcDefi.updateNameOffset(assembler.findGlobalDefID(funcDef));
-        nowFunc = functionEntry;
-        analyseFucBlockStmt();
-        nowFunc = null;
+	/**
+	 * function -> 'fn' IDENT '(' function_param_list? ')' '->' ty block_stmt
+	 */
+	private void analyseFuc() throws CompileError {
+		DataType datatype = null;//ËøîÂõûÂÄºÁ±ªÂûã
+		FunctionEntry functionEntry;//ÁîüÊàêÁöÑÂáΩÊï∞Á¨¶Âè∑
+		GlobalDef funcDef;
+		FunctionDef funcDefi;
+		String fucName;//ÂáΩÊï∞ÂêçÁß∞
+		int offset = 0;
+		// Ê£ÄÊü•Á¨¨‰∏Ä‰∏™ÂçïËØçÊòØ‰∏çÊòØfn
+		expect(TokenType.FN_KW);
+		var fucNameToken = expect(TokenType.IDENT);
+		fucName = (String) fucNameToken.getValue();
+		functionEntry = SymbolTable.insertFunctionEntry(fucName, SymbolType.Function, null, functionOffset,fucNameToken.getStartPos());
+		//String name, SymbolType symboltype, DataType datatype, int offset, Pos pos
+		expect(TokenType.L_PAREN);
+		LPNum ++;
+		level ++;
+		SymbolTable.levelup();
+		if(!TokenType.R_PAREN.equals(peek().getTokenType())) {
+			offset = analyseFuncList(fucNameToken);
+		}
+		functionEntry.setVarOffset(offset);
+		expect(TokenType.R_PAREN);
+		LPNum --;
+		expect(TokenType.ARROW);
+		/**
+		 * ty -> IDENT
+		 */
+		var fucTypeToken = expect(TokenType.IDENT);
+		if(((String)fucTypeToken.getValue()).equals("int")) {
+			datatype = DataType.INT;
+			isVoid = false;
+		}
+		else if(((String)fucTypeToken.getValue()).equals("double")) {
+			datatype = DataType.DOUBLE;
+			isVoid = false;
+		}
+		else if(((String)fucTypeToken.getValue()).equals("void")) {
+			datatype = DataType.VOID;
+			isVoid = true;
+		}
+		else {
+			throw new AnalyzeError(ErrorCode.InvalidVariableDeclaration,fucTypeToken.getStartPos());
+		}
+		functionEntry.datatype = datatype;
+		nowReturn = datatype;
+		System.out.println("nowReturn:"+nowReturn);
+		funcDef = new GlobalDef(true, functionEntry);
+		assembler.addGlobalDef(funcDef, functionEntry.name);
+		funcDefi = new FunctionDef(functionEntry);
+		assembler.addFunctionDef(funcDefi, functionEntry.name);
+		funcDefi.updateNameOffset(assembler.findGlobalDefID(funcDef));
+		nowFunc = functionEntry;
+		analyseFucBlockStmt();
+		nowFunc = null;
 //        checkFlow();
-    }
+	}
 
-    /**
-     * function_param_list -> function_param (',' function_param)*
-     */
-    private int analyseFuncList(Token fucNameToken) throws CompileError {
-        int offset = 0;
-    	analyseFucPara(fucNameToken,offset);
-        offset ++;
-        while(nextIf(TokenType.COMMA)!=null){
-            analyseFucPara(fucNameToken,offset);
-            offset ++;
-        }
-        return offset;
-    }
+	/**
+	 * function_param_list -> function_param (',' function_param)*
+	 */
+	private int analyseFuncList(Token fucNameToken) throws CompileError {
+		int offset = 0;
+		analyseFucPara(fucNameToken,offset);
+		offset ++;
+		while(nextIf(TokenType.COMMA)!=null){
+			analyseFucPara(fucNameToken,offset);
+			offset ++;
+		}
+		return offset;
+	}
 
-    /**
-     * function_param -> const? IDENT ':' ty 
-     */
-    private void analyseFucPara(Token fucNameToken,int offset) throws CompileError {
-    	DataType datatype = null;// ˝æ›¿‡–Õ
-    	SymbolType symbolType = null;
-    	String varName = null;//≤Œ ˝√˚
-    	String fucName = (String)fucNameToken.getValue();//∫Ø ˝√˚
-    	boolean isConst = false;
-    	if(nextIf(TokenType.CONST_KW)!=null) {
-    		isConst = true;
-    		symbolType = SymbolType.Constant;
-    	}
-    	else {
-    		symbolType = SymbolType.Variable;
-    	}
-    	var paraNameToken = expect(TokenType.IDENT);
-    	varName = (String)paraNameToken.getValue();
-        expect(TokenType.COLON);
-        /**
-         * ty -> IDENT
-         */
-        var varTypeToken = expect(TokenType.IDENT);
-        if(((String)varTypeToken.getValue()).equals("int")) {
-        	datatype = DataType.INT;
-        }
-        else if(((String)varTypeToken.getValue()).equals("double")) {
-        	datatype = DataType.DOUBLE;
-        }
-        else if(((String)varTypeToken.getValue()).equals("void")) {
-        	datatype = DataType.VOID;
-        }
-        else {
-        	throw new AnalyzeError(ErrorCode.InvalidVariableDeclaration,varTypeToken.getStartPos());
-        }
-        //’‚≤„‘ˆº”’‚∏ˆ≤Œ ˝
-        SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
-        //∫Ø ˝‘ˆº”“ª∏ˆ≤Œ ˝
-        SymbolTable.updateFunctionCallList(fucName, varName, varTypeToken.getStartPos());
-    }
+	/**
+	 * function_param -> const? IDENT ':' ty
+	 */
+	private void analyseFucPara(Token fucNameToken,int offset) throws CompileError {
+		DataType datatype = null;//Êï∞ÊçÆÁ±ªÂûã
+		SymbolType symbolType = null;
+		String varName = null;//ÂèÇÊï∞Âêç
+		String fucName = (String)fucNameToken.getValue();//ÂáΩÊï∞Âêç
+		boolean isConst = false;
+		if(nextIf(TokenType.CONST_KW)!=null) {
+			isConst = true;
+			symbolType = SymbolType.Constant;
+		}
+		else {
+			symbolType = SymbolType.Variable;
+		}
+		var paraNameToken = expect(TokenType.IDENT);
+		varName = (String)paraNameToken.getValue();
+		expect(TokenType.COLON);
+		/**
+		 * ty -> IDENT
+		 */
+		var varTypeToken = expect(TokenType.IDENT);
+		if(((String)varTypeToken.getValue()).equals("int")) {
+			datatype = DataType.INT;
+		}
+		else if(((String)varTypeToken.getValue()).equals("double")) {
+			datatype = DataType.DOUBLE;
+		}
+		else if(((String)varTypeToken.getValue()).equals("void")) {
+			datatype = DataType.VOID;
+		}
+		else {
+			throw new AnalyzeError(ErrorCode.InvalidVariableDeclaration,varTypeToken.getStartPos());
+		}
+		//ËøôÂ±ÇÂ¢ûÂä†Ëøô‰∏™ÂèÇÊï∞
+		SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
+		//ÂáΩÊï∞Â¢ûÂä†‰∏Ä‰∏™ÂèÇÊï∞
+		SymbolTable.updateFunctionCallList(fucName, varName, varTypeToken.getStartPos());
+	}
 
-    /**
-     * …Ë÷√øÿ÷∆¡˜
-     */
-    private void setFlow() throws CompileError {
+	/**
+	 * ËÆæÁΩÆÊéßÂà∂ÊµÅ
+	 */
+	private void setFlow() throws CompileError {
 //    	System.out.println("num:"+level+" ifret:"+this.ifReturn[level]);
-    	if(this.ifReturn[level] == 1) {
-    		ifReturn[level-1] = 1;
-    	}
-    	else if(isVoid){
-    		ifReturn[level-1] = 1;
-    	}
-    	else {
-    		ifReturn[level-1] = 0;
-    	}
-    }
-    
-    /**
-     * ºÏ≤Èøÿ÷∆¡˜
-     */
-    private void checkFlow() throws CompileError {
-//    	System.out.println("num:"+level+" ifret:"+this.ifReturn[level]);
-    	if(this.ifReturn[1]==1) {
-    		for(int i=0;i<1000;i++) {
-            	this.ifReturn[i] = -1;
-            }
-    		return;
-    	}
-    	else {
-    		throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
-    	}
-    }
-    
-    /**
-     * block_stmt -> '{' stmt* '}'
-     */
-    private boolean analyseBlockStmt() throws CompileError {
-    	boolean haveStmt = true;
-    	level ++;
-    	SymbolTable.levelup();
-    	this.ifReturn[level] = 0;
-    	expect(TokenType.L_BRACE);
-    	int thisLevel  = level;
-    	if(check(TokenType.R_BRACE)) {
-    		haveStmt = false;
-    	}
-        while(!(check(TokenType.R_BRACE)&&(level == thisLevel))){
-            analyseStmt();
-        }
-        expect(TokenType.R_BRACE);
-        setFlow();
-    	level --;
-    	SymbolTable.leveldown();
-    	return haveStmt;
-    }
-    
-    /**
-     * block_stmt -> '{' stmt* '}'
-     */
-    private void analyseFucBlockStmt() throws CompileError {
-    	this.ifReturn[level] = 0;
-    	expect(TokenType.L_BRACE);
-    	int thisLevel  = level;
-        while(!(check(TokenType.R_BRACE)&&(level == thisLevel))){
-            analyseStmt();
-        }
-        expect(TokenType.R_BRACE);
-        setFlow();
-    	level --;
-    	SymbolTable.leveldown();
-    }
+		if(this.ifReturn[level] == 1) {
+			ifReturn[level-1] = 1;
+		}
+		else if(isVoid){
+			ifReturn[level-1] = 1;
+		}
+		else {
+			ifReturn[level-1] = 0;
+		}
+	}
 
-    /**
-     * stmt ->
-     * expr_stmt
-     * | decl_stmt
-     * | if_stmt
-     * | while_stmt
-     * | break_stmt
-     * | continue_stmt
-     * | return_stmt
-     * | block_stmt
-     * | empty_stmt
-     */
-    private void analyseStmt() throws CompileError {
-        if(check(TokenType.LET_KW)||check(TokenType.CONST_KW)){
-            analyseDeclStmt();
-        }
-        else if(check(TokenType.IF_KW)){
-            analyseIfStmt();
-        }
-        else if(check(TokenType.WHILE_KW)){
-            analyseWhileStmt();
-        }
-        else if(check(TokenType.BREAK_KW)){
-            analyseBreakStmt();
-        }
-        else if(check(TokenType.CONTINUE_KW)){
-            analyseContinueStmt();
-        }
-        else if(check(TokenType.RETURN_KW)){
-            ananlyseReturnStmt();
-        }
-        else if(check(TokenType.L_BRACE)){
-            analyseBlockStmt();
-        }
-        else if(check(TokenType.SEMICOLON)){
-            expect(TokenType.SEMICOLON);
-        }
-        else{
-            analyseExprStmt();
-        }
-    }
-    
-    /**
-     * decl_stmt -> let_decl_stmt | const_decl_stmt
-     * let_decl_stmt -> 'let' IDENT ':' ty ('=' expr)? ';'
+	/**
+	 * Ê£ÄÊü•ÊéßÂà∂ÊµÅ
+	 */
+	private void checkFlow() throws CompileError {
+//    	System.out.println("num:"+level+" ifret:"+this.ifReturn[level]);
+		if(this.ifReturn[1]==1) {
+			for(int i=0;i<1000;i++) {
+				this.ifReturn[i] = -1;
+			}
+			return;
+		}
+		else {
+			throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
+		}
+	}
+
+	/**
+	 * block_stmt -> '{' stmt* '}'
+	 */
+	private boolean analyseBlockStmt() throws CompileError {
+		boolean haveStmt = true;
+		level ++;
+		SymbolTable.levelup();
+		this.ifReturn[level] = 0;
+		expect(TokenType.L_BRACE);
+		int thisLevel  = level;
+		if(check(TokenType.R_BRACE)) {
+			haveStmt = false;
+		}
+		while(!(check(TokenType.R_BRACE)&&(level == thisLevel))){
+			analyseStmt();
+		}
+		expect(TokenType.R_BRACE);
+		setFlow();
+		level --;
+		SymbolTable.leveldown();
+		return haveStmt;
+	}
+
+	/**
+	 * block_stmt -> '{' stmt* '}'
+	 */
+	private void analyseFucBlockStmt() throws CompileError {
+		this.ifReturn[level] = 0;
+		expect(TokenType.L_BRACE);
+		int thisLevel  = level;
+		while(!(check(TokenType.R_BRACE)&&(level == thisLevel))){
+			analyseStmt();
+		}
+		expect(TokenType.R_BRACE);
+		setFlow();
+		level --;
+		SymbolTable.leveldown();
+	}
+
+	/**
+	 * stmt ->
+	 * expr_stmt
+	 * | decl_stmt
+	 * | if_stmt
+	 * | while_stmt
+	 * | break_stmt
+	 * | continue_stmt
+	 * | return_stmt
+	 * | block_stmt
+	 * | empty_stmt
+	 */
+	private void analyseStmt() throws CompileError {
+		if(check(TokenType.LET_KW)||check(TokenType.CONST_KW)){
+			analyseDeclStmt();
+		}
+		else if(check(TokenType.IF_KW)){
+			analyseIfStmt();
+		}
+		else if(check(TokenType.WHILE_KW)){
+			analyseWhileStmt();
+		}
+		else if(check(TokenType.BREAK_KW)){
+			analyseBreakStmt();
+		}
+		else if(check(TokenType.CONTINUE_KW)){
+			analyseContinueStmt();
+		}
+		else if(check(TokenType.RETURN_KW)){
+			ananlyseReturnStmt();
+		}
+		else if(check(TokenType.L_BRACE)){
+			analyseBlockStmt();
+		}
+		else if(check(TokenType.SEMICOLON)){
+			expect(TokenType.SEMICOLON);
+		}
+		else{
+			analyseExprStmt();
+		}
+	}
+
+	/**
+	 * decl_stmt -> let_decl_stmt | const_decl_stmt
+	 * let_decl_stmt -> 'let' IDENT ':' ty ('=' expr)? ';'
 	 * const_decl_stmt -> 'const' IDENT ':' ty '=' expr ';'
-     */
-    private void analyseDeclStmt() throws CompileError {
-    	DataType datatype = null ,rDataType = null;// ˝æ›¿‡–Õ
-    	SymbolType symbolType = null;
-    	String varName = null;//≤Œ ˝√˚
-    	boolean isConst = false;
-    	int offset = 0;
-        // ºÏ≤Èµ⁄“ª∏ˆµ•¥  «≤ª «let const
-    	if(nextIf(TokenType.CONST_KW)!=null) {
-    		isConst = true;
-    		symbolType = SymbolType.Constant;
-    	}
-    	else if(nextIf(TokenType.LET_KW)!=null)  {
-    		symbolType = SymbolType.Variable;
-    	}
-    	//String fucName = (String)fucNameToken.getValue();//∫Ø ˝√˚
-    	var paraNameToken = expect(TokenType.IDENT);
-    	varName = (String)paraNameToken.getValue();
-        expect(TokenType.COLON);
-        /**
-         * ty -> IDENT
-         */
-        var varTypeToken = expect(TokenType.IDENT);
-        if(((String)varTypeToken.getValue()).equals("int")) {
-        	datatype = DataType.INT;
-        }
-        else if(((String)varTypeToken.getValue()).equals("double")) {
-        	datatype = DataType.DOUBLE;
-        }
-        else if(((String)varTypeToken.getValue()).equals("void")) {
-        	datatype = DataType.VOID;
-        }
-        else {
-        	throw new AnalyzeError(ErrorCode.InvalidVariableDeclaration,varTypeToken.getStartPos());
-        }
-        if(isConst) {
-        	expect(TokenType.ASSIGN);
-        	rDataType = analyseExpr(TokenType.ASSIGN);//±Ì¥Ô Ω’˚ÃÂ∑÷Œˆ
-        	if(!datatype.equals(rDataType)) {
-            	throw new AnalyzeError(ErrorCode.InvalidInput,varTypeToken.getStartPos());
-            }
-        	expect(TokenType.SEMICOLON);
-        	//‘ˆº”’‚∏ˆ±‰¡ø
-            SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
-        
-        }
-        else if(nextIf(TokenType.ASSIGN)!=null){
-        	rDataType = analyseExpr(TokenType.ASSIGN);//±Ì¥Ô Ω’˚ÃÂ∑÷Œˆ
-        	if(!datatype.equals(rDataType)) {
-            	throw new AnalyzeError(ErrorCode.InvalidInput,varTypeToken.getStartPos());
-            }
-        	expect(TokenType.SEMICOLON);
-        	//‘ˆº”’‚∏ˆ±‰¡ø
-            SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
-        }
-        else {
-        	expect(TokenType.SEMICOLON);
-        	//‘ˆº”’‚∏ˆ±‰¡ø
-            SymbolTable.insertVarEntry(level, varName, false, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
-        }
-        VarEntry varEntry = SymbolTable.findVarEntry(varName, level);
-        GlobalDef varDef = new GlobalDef(isConst, (DataType.INT.equals(datatype)?(long)0:(double)0.0));
-        if(nowFunc == null) {
-        	assembler.addGlobalDef(varDef, varName);
-        	varEntry.offset = assembler.findGlobalDefID(varDef);
-        }
-        else {
-        	FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
-        	varEntry.offset = funcDef.getLocSlots();
-        	funcDef.updateLocSlots(funcDef.getLocSlots()+1);
-        	nowFunc.offset ++;
-        }
-    }
-    
-    /**
-     * Ãıº˛≈–∂œ
-     */
-    
-    /**
-     * if_stmt -> 'if' expr block_stmt ('else' 'if' expr block_stmt)* ('else' block_stmt)?
-     */
-    private void analyseIfStmt() throws CompileError {
-    	boolean checkDucElse = false;
-        expect(TokenType.IF_KW);
-        analyseExpr(TokenType.IF_KW);//±Ì¥Ô Ω
-        analyseBlockStmt();
-        while(nextIf(TokenType.ELSE_KW)!=null){
-            if(nextIf(TokenType.IF_KW)!=null){
-                analyseExpr(TokenType.IF_KW);//±Ì¥Ô Ω’˚ÃÂ∑÷Œˆ
-                analyseBlockStmt();
-            }
-            else {
-            	if(!checkDucElse) {
-            		checkDucElse = true;
-            	}
-            	else {
-            		throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
-            	}
-            	analyseBlockStmt();
-            }
-        }
-    }
+	 */
+	private void analyseDeclStmt() throws CompileError {
+		DataType datatype = null ,rDataType = null;//Êï∞ÊçÆÁ±ªÂûã
+		SymbolType symbolType = null;
+		String varName = null;//ÂèÇÊï∞Âêç
+		boolean isConst = false;
+		int offset = 0;
+		// Ê£ÄÊü•Á¨¨‰∏Ä‰∏™ÂçïËØçÊòØ‰∏çÊòØlet const
+		if(nextIf(TokenType.CONST_KW)!=null) {
+			isConst = true;
+			symbolType = SymbolType.Constant;
+		}
+		else if(nextIf(TokenType.LET_KW)!=null)  {
+			symbolType = SymbolType.Variable;
+		}
+		//String fucName = (String)fucNameToken.getValue();//ÂáΩÊï∞Âêç
+		var paraNameToken = expect(TokenType.IDENT);
+		varName = (String)paraNameToken.getValue();
+		expect(TokenType.COLON);
+		/**
+		 * ty -> IDENT
+		 */
+		var varTypeToken = expect(TokenType.IDENT);
+		if(((String)varTypeToken.getValue()).equals("int")) {
+			datatype = DataType.INT;
+		}
+		else if(((String)varTypeToken.getValue()).equals("double")) {
+			datatype = DataType.DOUBLE;
+		}
+		else if(((String)varTypeToken.getValue()).equals("void")) {
+			datatype = DataType.VOID;
+		}
+		else {
+			throw new AnalyzeError(ErrorCode.InvalidVariableDeclaration,varTypeToken.getStartPos());
+		}
+		if(isConst) {
+			expect(TokenType.ASSIGN);
+			rDataType = analyseExpr(TokenType.ASSIGN);//Ë°®ËææÂºèÊï¥‰ΩìÂàÜÊûê
+			if(!datatype.equals(rDataType)) {
+				throw new AnalyzeError(ErrorCode.InvalidInput,varTypeToken.getStartPos());
+			}
+			expect(TokenType.SEMICOLON);
+			//Â¢ûÂä†Ëøô‰∏™ÂèòÈáè
+			SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
 
-    /**
-     * while_stmt -> 'while' expr block_stmt
-     */
-    private void analyseWhileStmt() throws CompileError {
-        expect(TokenType.WHILE_KW);
-        analyseExpr(TokenType.WHILE_KW);//±Ì¥Ô Ω’˚ÃÂ∑÷Œˆ
-        isInLoop = true;
-        analyseBlockStmt();
-        isInLoop = false;
-    }
+		}
+		else if(nextIf(TokenType.ASSIGN)!=null){
+			rDataType = analyseExpr(TokenType.ASSIGN);//Ë°®ËææÂºèÊï¥‰ΩìÂàÜÊûê
+			if(!datatype.equals(rDataType)) {
+				throw new AnalyzeError(ErrorCode.InvalidInput,varTypeToken.getStartPos());
+			}
+			expect(TokenType.SEMICOLON);
+			//Â¢ûÂä†Ëøô‰∏™ÂèòÈáè
+			SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
+		}
+		else {
+			expect(TokenType.SEMICOLON);
+			//Â¢ûÂä†Ëøô‰∏™ÂèòÈáè
+			SymbolTable.insertVarEntry(level, varName, false, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
+		}
+		VarEntry varEntry = SymbolTable.findVarEntry(varName, level);
+		GlobalDef varDef = new GlobalDef(isConst, (DataType.INT.equals(datatype)?(long)0:(double)0.0));
+		if(nowFunc == null) {
+			assembler.addGlobalDef(varDef, varName);
+			varEntry.offset = assembler.findGlobalDefID(varDef);
+		}
+		else {
+			FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+			varEntry.offset = funcDef.getLocSlots();
+			funcDef.updateLocSlots(funcDef.getLocSlots()+1);
+			nowFunc.offset ++;
+		}
+	}
 
-    /**
-     * break_stmt -> 'break' ';'
-     */
-    private void analyseBreakStmt() throws CompileError {
-    	if(!isInLoop) {
-    		throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
-    	}
-        expect(TokenType.BREAK_KW);
-        expect(TokenType.SEMICOLON);
-    }
+	/**
+	 * Êù°‰ª∂Âà§Êñ≠
+	 */
 
-    /**
-     * continue_stmt -> 'continue' ';'
-     */
-    private void analyseContinueStmt() throws CompileError {
-    	if(!isInLoop) {
-    		throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
-    	}
-        expect(TokenType.CONTINUE_KW);
-        expect(TokenType.SEMICOLON);
-    }
+	/**
+	 * if_stmt -> 'if' expr block_stmt ('else' 'if' expr block_stmt)* ('else' block_stmt)?
+	 */
+	private void analyseIfStmt() throws CompileError {
+		boolean checkDucElse = false;
+		expect(TokenType.IF_KW);
+		analyseExpr(TokenType.IF_KW);//Ë°®ËææÂºè
+		analyseBlockStmt();
+		while(nextIf(TokenType.ELSE_KW)!=null){
+			if(nextIf(TokenType.IF_KW)!=null){
+				analyseExpr(TokenType.IF_KW);//Ë°®ËææÂºèÊï¥‰ΩìÂàÜÊûê
+				analyseBlockStmt();
+			}
+			else {
+				if(!checkDucElse) {
+					checkDucElse = true;
+				}
+				else {
+					throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
+				}
+				analyseBlockStmt();
+			}
+		}
+	}
 
-    /**
-     * return_stmt -> 'return' expr? ';'
-     */
-    private void ananlyseReturnStmt() throws CompileError {
-    	DataType dataType = null;
-        Token token = expect(TokenType.RETURN_KW);
-        if(nextIf(TokenType.SEMICOLON)==null){
-            dataType = analyseExpr(TokenType.RETURN_KW);  //±Ì¥Ô Ω’˚ÃÂ∑÷Œˆ
-            if(dataType==null) {
-            	throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos()); 
-            }
-            else if(!dataType.equals(nowReturn)) {
-            	throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
-            }
-            expect(TokenType.SEMICOLON);
-        }
-        else {
-        	dataType = DataType.VOID;  //±Ì¥Ô Ω’˚ÃÂ∑÷Œˆ
-            if(dataType==null) {
-            	throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos()); 
-            }
-            else if(!dataType.equals(nowReturn)) {
-            	throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
-            }
-        }
-        this.ifReturn[this.level] = 1;
+	/**
+	 * while_stmt -> 'while' expr block_stmt
+	 */
+	private void analyseWhileStmt() throws CompileError {
+		expect(TokenType.WHILE_KW);
+		analyseExpr(TokenType.WHILE_KW);//Ë°®ËææÂºèÊï¥‰ΩìÂàÜÊûê
+		isInLoop = true;
+		analyseBlockStmt();
+		isInLoop = false;
+	}
+
+	/**
+	 * break_stmt -> 'break' ';'
+	 */
+	private void analyseBreakStmt() throws CompileError {
+		if(!isInLoop) {
+			throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
+		}
+		expect(TokenType.BREAK_KW);
+		expect(TokenType.SEMICOLON);
+	}
+
+	/**
+	 * continue_stmt -> 'continue' ';'
+	 */
+	private void analyseContinueStmt() throws CompileError {
+		if(!isInLoop) {
+			throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
+		}
+		expect(TokenType.CONTINUE_KW);
+		expect(TokenType.SEMICOLON);
+	}
+
+	/**
+	 * return_stmt -> 'return' expr? ';'
+	 */
+	private void ananlyseReturnStmt() throws CompileError {
+		DataType dataType = null;
+		Token token = expect(TokenType.RETURN_KW);
+		if(nextIf(TokenType.SEMICOLON)==null){
+			dataType = analyseExpr(TokenType.RETURN_KW);  //Ë°®ËææÂºèÊï¥‰ΩìÂàÜÊûê
+			if(dataType==null) {
+				throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+			}
+			else if(!dataType.equals(nowReturn)) {
+				throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+			}
+			expect(TokenType.SEMICOLON);
+		}
+		else {
+			dataType = DataType.VOID;  //Ë°®ËææÂºèÊï¥‰ΩìÂàÜÊûê
+			if(dataType==null) {
+				throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+			}
+			else if(!dataType.equals(nowReturn)) {
+				throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+			}
+		}
+		this.ifReturn[this.level] = 1;
 //    	System.out.println("num:"+level+" ifret:"+this.ifReturn[level]);
-    }
+	}
 
-    /**
-     * expr_stmt -> expr ';'
-     */
-    private void analyseExprStmt() throws CompileError {
-        analyseAssignExpr();//¥¶¿Ìø…ƒ‹µƒ∏≥÷µ±Ì¥Ô Ω
-        expect(TokenType.SEMICOLON);
-    }
-    
-    /**
-     * ∏≥÷µ±Ì¥Ô Ω£¨”–ø…ƒ‹Ã¯◊™µΩ∑µªÿ÷µŒ™voidµƒ∫Ø ˝±Ì¥Ô Ω¥¶¿Ì
-     * @throws CompileError
-     */
-    private DataType analyseAssignExpr() throws CompileError {
-    	DataType leftDataType = DataType.VOID;
-    	DataType rightDataType = DataType.VOID;
-    	VarEntry varEntry = null;
-    	var nameToken = expect(TokenType.IDENT);
-    	if(SymbolTable.findFunctionEntry((String)nameToken.getValue())!=null){
-        	return analyseFunction(nameToken);
-        }
-    	/**
-         * assign_expr -> l_expr '=' expr
-         */
-    	else if(SymbolTable.findVarEntry((String)nameToken.getValue())!=null){
-    		varEntry = SymbolTable.findVarEntry((String)nameToken.getValue());
-    		leftDataType = varEntry.datatype;
-    		expect(TokenType.ASSIGN);
-    		rightDataType = analyseExpr(TokenType.ASSIGN);//±Ì¥Ô Ω’˚ÃÂ∑÷Œˆ
-    		if(!leftDataType.equals(rightDataType)) {
-    			throw new AnalyzeError(ErrorCode.InvalidAssignment,nameToken.getStartPos());
-    		}
-    		else if(varEntry.isConstant==true) {
-    			throw new AnalyzeError(ErrorCode.InvalidAssignment,nameToken.getStartPos());
-    		}
-    		varEntry.setInitialized(true);
-    	}
-    	else {
-    		throw new AnalyzeError(ErrorCode.InvalidAssignment,nameToken.getStartPos());
-    	}
-    	return DataType.VOID;
-    }
-    
-    /**
-     * ∫Ø ˝µ˜”√ Ω
-     * @param functionToken
-     * @return
-     * @throws CompileError
-     */
-    private DataType analyseFunction(Token functionToken) throws CompileError {
-    	FunctionEntry functionEntry = SymbolTable.findFunctionEntry((String)functionToken.getValue());
-    	DataType getDataType = null, baseDataType = null;
-    	int i = 0;
-    	expect(TokenType.L_PAREN);
-    	LPNum ++;
-    	functionLPRecent.add(LPNum);
-    	 /**
-         * ∂¡»Î“ª∏ˆ”–∑˚∫≈’˚ ˝
-    	 * fn getint() -> int
-    	 * ∂¡»Î“ª∏ˆ∏°µ„ ˝
-    	 * fn getdouble() -> double
-    	 * ∂¡»Î“ª∏ˆ◊÷∑˚
-    	 * fn getchar() -> int
-    	 *  ‰≥ˆ“ª∏ˆ’˚ ˝
-    	 * fn putint(int) -> void
-    	 *  ‰≥ˆ“ª∏ˆ∏°µ„ ˝
-    	 * fn putdouble(double) -> void
-    	 *  ‰≥ˆ“ª∏ˆ◊÷∑˚
-    	 * fn putchar(int) -> void
-    	 * Ω´±‡∫≈Œ™’‚∏ˆ’˚ ˝µƒ»´æ÷≥£¡øø¥◊˜◊÷∑˚¥Æ ‰≥ˆ
-    	 * fn putstr(int) -> void
-    	 *  ‰≥ˆ“ª∏ˆªª––
-    	 * fn putln() -> void
-         * @throws CompileError
-         */
-    	if("getint".equals(functionEntry.name)) {
-    		getDataType = analyseGetint();
-    	}
-    	else if("getdouble".equals(functionEntry.name)) {
-    		getDataType = analyseGetdouble();
-    	}
-    	else if("getchar".equals(functionEntry.name)) {
-    		getDataType = analyseGetchar();
-    	}
-    	else if("putint".equals(functionEntry.name)) {
-    		getDataType = analysePutint();
-    	}
-    	else if("putdouble".equals(functionEntry.name)) {
-    		getDataType = analysePutdouble();
-    	}
-    	else if("putchar".equals(functionEntry.name)) {
-    		getDataType = analysePutchar();
-    	}
-    	else if("putstr".equals(functionEntry.name)) {
-    		getDataType = analysePutstr();
-    	}
-    	else if("putln".equals(functionEntry.name)) {
-    		getDataType = analysePutln();
-    	}
-    	if(!check(TokenType.R_PAREN)){
-    		/**
-    	     * call_param_list -> expr (',' expr)*
-    	     */
-    		getDataType = analyseExpr(TokenType.L_PAREN);//±Ì¥Ô Ω’˚ÃÂ∑÷Œˆ
-    		baseDataType = functionEntry.getArgData(i);
-    		if(baseDataType==null) {
-    			throw new AnalyzeError(ErrorCode.InvalidInput,functionToken.getStartPos());
-    		}
-    		else if(!baseDataType.equals(getDataType)) {
-    			throw new AnalyzeError(ErrorCode.InvalidInput,functionToken.getStartPos());
-    		}
-	        while(check(TokenType.COMMA)){
-	            expect(TokenType.COMMA);
-	            getDataType = analyseExpr(TokenType.COMMA);//±Ì¥Ô Ω’˚ÃÂ∑÷Œˆ
-	            i ++;
-	    		baseDataType = functionEntry.getArgData(i);
-	    		if(baseDataType==null) {
-	    			throw new AnalyzeError(ErrorCode.InvalidInput,functionToken.getStartPos());
-	    		}
-	    		else if(!baseDataType.equals(getDataType)) {
-	    			throw new AnalyzeError(ErrorCode.InvalidInput,functionToken.getStartPos());
-	    		}
-	        }
-	    }
-	    expect(TokenType.R_PAREN);
-	    LPNum --;
-    	functionLPRecent.remove(functionLPRecent.size()-1);
-    	return functionEntry.datatype;
-    }
-    
-    /**
-     * ∂¡»Î“ª∏ˆ”–∑˚∫≈’˚ ˝
+	/**
+	 * expr_stmt -> expr ';'
+	 */
+	private void analyseExprStmt() throws CompileError {
+		analyseAssignExpr();//Â§ÑÁêÜÂèØËÉΩÁöÑËµãÂÄºË°®ËææÂºè
+		expect(TokenType.SEMICOLON);
+	}
+
+	/**
+	 * ËµãÂÄºË°®ËææÂºèÔºåÊúâÂèØËÉΩË∑≥ËΩ¨Âà∞ËøîÂõûÂÄº‰∏∫voidÁöÑÂáΩÊï∞Ë°®ËææÂºèÂ§ÑÁêÜ
+	 * @throws CompileError
+	 */
+	private DataType analyseAssignExpr() throws CompileError {
+		DataType leftDataType = DataType.VOID;
+		DataType rightDataType = DataType.VOID;
+		VarEntry varEntry = null;
+		var nameToken = expect(TokenType.IDENT);
+		if(SymbolTable.findFunctionEntry((String)nameToken.getValue())!=null){
+			return analyseFunction(nameToken);
+		}
+		/**
+		 * assign_expr -> l_expr '=' expr
+		 */
+		else if(SymbolTable.findVarEntry((String)nameToken.getValue())!=null){
+			varEntry = SymbolTable.findVarEntry((String)nameToken.getValue());
+			leftDataType = varEntry.datatype;
+			expect(TokenType.ASSIGN);
+			rightDataType = analyseExpr(TokenType.ASSIGN);//Ë°®ËææÂºèÊï¥‰ΩìÂàÜÊûê
+			if(!leftDataType.equals(rightDataType)) {
+				throw new AnalyzeError(ErrorCode.InvalidAssignment,nameToken.getStartPos());
+			}
+			else if(varEntry.isConstant==true) {
+				throw new AnalyzeError(ErrorCode.InvalidAssignment,nameToken.getStartPos());
+			}
+			varEntry.setInitialized(true);
+		}
+		else {
+			throw new AnalyzeError(ErrorCode.InvalidAssignment,nameToken.getStartPos());
+		}
+		return DataType.VOID;
+	}
+
+	/**
+	 * ÂáΩÊï∞Ë∞ÉÁî®Âºè
+	 * @param functionToken
+	 * @return
+	 * @throws CompileError
+	 */
+	private DataType analyseFunction(Token functionToken) throws CompileError {
+		FunctionEntry functionEntry = SymbolTable.findFunctionEntry((String)functionToken.getValue());
+		DataType getDataType = null, baseDataType = null;
+		int i = 0;
+		expect(TokenType.L_PAREN);
+		LPNum ++;
+		functionLPRecent.add(LPNum);
+		/**
+		 * ËØªÂÖ•‰∏Ä‰∏™ÊúâÁ¨¶Âè∑Êï¥Êï∞
+		 * fn getint() -> int
+		 * ËØªÂÖ•‰∏Ä‰∏™ÊµÆÁÇπÊï∞
+		 * fn getdouble() -> double
+		 * ËØªÂÖ•‰∏Ä‰∏™Â≠óÁ¨¶
+		 * fn getchar() -> int
+		 * ËæìÂá∫‰∏Ä‰∏™Êï¥Êï∞
+		 * fn putint(int) -> void
+		 * ËæìÂá∫‰∏Ä‰∏™ÊµÆÁÇπÊï∞
+		 * fn putdouble(double) -> void
+		 * ËæìÂá∫‰∏Ä‰∏™Â≠óÁ¨¶
+		 * fn putchar(int) -> void
+		 * Â∞ÜÁºñÂè∑‰∏∫Ëøô‰∏™Êï¥Êï∞ÁöÑÂÖ®Â±ÄÂ∏∏ÈáèÁúã‰ΩúÂ≠óÁ¨¶‰∏≤ËæìÂá∫
+		 * fn putstr(int) -> void
+		 * ËæìÂá∫‰∏Ä‰∏™Êç¢Ë°å
+		 * fn putln() -> void
+		 * @throws CompileError
+		 */
+		if("getint".equals(functionEntry.name)) {
+			getDataType = analyseGetint();
+		}
+		else if("getdouble".equals(functionEntry.name)) {
+			getDataType = analyseGetdouble();
+		}
+		else if("getchar".equals(functionEntry.name)) {
+			getDataType = analyseGetchar();
+		}
+		else if("putint".equals(functionEntry.name)) {
+			getDataType = analysePutint();
+		}
+		else if("putdouble".equals(functionEntry.name)) {
+			getDataType = analysePutdouble();
+		}
+		else if("putchar".equals(functionEntry.name)) {
+			getDataType = analysePutchar();
+		}
+		else if("putstr".equals(functionEntry.name)) {
+			getDataType = analysePutstr();
+		}
+		else if("putln".equals(functionEntry.name)) {
+			getDataType = analysePutln();
+		}
+		if(!check(TokenType.R_PAREN)){
+			/**
+			 * call_param_list -> expr (',' expr)*
+			 */
+			getDataType = analyseExpr(TokenType.L_PAREN);//Ë°®ËææÂºèÊï¥‰ΩìÂàÜÊûê
+			baseDataType = functionEntry.getArgData(i);
+			if(baseDataType==null) {
+				throw new AnalyzeError(ErrorCode.InvalidInput,functionToken.getStartPos());
+			}
+			else if(!baseDataType.equals(getDataType)) {
+				throw new AnalyzeError(ErrorCode.InvalidInput,functionToken.getStartPos());
+			}
+			while(check(TokenType.COMMA)){
+				expect(TokenType.COMMA);
+				getDataType = analyseExpr(TokenType.COMMA);//Ë°®ËææÂºèÊï¥‰ΩìÂàÜÊûê
+				i ++;
+				baseDataType = functionEntry.getArgData(i);
+				if(baseDataType==null) {
+					throw new AnalyzeError(ErrorCode.InvalidInput,functionToken.getStartPos());
+				}
+				else if(!baseDataType.equals(getDataType)) {
+					throw new AnalyzeError(ErrorCode.InvalidInput,functionToken.getStartPos());
+				}
+			}
+		}
+		expect(TokenType.R_PAREN);
+		LPNum --;
+		functionLPRecent.remove(functionLPRecent.size()-1);
+		return functionEntry.datatype;
+	}
+
+	/**
+	 * ËØªÂÖ•‰∏Ä‰∏™ÊúâÁ¨¶Âè∑Êï¥Êï∞
 	 * fn getint() -> int
 	 */
-    private DataType analyseGetint() throws CompileError {
-    	return DataType.INT;
-    }
-    
-    /**
-	 * ∂¡»Î“ª∏ˆ∏°µ„ ˝
+	private DataType analyseGetint() throws CompileError {
+		return DataType.INT;
+	}
+
+	/**
+	 * ËØªÂÖ•‰∏Ä‰∏™ÊµÆÁÇπÊï∞
 	 * fn getdouble() -> double
-	 */ 
-    private DataType analyseGetdouble() throws CompileError {
-    	return DataType.DOUBLE;
-    }
-    
-    /** 
-	 * ∂¡»Î“ª∏ˆ◊÷∑˚
+	 */
+	private DataType analyseGetdouble() throws CompileError {
+		return DataType.DOUBLE;
+	}
+
+	/**
+	 * ËØªÂÖ•‰∏Ä‰∏™Â≠óÁ¨¶
 	 * fn getchar() -> int
-	 */ 
-    private DataType analyseGetchar() throws CompileError {
-    	return DataType.INT;
-    }
-    
-    /** 
-	 *  ‰≥ˆ“ª∏ˆ’˚ ˝
+	 */
+	private DataType analyseGetchar() throws CompileError {
+		return DataType.INT;
+	}
+
+	/**
+	 * ËæìÂá∫‰∏Ä‰∏™Êï¥Êï∞
 	 * fn putint(int) -> void
-	 */ 
-    private DataType analysePutint() throws CompileError {
-    	DataType putout = analyseExpr(TokenType.L_PAREN);
-    	if(!DataType.INT.equals(putout)) {
-    		throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
-    	}
-    	return DataType.VOID;
-    }
-    
-    /** 
-	 *  ‰≥ˆ“ª∏ˆ∏°µ„ ˝
+	 */
+	private DataType analysePutint() throws CompileError {
+		DataType putout = analyseExpr(TokenType.L_PAREN);
+		if(!DataType.INT.equals(putout)) {
+			throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
+		}
+		return DataType.VOID;
+	}
+
+	/**
+	 * ËæìÂá∫‰∏Ä‰∏™ÊµÆÁÇπÊï∞
 	 * fn putdouble(double) -> void
-	 */ 
-    private DataType analysePutdouble() throws CompileError {
-    	DataType putout = analyseExpr(TokenType.L_PAREN);
-    	if(!DataType.DOUBLE.equals(putout)) {
-    		throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
-    	}
-    	return DataType.VOID;
-    }
-    
-    /** 
-	 *  ‰≥ˆ“ª∏ˆ◊÷∑˚
+	 */
+	private DataType analysePutdouble() throws CompileError {
+		DataType putout = analyseExpr(TokenType.L_PAREN);
+		if(!DataType.DOUBLE.equals(putout)) {
+			throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
+		}
+		return DataType.VOID;
+	}
+
+	/**
+	 * ËæìÂá∫‰∏Ä‰∏™Â≠óÁ¨¶
 	 * fn putchar(int) -> void
-	 */ 
-    private DataType analysePutchar() throws CompileError {
-    	next();
-    	return DataType.VOID;
-    }
-    
-	/** 
-	 * Ω´±‡∫≈Œ™’‚∏ˆ’˚ ˝µƒ»´æ÷≥£¡øø¥◊˜◊÷∑˚¥Æ ‰≥ˆ
+	 */
+	private DataType analysePutchar() throws CompileError {
+		next();
+		return DataType.VOID;
+	}
+
+	/**
+	 * Â∞ÜÁºñÂè∑‰∏∫Ëøô‰∏™Êï¥Êï∞ÁöÑÂÖ®Â±ÄÂ∏∏ÈáèÁúã‰ΩúÂ≠óÁ¨¶‰∏≤ËæìÂá∫
 	 * fn putstr(int) -> void
-	 */ 
-    private DataType analysePutstr() throws CompileError {
-    	next();
-    	return DataType.VOID;
-    }
-    
-	/** 
-	 *  ‰≥ˆ“ª∏ˆªª––
+	 */
+	private DataType analysePutstr() throws CompileError {
+		next();
+		return DataType.VOID;
+	}
+
+	/**
+	 * ËæìÂá∫‰∏Ä‰∏™Êç¢Ë°å
 	 * fn putln() -> void
-     */
-    private DataType analysePutln() throws CompileError {
-    	return DataType.VOID;
-    }
-    
-    /**
-     * expr -> 
-     * operator_expr
-     * | negate_expr
-     * | assign_expr
-     * | as_expr
-     * | call_expr
-     * | literal_expr
-     * | ident_expr
-     * | group_expr
-     */
-    private DataType analyseExpr(TokenType recent) throws CompileError {
-    	TokenType recentToken = null;
-    	OperatorStack stack = new OperatorStack();
-    	DataType ret = DataType.VOID;
-    	Token token = null;
-    	stack.push(TokenType.STOP);
-    	
-    	/** 
-         * + - 					PLUS MINUS 
-         * «∞÷√- 				NEGATE
-         * * \ 					MUL DIV 
-         * == != < > <= >= 		EQ NEQ LT GT LE GE
-         * as 					AS_KW 
-         * uint double ident 	UINT_LITERAL DOUBLE_LITERAL IDENT
-         * ( 					L_PAREN 
-         * ) 					R_PAREN
-         * # 					STOP
-        */
-    	/**
-    	 * + - * \ == != < > <= >= AS_KW IDENT ( ) #
-    	 */
-        while(true) {
-        	if(check(TokenType.PLUS)) {//+
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.PLUS;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			stack.push(recentToken);
-        			recent = TokenType.PLUS;
-        		}
-        		else if(priorty[i][j] == 1) {
-        			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])) {
-        				stackEoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.R_PAREN)) {
-        				stackoEo(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.NEGATE)) {
-        				stackoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.AS_KW)) {
-        				stackEoT(stack, token);
-        			}
-        			else if(judgeNum(priortyToken[i])) {
-        				stacko(stack, token);
-        			}
-        		}
-        	}
-        	else if(check(TokenType.MINUS)) {//- '-'
-        		System.out.println(stack.toString());
-        		token = seekIf(TokenType.MINUS);
-        		/**
-        		 * ASSIGN IF_KW WHILE_KW RETURN_KW ( + - * \ < > <= >= == != 
-        		 */
-        		if(recent.equals(TokenType.ASSIGN)||recent.equals(TokenType.IF_KW)||recent.equals(TokenType.WHILE_KW)||recent.equals(TokenType.RETURN_KW)||recent.equals(TokenType.L_PAREN)||recent.equals(TokenType.PLUS)||recent.equals(TokenType.MINUS)||recent.equals(TokenType.MUL)||recent.equals(TokenType.DIV)||recent.equals(TokenType.EQ)||recent.equals(TokenType.NEQ)||recent.equals(TokenType.GE)||recent.equals(TokenType.GT)||recent.equals(TokenType.LE)||recent.equals(TokenType.LT)) {
-        			//System.out.println("l----- "+recent);
-        			recentToken = TokenType.NEGATE; 
-        			int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-	        		if(priorty[i][j] == 0) {
-	        			next();
-	        			stack.push(recentToken);
-	        			recent = TokenType.MINUS;
-	        		}
-	        		else if(priorty[i][j] == 3) {
-	        			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
-	        		}
-        		}
-        		else {
-        			recentToken = TokenType.MINUS;
-	        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-	        		if(priorty[i][j] == 0) {
-	        			next();
-	        			stack.push(recentToken);
-	        			recent = TokenType.MINUS;
-	        		}
-	        		else if(priorty[i][j] == 1) {
-	        			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])) {
-	        				stackEoE(stack, token);
-	        			}
-	        			else if(priortyToken[i].equals(TokenType.R_PAREN)) {
-	        				stackoEo(stack, token);
-	        			}
-	        			else if(priortyToken[i].equals(TokenType.NEGATE)) {
-	        				stackoE(stack, token);
-	        			}
-	        			else if(priortyToken[i].equals(TokenType.AS_KW)) {
-	        				stackEoT(stack, token);
-	        			}
-	        			else if(judgeNum(priortyToken[i])) {
-	        				stacko(stack, token);
-	        			}
-	        		}
-        		}
-        	}
-        	else if(check(TokenType.MUL)) {//*
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.MUL;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			stack.push(recentToken);
-        			recent = TokenType.MUL;
-        		}
-        		else if(priorty[i][j] == 1) {
-        			if(judgeMD(priortyToken[i])) {
-        				stackEoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.R_PAREN)) {
-        				stackoEo(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.NEGATE)) {
-        				stackoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.AS_KW)) {
-        				stackEoT(stack, token);
-        			}
-        			else if(judgeNum(priortyToken[i])) {
-        				stacko(stack, token);
-        			}
-        		}
-        	}
-        	else if(check(TokenType.DIV)) {//\
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.DIV;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			stack.push(recentToken);
-        			recent = recentToken = TokenType.DIV;
-        		}
-        		else if(priorty[i][j] == 1) {
-        			if(judgeMD(priortyToken[i])) {
-        				stackEoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.R_PAREN)) {
-        				stackoEo(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.NEGATE)) {
-        				stackoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.AS_KW)) {
-        				stackEoT(stack, token);
-        			}
-        			else if(judgeNum(priortyToken[i])) {
-        				stacko(stack, token);
-        			}
-        		}
-        	}
-        	else if(check(TokenType.EQ)) {//==
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.EQ;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			stack.push(recentToken);
-        			recent = TokenType.EQ;
-        		}
-        		else if(priorty[i][j] == 1) {
-        			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
-        				stackEoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.R_PAREN)) {
-        				stackoEo(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.NEGATE)) {
-        				stackoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.AS_KW)) {
-        				stackEoT(stack, token);
-        			}
-        			else if(judgeNum(priortyToken[i])) {
-        				stacko(stack, token);
-        			}
-        		}
-        	}
-        	else if(check(TokenType.NEQ)) {//!=
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.NEQ;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			stack.push(recentToken);
-        			recent = TokenType.NEQ;
-        		}
-        		else if(priorty[i][j] == 1) {
-        			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
-        				stackEoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.R_PAREN)) {
-        				stackoEo(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.NEGATE)) {
-        				stackoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.AS_KW)) {
-        				stackEoT(stack, token);
-        			}
-        			else if(judgeNum(priortyToken[i])) {
-        				stacko(stack, token);
-        			}
-        		}
-        	}
-        	else if(check(TokenType.LT)) {//<
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.LT;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			stack.push(recentToken);
-        			recent = TokenType.LT;
-        		}
-        		else if(priorty[i][j] == 1) {
-        			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
-        				stackEoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.R_PAREN)) {
-        				stackoEo(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.NEGATE)) {
-        				stackoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.AS_KW)) {
-        				stackEoT(stack, token);
-        			}
-        			else if(judgeNum(priortyToken[i])) {
-        				stacko(stack, token);
-        			}
-        		}
-        	}
-        	else if(check(TokenType.LE)) {//<=
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.LE;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			stack.push(recentToken);
-        			recent = TokenType.LE;
-        		}
-        		else if(priorty[i][j] == 1) {
-        			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
-        				stackEoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.R_PAREN)) {
-        				stackoEo(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.NEGATE)) {
-        				stackoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.AS_KW)) {
-        				stackEoT(stack, token);
-        			}
-        			else if(judgeNum(priortyToken[i])) {
-        				stacko(stack, token);
-        			}
-        		}
-        	}
-        	else if(check(TokenType.GT)) {//>
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.GT;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			stack.push(recentToken);
-        			recent = TokenType.GT;
-        		}
-        		else if(priorty[i][j] == 1) {
-        			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
-        				stackEoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.R_PAREN)) {
-        				stackoEo(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.NEGATE)) {
-        				stackoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.AS_KW)) {
-        				stackEoT(stack, token);
-        			}
-        			else if(judgeNum(priortyToken[i])) {
-        				stacko(stack, token);
-        			}
-        		}
-        	}
-        	else if(check(TokenType.GE)) {//>=
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.GE;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			stack.push(recentToken);
-        			recent = TokenType.GE;
-        		}
-        		else if(priorty[i][j] == 1) {
-        			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
-        				stackEoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.R_PAREN)) {
-        				stackoEo(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.NEGATE)) {
-        				stackoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.AS_KW)) {
-        				stackEoT(stack, token);
-        			}
-        			else if(judgeNum(priortyToken[i])) {
-        				stacko(stack, token);
-        			}
-        		}
-        	}
-        	else if(check(TokenType.AS_KW)) {//as
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.AS_KW;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			stack.push(recentToken);
-        			recent = TokenType.AS_KW;
-        		}
-        		else if(priorty[i][j] == 1) {
-        			if(priortyToken[i].equals(TokenType.R_PAREN)) {
-        				stackoEo(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.NEGATE)) {
-        				stackoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.AS_KW)) {
-        				stackEoT(stack, token);
-        			}
-        			else if(judgeNum(priortyToken[i])) {
-        				stacko(stack, token);
-        			}
-        		}
-        	}
-        	else if(check(TokenType.UINT_LITERAL)) {//IDENT
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.UINT_LITERAL;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			stack.push(recentToken);
-        			recent = TokenType.UINT_LITERAL;
-        		}
-        		else if(priorty[i][j] == 3) {
-        			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
-        		}
-        	}
-        	else if(check(TokenType.DOUBLE_LITERAL)) {//IDENT
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.DOUBLE_LITERAL;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			stack.push(recentToken);
-        			recent = TokenType.DOUBLE_LITERAL;
-        		}
-        		else if(priorty[i][j] == 3) {
-        			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
-        		}
-        	}
-        	else if(check(TokenType.IDENT)) {//IDENT
-        		System.out.println(stack.toString());
-        		if(recent.equals(TokenType.AS_KW)) {
-        			recentToken = TokenType.IDENT;
-            		token = seekIf(recentToken);
-            		if(((String)token.getValue()).equals("int")) {
-            			next();
-            			stack.push(DataKeywordType.INT_KW);
-            			recent = TokenType.IDENT;
-            		}
-            		else if(((String)token.getValue()).equals("double")) {
-            			next();
-            			stack.push(DataKeywordType.DOUBLE_KW);
-            			recent = TokenType.IDENT;
-            		}
-        		}
-        		else {
-        			recentToken = TokenType.IDENT;
-            		token = seekIf(recentToken);
-	        		if(SymbolTable.findFunctionEntry((String)token.getValue())!=null){
-	        			next();
-	        			stack.push(analyseFunction(token));
-	        			recent = TokenType.IDENT;
-	        		}
-	        		else if(SymbolTable.findVarEntry((String)token.getValue())!=null){
-		        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-		        		if(priorty[i][j] == 0) {
-		        			next();
-		        			if(SymbolTable.findVarEntry((String)token.getValue()).datatype.equals(DataType.INT)) {
-		        				stack.push(TokenType.UINT_LITERAL);
-		        				recent = TokenType.IDENT;
-		        			}
-		        			else if(SymbolTable.findVarEntry((String)token.getValue()).datatype.equals(DataType.DOUBLE)) {
-		        				stack.push(TokenType.DOUBLE_LITERAL);
-		        				recent = TokenType.IDENT;
-		        			}
-		        		}
-		        		else if(priorty[i][j] == 3) {
-		        			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
-		        		}
-	        		}
-	        		else {
-	        			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
-	        		}
-        		}
-        	}
-        	else if(check(TokenType.L_PAREN)) {//(
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.L_PAREN;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			LPNum ++;
-        			stack.push(recentToken);
-        			recent = TokenType.L_PAREN;
-        		}
-        		else if(priorty[i][j] == 3) {
-        			System.out.println(stack.toString());
-        			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
-        		}
-        	}
-        	else if(check(TokenType.R_PAREN)&&(LPNum > (int)functionLPRecent.get(functionLPRecent.size()-1))) {//)
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.R_PAREN;
-        		token = seekIf(recentToken);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+	 */
+	private DataType analysePutln() throws CompileError {
+		return DataType.VOID;
+	}
+
+	/**
+	 * expr ->
+	 * operator_expr
+	 * | negate_expr
+	 * | assign_expr
+	 * | as_expr
+	 * | call_expr
+	 * | literal_expr
+	 * | ident_expr
+	 * | group_expr
+	 */
+	private DataType analyseExpr(TokenType recent) throws CompileError {
+		TokenType recentToken = null;
+		OperatorStack stack = new OperatorStack();
+		DataType ret = DataType.VOID;
+		Token token = null;
+		stack.push(TokenType.STOP);
+
+		/**
+		 * + - 					PLUS MINUS
+		 * ÂâçÁΩÆ- 				NEGATE
+		 * * \ 					MUL DIV
+		 * == != < > <= >= 		EQ NEQ LT GT LE GE
+		 * as 					AS_KW
+		 * uint double ident 	UINT_LITERAL DOUBLE_LITERAL IDENT
+		 * ( 					L_PAREN
+		 * ) 					R_PAREN
+		 * # 					STOP
+		 */
+		/**
+		 * + - * \ == != < > <= >= AS_KW IDENT ( ) #
+		 */
+		while(true) {
+			if(check(TokenType.PLUS)) {//+
+				System.out.println(stack.toString());
+				recentToken = TokenType.PLUS;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					stack.push(recentToken);
+					recent = TokenType.PLUS;
+				}
+				else if(priorty[i][j] == 1) {
+					if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])) {
+						stackEoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.R_PAREN)) {
+						stackoEo(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.NEGATE)) {
+						stackoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.AS_KW)) {
+						stackEoT(stack, token);
+					}
+					else if(judgeNum(priortyToken[i])) {
+						stacko(stack, token);
+					}
+				}
+			}
+			else if(check(TokenType.MINUS)) {//- '-'
+				System.out.println(stack.toString());
+				token = seekIf(TokenType.MINUS);
+				/**
+				 * ASSIGN IF_KW WHILE_KW RETURN_KW ( + - * \ < > <= >= == !=
+				 */
+				if(recent.equals(TokenType.ASSIGN)||recent.equals(TokenType.IF_KW)||recent.equals(TokenType.WHILE_KW)||recent.equals(TokenType.RETURN_KW)||recent.equals(TokenType.L_PAREN)||recent.equals(TokenType.PLUS)||recent.equals(TokenType.MINUS)||recent.equals(TokenType.MUL)||recent.equals(TokenType.DIV)||recent.equals(TokenType.EQ)||recent.equals(TokenType.NEQ)||recent.equals(TokenType.GE)||recent.equals(TokenType.GT)||recent.equals(TokenType.LE)||recent.equals(TokenType.LT)) {
+					//System.out.println("l----- "+recent);
+					recentToken = TokenType.NEGATE;
+					int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+					if(priorty[i][j] == 0) {
+						next();
+						stack.push(recentToken);
+						recent = TokenType.MINUS;
+					}
+					else if(priorty[i][j] == 3) {
+						throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+					}
+				}
+				else {
+					recentToken = TokenType.MINUS;
+					int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+					if(priorty[i][j] == 0) {
+						next();
+						stack.push(recentToken);
+						recent = TokenType.MINUS;
+					}
+					else if(priorty[i][j] == 1) {
+						if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])) {
+							stackEoE(stack, token);
+						}
+						else if(priortyToken[i].equals(TokenType.R_PAREN)) {
+							stackoEo(stack, token);
+						}
+						else if(priortyToken[i].equals(TokenType.NEGATE)) {
+							stackoE(stack, token);
+						}
+						else if(priortyToken[i].equals(TokenType.AS_KW)) {
+							stackEoT(stack, token);
+						}
+						else if(judgeNum(priortyToken[i])) {
+							stacko(stack, token);
+						}
+					}
+				}
+			}
+			else if(check(TokenType.MUL)) {//*
+				System.out.println(stack.toString());
+				recentToken = TokenType.MUL;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					stack.push(recentToken);
+					recent = TokenType.MUL;
+				}
+				else if(priorty[i][j] == 1) {
+					if(judgeMD(priortyToken[i])) {
+						stackEoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.R_PAREN)) {
+						stackoEo(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.NEGATE)) {
+						stackoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.AS_KW)) {
+						stackEoT(stack, token);
+					}
+					else if(judgeNum(priortyToken[i])) {
+						stacko(stack, token);
+					}
+				}
+			}
+			else if(check(TokenType.DIV)) {//\
+				System.out.println(stack.toString());
+				recentToken = TokenType.DIV;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					stack.push(recentToken);
+					recent = recentToken = TokenType.DIV;
+				}
+				else if(priorty[i][j] == 1) {
+					if(judgeMD(priortyToken[i])) {
+						stackEoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.R_PAREN)) {
+						stackoEo(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.NEGATE)) {
+						stackoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.AS_KW)) {
+						stackEoT(stack, token);
+					}
+					else if(judgeNum(priortyToken[i])) {
+						stacko(stack, token);
+					}
+				}
+			}
+			else if(check(TokenType.EQ)) {//==
+				System.out.println(stack.toString());
+				recentToken = TokenType.EQ;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					stack.push(recentToken);
+					recent = TokenType.EQ;
+				}
+				else if(priorty[i][j] == 1) {
+					if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
+						stackEoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.R_PAREN)) {
+						stackoEo(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.NEGATE)) {
+						stackoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.AS_KW)) {
+						stackEoT(stack, token);
+					}
+					else if(judgeNum(priortyToken[i])) {
+						stacko(stack, token);
+					}
+				}
+			}
+			else if(check(TokenType.NEQ)) {//!=
+				System.out.println(stack.toString());
+				recentToken = TokenType.NEQ;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					stack.push(recentToken);
+					recent = TokenType.NEQ;
+				}
+				else if(priorty[i][j] == 1) {
+					if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
+						stackEoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.R_PAREN)) {
+						stackoEo(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.NEGATE)) {
+						stackoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.AS_KW)) {
+						stackEoT(stack, token);
+					}
+					else if(judgeNum(priortyToken[i])) {
+						stacko(stack, token);
+					}
+				}
+			}
+			else if(check(TokenType.LT)) {//<
+				System.out.println(stack.toString());
+				recentToken = TokenType.LT;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					stack.push(recentToken);
+					recent = TokenType.LT;
+				}
+				else if(priorty[i][j] == 1) {
+					if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
+						stackEoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.R_PAREN)) {
+						stackoEo(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.NEGATE)) {
+						stackoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.AS_KW)) {
+						stackEoT(stack, token);
+					}
+					else if(judgeNum(priortyToken[i])) {
+						stacko(stack, token);
+					}
+				}
+			}
+			else if(check(TokenType.LE)) {//<=
+				System.out.println(stack.toString());
+				recentToken = TokenType.LE;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					stack.push(recentToken);
+					recent = TokenType.LE;
+				}
+				else if(priorty[i][j] == 1) {
+					if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
+						stackEoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.R_PAREN)) {
+						stackoEo(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.NEGATE)) {
+						stackoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.AS_KW)) {
+						stackEoT(stack, token);
+					}
+					else if(judgeNum(priortyToken[i])) {
+						stacko(stack, token);
+					}
+				}
+			}
+			else if(check(TokenType.GT)) {//>
+				System.out.println(stack.toString());
+				recentToken = TokenType.GT;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					stack.push(recentToken);
+					recent = TokenType.GT;
+				}
+				else if(priorty[i][j] == 1) {
+					if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
+						stackEoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.R_PAREN)) {
+						stackoEo(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.NEGATE)) {
+						stackoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.AS_KW)) {
+						stackEoT(stack, token);
+					}
+					else if(judgeNum(priortyToken[i])) {
+						stacko(stack, token);
+					}
+				}
+			}
+			else if(check(TokenType.GE)) {//>=
+				System.out.println(stack.toString());
+				recentToken = TokenType.GE;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					stack.push(recentToken);
+					recent = TokenType.GE;
+				}
+				else if(priorty[i][j] == 1) {
+					if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
+						stackEoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.R_PAREN)) {
+						stackoEo(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.NEGATE)) {
+						stackoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.AS_KW)) {
+						stackEoT(stack, token);
+					}
+					else if(judgeNum(priortyToken[i])) {
+						stacko(stack, token);
+					}
+				}
+			}
+			else if(check(TokenType.AS_KW)) {//as
+				System.out.println(stack.toString());
+				recentToken = TokenType.AS_KW;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					stack.push(recentToken);
+					recent = TokenType.AS_KW;
+				}
+				else if(priorty[i][j] == 1) {
+					if(priortyToken[i].equals(TokenType.R_PAREN)) {
+						stackoEo(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.NEGATE)) {
+						stackoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.AS_KW)) {
+						stackEoT(stack, token);
+					}
+					else if(judgeNum(priortyToken[i])) {
+						stacko(stack, token);
+					}
+				}
+			}
+			else if(check(TokenType.UINT_LITERAL)) {//IDENT
+				System.out.println(stack.toString());
+				recentToken = TokenType.UINT_LITERAL;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					stack.push(recentToken);
+					recent = TokenType.UINT_LITERAL;
+				}
+				else if(priorty[i][j] == 3) {
+					throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+				}
+			}
+			else if(check(TokenType.DOUBLE_LITERAL)) {//IDENT
+				System.out.println(stack.toString());
+				recentToken = TokenType.DOUBLE_LITERAL;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					stack.push(recentToken);
+					recent = TokenType.DOUBLE_LITERAL;
+				}
+				else if(priorty[i][j] == 3) {
+					throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+				}
+			}
+			else if(check(TokenType.IDENT)) {//IDENT
+				System.out.println(stack.toString());
+				if(recent.equals(TokenType.AS_KW)) {
+					recentToken = TokenType.IDENT;
+					token = seekIf(recentToken);
+					if(((String)token.getValue()).equals("int")) {
+						next();
+						stack.push(DataKeywordType.INT_KW);
+						recent = TokenType.IDENT;
+					}
+					else if(((String)token.getValue()).equals("double")) {
+						next();
+						stack.push(DataKeywordType.DOUBLE_KW);
+						recent = TokenType.IDENT;
+					}
+				}
+				else {
+					recentToken = TokenType.IDENT;
+					token = seekIf(recentToken);
+					if(SymbolTable.findFunctionEntry((String)token.getValue())!=null){
+						next();
+						stack.push(analyseFunction(token));
+						recent = TokenType.IDENT;
+					}
+					else if(SymbolTable.findVarEntry((String)token.getValue())!=null){
+						int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+						if(priorty[i][j] == 0) {
+							next();
+							if(SymbolTable.findVarEntry((String)token.getValue()).datatype.equals(DataType.INT)) {
+								stack.push(TokenType.UINT_LITERAL);
+								recent = TokenType.IDENT;
+							}
+							else if(SymbolTable.findVarEntry((String)token.getValue()).datatype.equals(DataType.DOUBLE)) {
+								stack.push(TokenType.DOUBLE_LITERAL);
+								recent = TokenType.IDENT;
+							}
+						}
+						else if(priorty[i][j] == 3) {
+							throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+						}
+					}
+					else {
+						throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+					}
+				}
+			}
+			else if(check(TokenType.L_PAREN)) {//(
+				System.out.println(stack.toString());
+				recentToken = TokenType.L_PAREN;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					LPNum ++;
+					stack.push(recentToken);
+					recent = TokenType.L_PAREN;
+				}
+				else if(priorty[i][j] == 3) {
+					System.out.println(stack.toString());
+					throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+				}
+			}
+			else if(check(TokenType.R_PAREN)&&(LPNum > (int)functionLPRecent.get(functionLPRecent.size()-1))) {//)
+				System.out.println(stack.toString());
+				recentToken = TokenType.R_PAREN;
+				token = seekIf(recentToken);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
 //        		System.out.println(priorty[i][j]);
 //        		System.out.println(priortyToken[i]);
-        		if(priorty[i][j] == 1) {
-        			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
-        				stackEoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.R_PAREN)) {
-        				stackoEo(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.NEGATE)) {
-        				stackoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.AS_KW)) {
-        				stackEoT(stack, token);
-        			}
-        			else if(judgeNum(priortyToken[i])) {
-        				stacko(stack, token);
-        			}
-        		}
-        		else if(priorty[i][j] == 2) {
-        			next();
-        			LPNum --;
-        			stack.push(recentToken);
-        			recent = TokenType.R_PAREN;
-        		}
-        		else if(priorty[i][j] == 3) {
-        			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
-        		}
-        	}
-        	else if(check(TokenType.CHAR_LITERAL)) {
-        		System.out.println(stack.toString());
-        		recentToken = TokenType.UINT_LITERAL;
-        		token = seekIf(TokenType.CHAR_LITERAL);
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
-        		if(priorty[i][j] == 0) {
-        			next();
-        			stack.push(recentToken);
-        			recent = TokenType.UINT_LITERAL;
-        		}
-        		else if(priorty[i][j] == 3) {
-        			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
-        		}
-        	}
-        	else {//#
-        		System.out.println(stack.toString());
-        		TokenType stop = TokenType.STOP;
-        		int i = enumToInt(stack.getTopToken()), j = enumToInt(stop);
-        		if(priorty[i][j] == 1) {
-        			if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
-        				stackEoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.R_PAREN)) {
-        				stackoEo(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.NEGATE)) {
-        				stackoE(stack, token);
-        			}
-        			else if(priortyToken[i].equals(TokenType.AS_KW)) {
-        				stackEoT(stack, token);
-        			}
-        			else if(judgeNum(priortyToken[i])) {
-        				stacko(stack, token);
-        			}
-        		}
-        		else if(priorty[i][j] == 3) {
-        			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
-        		}
-        		else if(priorty[i][j] == 4) {//∑µªÿ
-        			ret = (DataType)stack.getTop();
-        			break;
-        		}
-        	}
-        }
+				if(priorty[i][j] == 1) {
+					if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
+						stackEoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.R_PAREN)) {
+						stackoEo(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.NEGATE)) {
+						stackoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.AS_KW)) {
+						stackEoT(stack, token);
+					}
+					else if(judgeNum(priortyToken[i])) {
+						stacko(stack, token);
+					}
+				}
+				else if(priorty[i][j] == 2) {
+					next();
+					LPNum --;
+					stack.push(recentToken);
+					recent = TokenType.R_PAREN;
+				}
+				else if(priorty[i][j] == 3) {
+					throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+				}
+			}
+			else if(check(TokenType.CHAR_LITERAL)) {
+				System.out.println(stack.toString());
+				recentToken = TokenType.UINT_LITERAL;
+				token = seekIf(TokenType.CHAR_LITERAL);
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
+				if(priorty[i][j] == 0) {
+					next();
+					stack.push(recentToken);
+					recent = TokenType.UINT_LITERAL;
+				}
+				else if(priorty[i][j] == 3) {
+					throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+				}
+			}
+			else {//#
+				System.out.println(stack.toString());
+				TokenType stop = TokenType.STOP;
+				int i = enumToInt(stack.getTopToken()), j = enumToInt(stop);
+				if(priorty[i][j] == 1) {
+					if(judgePM(priortyToken[i])||judgeMD(priortyToken[i])||judgeCMP(priortyToken[i])) {
+						stackEoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.R_PAREN)) {
+						stackoEo(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.NEGATE)) {
+						stackoE(stack, token);
+					}
+					else if(priortyToken[i].equals(TokenType.AS_KW)) {
+						stackEoT(stack, token);
+					}
+					else if(judgeNum(priortyToken[i])) {
+						stacko(stack, token);
+					}
+				}
+				else if(priorty[i][j] == 3) {
+					throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
+				}
+				else if(priorty[i][j] == 4) {//ËøîÂõû
+					ret = (DataType)stack.getTop();
+					break;
+				}
+			}
+		}
 		return ret;
-    }
-    
-    /** 
-     * + - * \ < > <= >= == != ≤Ÿ◊˜
-     * EoE–Õ
-     * @throws AnalyzeError 
-     */
-    private OperatorStack stackEoE(OperatorStack stack, Token token) throws AnalyzeError {
-    	DataType dataType = null;
-    	TokenType tokenType = token.getTokenType();
-    	Object first = stack.getTop();
+	}
+
+	/**
+	 * + - * \ < > <= >= == != Êìç‰Ωú
+	 * EoEÂûã
+	 * @throws AnalyzeError
+	 */
+	private OperatorStack stackEoE(OperatorStack stack, Token token) throws AnalyzeError {
+		DataType dataType = null;
+		TokenType tokenType = token.getTokenType();
+		Object first = stack.getTop();
 		Object second = stack.getSecond();
 		Object third = stack.getThird();
 		if((first instanceof DataType)&&(second instanceof TokenType)&&(third instanceof DataType)) {
@@ -1842,17 +1842,17 @@ public final class Analyser {
 		else {
 			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
 		}
-    	return stack;
-    }
-    
-    /**
-     * ( ) ≤Ÿ◊˜
-     * oEo–Õ
-     */
-    private OperatorStack stackoEo(OperatorStack stack, Token token) throws AnalyzeError {
-    	DataType dataType = null;
-    	TokenType tokenType = token.getTokenType();
-    	Object first = stack.getTop();
+		return stack;
+	}
+
+	/**
+	 * ( ) Êìç‰Ωú
+	 * oEoÂûã
+	 */
+	private OperatorStack stackoEo(OperatorStack stack, Token token) throws AnalyzeError {
+		DataType dataType = null;
+		TokenType tokenType = token.getTokenType();
+		Object first = stack.getTop();
 		Object second = stack.getSecond();
 		Object third = stack.getThird();
 		if((first instanceof TokenType)&&(second instanceof DataType)&&(third instanceof TokenType)) {
@@ -1871,16 +1871,16 @@ public final class Analyser {
 			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
 		}
 		return stack;
-    }
-    
-    /**
-     * '-' «∞÷√∏∫∫≈≤Ÿ◊˜
-     * oE–Õ
-     */
-    private OperatorStack stackoE(OperatorStack stack, Token token) throws AnalyzeError {
-    	DataType dataType = null;
-    	TokenType tokenType = token.getTokenType();
-    	Object first = stack.getTop();
+	}
+
+	/**
+	 * '-' ÂâçÁΩÆË¥üÂè∑Êìç‰Ωú
+	 * oEÂûã
+	 */
+	private OperatorStack stackoE(OperatorStack stack, Token token) throws AnalyzeError {
+		DataType dataType = null;
+		TokenType tokenType = token.getTokenType();
+		Object first = stack.getTop();
 		Object second = stack.getSecond();
 		if((first instanceof DataType)&&(second instanceof TokenType)) {
 			dataType = (DataType)first;
@@ -1892,16 +1892,16 @@ public final class Analyser {
 			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
 		}
 		return stack;
-    }
-    
-    /**
-     * AS≤Ÿ◊˜
-     * EoT–Õ
-     */
-    private OperatorStack stackEoT(OperatorStack stack, Token token) throws AnalyzeError {
-    	DataType dataType = null;
-    	TokenType tokenType = token.getTokenType();
-    	Object first = stack.getTop();
+	}
+
+	/**
+	 * ASÊìç‰Ωú
+	 * EoTÂûã
+	 */
+	private OperatorStack stackEoT(OperatorStack stack, Token token) throws AnalyzeError {
+		DataType dataType = null;
+		TokenType tokenType = token.getTokenType();
+		Object first = stack.getTop();
 		Object second = stack.getSecond();
 		Object third = stack.getThird();
 		if((first instanceof DataKeywordType)&&(second instanceof TokenType)&&(third instanceof DataType)) {
@@ -1925,21 +1925,21 @@ public final class Analyser {
 		else {
 			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
 		}
-    	return stack;
-    }
-    
-    /**
-     * ±‰¡ø◊™ªªtype
-     * o–Õ
-     * @param stack
-     * @param token
-     * @return
-     * @throws AnalyzeError
-     */
-    private OperatorStack stacko(OperatorStack stack, Token token) throws AnalyzeError {
-    	DataType dataType = null;
-    	TokenType tokenType = token.getTokenType();
-    	Object first = stack.getTop();
+		return stack;
+	}
+
+	/**
+	 * ÂèòÈáèËΩ¨Êç¢type
+	 * oÂûã
+	 * @param stack
+	 * @param token
+	 * @return
+	 * @throws AnalyzeError
+	 */
+	private OperatorStack stacko(OperatorStack stack, Token token) throws AnalyzeError {
+		DataType dataType = null;
+		TokenType tokenType = token.getTokenType();
+		Object first = stack.getTop();
 		if((first instanceof TokenType)) {
 			if(TokenType.UINT_LITERAL.equals((TokenType)first)){
 				stack.pop();
@@ -1958,35 +1958,35 @@ public final class Analyser {
 		else {
 			throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
 		}
-    	return stack;
-    }
-    
-    /**
-     * ≈–∂œ «≤ª «+-
-     */
-    private boolean judgePM(TokenType tokenType) {
-    	return (TokenType.PLUS.equals(tokenType)||TokenType.MINUS.equals(tokenType));
-    }
-    
-    /**
-     * ≈–∂œ «≤ª «*\
-     */
-    private boolean judgeMD(TokenType tokenType) {
-    	return (TokenType.MUL.equals(tokenType)||TokenType.DIV.equals(tokenType));
-    }
-    
-    /**
-     * ≈–∂œ «≤ª «<> <= >= == !=
-     */
-    private boolean judgeCMP(TokenType tokenType) {
-    	return (TokenType.LT.equals(tokenType)||TokenType.LE.equals(tokenType)||TokenType.GT.equals(tokenType)||TokenType.GE.equals(tokenType)||TokenType.EQ.equals(tokenType)||TokenType.NEQ.equals(tokenType));
-    }
-    
-    /**
-     * ≈–∂œ «≤ª « uint double
-     */
-    private boolean judgeNum(TokenType tokenType) {
-    	return (TokenType.UINT_LITERAL.equals(tokenType)||TokenType.DOUBLE_LITERAL.equals(tokenType));
-    }
+		return stack;
+	}
+
+	/**
+	 * Âà§Êñ≠ÊòØ‰∏çÊòØ+-
+	 */
+	private boolean judgePM(TokenType tokenType) {
+		return (TokenType.PLUS.equals(tokenType)||TokenType.MINUS.equals(tokenType));
+	}
+
+	/**
+	 * Âà§Êñ≠ÊòØ‰∏çÊòØ*\
+	 */
+	private boolean judgeMD(TokenType tokenType) {
+		return (TokenType.MUL.equals(tokenType)||TokenType.DIV.equals(tokenType));
+	}
+
+	/**
+	 * Âà§Êñ≠ÊòØ‰∏çÊòØ<> <= >= == !=
+	 */
+	private boolean judgeCMP(TokenType tokenType) {
+		return (TokenType.LT.equals(tokenType)||TokenType.LE.equals(tokenType)||TokenType.GT.equals(tokenType)||TokenType.GE.equals(tokenType)||TokenType.EQ.equals(tokenType)||TokenType.NEQ.equals(tokenType));
+	}
+
+	/**
+	 * Âà§Êñ≠ÊòØ‰∏çÊòØ uint double
+	 */
+	private boolean judgeNum(TokenType tokenType) {
+		return (TokenType.UINT_LITERAL.equals(tokenType)||TokenType.DOUBLE_LITERAL.equals(tokenType));
+	}
 }
 
