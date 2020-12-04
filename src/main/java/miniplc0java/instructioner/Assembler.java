@@ -64,6 +64,21 @@ public class Assembler {
 		return null;
 	}
 
+	public String toString(){
+		String ret = "";
+		ret = "72303b3e\n";
+		ret += "00000001\n";
+		ret += (String.format("%08x",this.globals.size())+"\n");
+		for(int i = 0; i < this.globals.size(); i ++) {
+			ret += this.globals.get(i).toString();
+		}
+		ret += (String.format("%08x",this.functions.size())+"\n");
+		for(int i = 0; i < this.functions.size(); i ++) {
+			ret += this.functions.get(i).toString();
+		}
+		return ret;
+	}
+
 	public byte[] toByte() {
 		byte ret[];
 		ret = this.magic;

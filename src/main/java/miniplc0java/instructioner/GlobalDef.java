@@ -2,9 +2,12 @@ package miniplc0java.instructioner;
 
 import miniplc0java.symboltable.FunctionEntry;
 
+import java.util.Arrays;
+
 public class GlobalDef {
 	// 是否为常量？非零值视为真
 	byte is_const ;
+	boolean is_Const;
 	// 数组的长度
 	int count;
 	// 值
@@ -41,6 +44,7 @@ public class GlobalDef {
 	 * @param outChar
 	 */
 	public GlobalDef(boolean isConst, char outChar) {
+		this.is_Const = isConst;
 		long charValue = (long) outChar;
 		this.is_const = (byte) (isConst?1:0);
 		this.count = 8;
@@ -79,6 +83,17 @@ public class GlobalDef {
 		for (int i = 0; i < 8; i++) {
 			this.items[i] = (byte) ((doubleValue >> 8 * i) & 0xff);
 		}
+	}
+
+	@Override
+	public String toString() {
+		String ret = String.format("%02x",(is_Const?0:1)) + "\n"
+				+ String.format("%08x",count) + "\n" ;
+		for(int i = 0; i < items.length; i ++){
+			ret += String.format("%02x", items[i]) ;
+		}
+		ret += "\n";
+		return ret;
 	}
 
 	public byte[] toByte() {

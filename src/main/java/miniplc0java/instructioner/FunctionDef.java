@@ -51,6 +51,18 @@ public class FunctionDef {
 		return ret;
 	}
 
+	@Override
+	public String toString() {//String.format("%08x",this.globals.size())
+		String ret = String.format("%08x",nameOffset) + "\n"
+				+ String.format("%08x",return_slots) + "\n"
+				+ String.format("%08x",param_slots) + "\n"
+				+ String.format("%08x",loc_slots) + "\n";
+		for(int i = 0; i < body.size(); i ++){
+			ret += body.get(i).toString();
+		}
+		return ret;
+	}
+
 	public byte[] toByte() {
 		byte ret[];
 		ret = ChangeToByte.intToByte(this.nameOffset);

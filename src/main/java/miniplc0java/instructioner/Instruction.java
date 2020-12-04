@@ -30,6 +30,21 @@ public class Instruction {
     }
 
     @Override
+    public String toString() {
+        String ret = opt.toString();
+        if(this.type == 1 ){
+            ret += "\n";
+        }
+        else if(this.type == 2 ){
+            ret += String.format("%04x",x) + "\n";
+        }
+        else if(this.type == 3 ){
+            ret += String.format("%08x",y) + "\n";
+        }
+        return ret;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o)
             return true;

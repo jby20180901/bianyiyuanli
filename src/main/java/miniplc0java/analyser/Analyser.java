@@ -107,6 +107,7 @@ public final class Analyser {
 	}
 	public Analyser(Tokenizer tokenizer) {
 		this.tokenizer = tokenizer;
+		this.assembler = new Assembler();
 		/**
 		 * + - 					PLUS MINUS
 		 * 前置- 				NEGATE
@@ -435,6 +436,10 @@ public final class Analyser {
 
 	public byte[] Assemble() {
 		return this.assembler.toByte();
+	}
+
+	public String AssembleTo() {
+		return this.assembler.toString();
 	}
 
 	public void analyse() throws CompileError {

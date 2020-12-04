@@ -1,11 +1,6 @@
+package miniplc0java;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -55,11 +50,21 @@ public class App {
 		analyzer.analyse();
 		iss.write(analyzer.Assemble());
 		iss.close();
+		FileWriter writer;
+		try {
+			writer = new FileWriter("../out.txt");
+			writer.write("");//清空原文件内容
+			writer.write(analyzer.AssembleTo());
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) throws CompileError, IOException {
-//        boolean debug = true;
-		boolean debug = false;
+        boolean debug = true;
+//		boolean debug = false;
 		if (debug) {
 			boolean all = true;
 //        	boolean all = false;
@@ -73,9 +78,9 @@ public class App {
 					System.out.println();
 					System.out.println("CASE+"+i);
 					System.out.println();
-					String source = "./bin/"+i+".c";
+					String source = "D:/编译原理作业/bianyiyuanli/in/"+i+".c";
 					String outputPath = "1.txt";
-					Analyze(source, "./out.o");
+					Analyze(source, "../out.o");
 //	                wordAnalyze(source);
 //	                copy(source);
 				}
@@ -86,9 +91,9 @@ public class App {
 					System.out.println();
 					System.out.println("CASE-SF+"+i);
 					System.out.println();
-					String source = "./bin/"+i+".cpp";
+					String source = "../"+i+".cpp";
 					String outputPath = "1.txt";
-					Analyze(source,"./out.o");
+					Analyze(source,"../out.o");
 //	                wordAnalyze(source);
 //	                copy(source);
 				}
@@ -99,9 +104,9 @@ public class App {
 				System.out.println("----------------------------------------");
 				System.out.println();
 				System.out.println();
-				String source = "./bin/1.cpp";
+				String source = "../1.cpp";
 				String outputPath = "1.txt";
-				Analyze(source, "./out.o");
+				Analyze(source, "../out.o");
 //                wordAnalyze(source);
 //                copy(source);
 			}
