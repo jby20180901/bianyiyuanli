@@ -50,7 +50,7 @@ public class App {
 		iss.write(analyzer.Assemble());
 		iss.close();
 		FileWriter writer;
-		try {
+		/**try {
 			writer = new FileWriter(gotos);
 			writer.write("");//清空原文件内容
 			writer.write(analyzer.AssembleTo());
@@ -58,7 +58,7 @@ public class App {
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	public static void main(String[] args) throws CompileError, IOException {

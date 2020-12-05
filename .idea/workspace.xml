@@ -20,16 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4d414f2-8ab1-4cd8-a81f-c7a71e5cb7ab" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/out/1.s" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/in/1.c" beforeDir="false" afterPath="$PROJECT_DIR$/in/1.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/Assembler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/Assembler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/ChangeToByte.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/ChangeToByte.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/FunctionDef.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/FunctionDef.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/GlobalDef.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/GlobalDef.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/Instruction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/Instruction.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
