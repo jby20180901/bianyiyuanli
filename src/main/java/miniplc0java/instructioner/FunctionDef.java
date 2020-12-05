@@ -16,6 +16,7 @@ public class FunctionDef {
 	int loc_slots;
 	// 函数体
 	ArrayList<Instruction> body;
+	public boolean isRet = false;
 
 	public FunctionDef() {
 		this.nameOffset = 0;
@@ -47,8 +48,15 @@ public class FunctionDef {
 		return this.loc_slots;
 	}
 
+	public int getReturnSlots() {
+		return this.return_slots;
+	}
+
 	public void putInstruction(Instruction newInstruction) {
 		this.body.add(newInstruction);
+		if(InstructionType.ret.equals(newInstruction.getOpt())){
+			this.isRet = true;
+		}
 	}
 
 	public byte[] bodyToByte() {

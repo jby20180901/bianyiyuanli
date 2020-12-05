@@ -22,6 +22,7 @@ public class GlobalDef {
 	public GlobalDef(boolean isConst, FunctionEntry Func) {
 		String FuncName = Func.name;
 		this.is_const = (byte) (isConst?1:0);
+		this.is_Const = isConst;
 		this.count = FuncName.length();
 		this.items = new byte[count];
 		this.items = FuncName.getBytes();
@@ -35,6 +36,7 @@ public class GlobalDef {
 	 */
 	public GlobalDef(boolean isConst, String outStr) {
 		this.is_const = (byte) (isConst?1:0);
+		this.is_Const = isConst;
 		this.count = outStr.length();
 		this.items = new byte[count];
 		this.items = outStr.getBytes();
@@ -66,6 +68,7 @@ public class GlobalDef {
 	 */
 	public GlobalDef(boolean isConst, long longNum) {
 		this.is_const = (byte) (isConst?1:0);
+		this.is_Const = isConst;
 		this.count = 8;
 		this.items = new byte[count];
 		for (int ix = 0; ix < 8; ++ix) {
@@ -83,6 +86,7 @@ public class GlobalDef {
 	public GlobalDef(boolean isConst, double doubleNum) {
 		long doubleValue = Double.doubleToRawLongBits(doubleNum);
 		this.is_const = (byte) (isConst?1:0);
+		this.is_Const = isConst;
 		this.count = 8;
 		this.items = new byte[count];
 		for (int i = 0; i < 8; i++) {
@@ -93,7 +97,7 @@ public class GlobalDef {
 
 	@Override
 	public String toString() {
-		String ret = String.format("%02x",(is_Const?0:1)) + " //is_count\n"
+		String ret = String.format("%02x",(is_Const?1:0)) + " //is_count\n"
 				+ String.format("%08x",count) + "//value.count\n" ;
 		if (this.item instanceof String) {
 			ret += (String)this.item;

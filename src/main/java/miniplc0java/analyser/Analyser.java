@@ -558,6 +558,9 @@ public final class Analyser {
 		if(var.level == 0){
 			in = new Instruction(InstructionType.globa, var.offset);
 		}
+		else if(nowFunc.findArgs(varname)!=null){
+			in = new Instruction(InstructionType.arga, nowFunc.findArgsID(varname));
+		}
 		else{
 			in = new Instruction(InstructionType.loca, var.offset);
 		}
@@ -689,7 +692,7 @@ public final class Analyser {
 	private void startAtMain() throws CompileError {
 		Pos pos = new Pos(0,0);
 		if(SymbolTable.findFunctionEntry("main") != null) {
-			in = new Instruction(InstructionType.stackalloc, 0);
+			in = new Instruction(InstructionType.stackalloc, assembler.findFunctionDef("main").getReturnSlots());
 			_start.putInstruction(in);
 			in = new Instruction(InstructionType.call, assembler.findFunctionDefID(assembler.findFunctionDef("main")));
 			_start.putInstruction(in);
@@ -788,6 +791,10 @@ public final class Analyser {
 		funcDefi.updateNameOffset(assembler.findGlobalFuncDefID(funcDef));
 		nowFunc = functionEntry;
 		analyseFucBlockStmt();
+		if((!funcDefi.isRet)&&(DataType.VOID.equals(datatype))){
+			in = new Instruction(InstructionType.ret);
+			funcDefi.putInstruction(in);
+		}
 		nowFunc = null;
 //        checkFlow();
 	}
@@ -1127,6 +1134,9 @@ public final class Analyser {
 	private void ananlyseReturnStmt() throws CompileError {
 		DataType dataType = null;
 		Token token = expect(TokenType.RETURN_KW);
+		FunctionDef funcDefi = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.arga, 0);
+		funcDefi.putInstruction(in);
 		if(nextIf(TokenType.SEMICOLON)==null){
 			dataType = analyseExpr(TokenType.RETURN_KW);  //表达式整体分析
 			if(dataType==null) {
@@ -1136,6 +1146,11 @@ public final class Analyser {
 				throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
 			}
 			expect(TokenType.SEMICOLON);
+			FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+			in = new Instruction(InstructionType.store_64);
+			funcDef.putInstruction(in);
+			in = new Instruction(InstructionType.ret);
+			funcDef.putInstruction(in);
 		}
 		else {
 			dataType = DataType.VOID;  //表达式整体分析
@@ -1145,6 +1160,9 @@ public final class Analyser {
 			else if(!dataType.equals(nowReturn)) {
 				throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
 			}
+			FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+			in = new Instruction(InstructionType.ret);
+			funcDef.putInstruction(in);
 		}
 		this.ifReturn[this.level] = 1;
 //    	System.out.println("num:"+level+" ifret:"+this.ifReturn[level]);
@@ -1176,6 +1194,7 @@ public final class Analyser {
 		else if(SymbolTable.findVarEntry((String)nameToken.getValue())!=null){
 			varEntry = SymbolTable.findVarEntry((String)nameToken.getValue());
 			leftDataType = varEntry.datatype;
+			getlocal(nameToken.getValueString());
 			expect(TokenType.ASSIGN);
 			rightDataType = analyseExpr(TokenType.ASSIGN);//表达式整体分析
 			if(!leftDataType.equals(rightDataType)) {
@@ -1185,6 +1204,9 @@ public final class Analyser {
 				throw new AnalyzeError(ErrorCode.InvalidAssignment,nameToken.getStartPos());
 			}
 			varEntry.setInitialized(true);
+			FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+			in = new Instruction(InstructionType.store_64);
+			funcDef.putInstruction(in);
 		}
 		else {
 			throw new AnalyzeError(ErrorCode.InvalidAssignment,nameToken.getStartPos());
@@ -1202,6 +1224,9 @@ public final class Analyser {
 		FunctionEntry functionEntry = SymbolTable.findFunctionEntry((String)functionToken.getValue());
 		DataType getDataType = null, baseDataType = null;
 		int i = 0;
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.stackalloc, funcDef.getReturnSlots());
+		funcDef.putInstruction(in);
 		expect(TokenType.L_PAREN);
 		LPNum ++;
 		functionLPRecent.add(LPNum);
@@ -1224,29 +1249,38 @@ public final class Analyser {
 		 * fn putln() -> void
 		 * @throws CompileError
 		 */
+		boolean isSystemCall = false;
 		if("getint".equals(functionEntry.name)) {
 			getDataType = analyseGetint();
+			isSystemCall = true;
 		}
 		else if("getdouble".equals(functionEntry.name)) {
 			getDataType = analyseGetdouble();
+			isSystemCall = true;
 		}
 		else if("getchar".equals(functionEntry.name)) {
 			getDataType = analyseGetchar();
+			isSystemCall = true;
 		}
 		else if("putint".equals(functionEntry.name)) {
 			getDataType = analysePutint();
+			isSystemCall = true;
 		}
 		else if("putdouble".equals(functionEntry.name)) {
 			getDataType = analysePutdouble();
+			isSystemCall = true;
 		}
 		else if("putchar".equals(functionEntry.name)) {
 			getDataType = analysePutchar();
+			isSystemCall = true;
 		}
 		else if("putstr".equals(functionEntry.name)) {
 			getDataType = analysePutstr();
+			isSystemCall = true;
 		}
 		else if("putln".equals(functionEntry.name)) {
 			getDataType = analysePutln();
+			isSystemCall = true;
 		}
 		if(!check(TokenType.R_PAREN)){
 			/**
@@ -1274,6 +1308,10 @@ public final class Analyser {
 			}
 		}
 		expect(TokenType.R_PAREN);
+		if(!isSystemCall) {
+			in = new Instruction(InstructionType.call, assembler.findFunctionDefID(assembler.findFunctionDef(nowFunc.name)));
+			funcDef.putInstruction(in);
+		}
 		LPNum --;
 		functionLPRecent.remove(functionLPRecent.size()-1);
 		return functionEntry.datatype;
@@ -1312,6 +1350,9 @@ public final class Analyser {
 		if(!DataType.INT.equals(putout)) {
 			throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
 		}
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.print_i);
+		funcDef.putInstruction(in);
 		return DataType.VOID;
 	}
 
@@ -1324,6 +1365,9 @@ public final class Analyser {
 		if(!DataType.DOUBLE.equals(putout)) {
 			throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
 		}
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.print_f);
+		funcDef.putInstruction(in);
 		return DataType.VOID;
 	}
 
@@ -1333,6 +1377,9 @@ public final class Analyser {
 	 */
 	private DataType analysePutchar() throws CompileError {
 		next();
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.print_c);
+		funcDef.putInstruction(in);
 		return DataType.VOID;
 	}
 
@@ -1342,6 +1389,9 @@ public final class Analyser {
 	 */
 	private DataType analysePutstr() throws CompileError {
 		next();
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.print_s);
+		funcDef.putInstruction(in);
 		return DataType.VOID;
 	}
 
@@ -1350,6 +1400,9 @@ public final class Analyser {
 	 * fn putln() -> void
 	 */
 	private DataType analysePutln() throws CompileError {
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.println);
+		funcDef.putInstruction(in);
 		return DataType.VOID;
 	}
 

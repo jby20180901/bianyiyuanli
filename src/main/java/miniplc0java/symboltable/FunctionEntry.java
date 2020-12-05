@@ -26,6 +26,20 @@ public class FunctionEntry extends Entry{
 		argsList.add(var);
 	}
 
+	public VarEntry findArgs(String name){
+		return argsMap.get(name);
+	}
+
+	public int findArgsID(String name){
+		int ret = -1;
+		for(int i = 0; i < argsList.size(); i ++){
+			if(argsList.get(i).equals(findArgs(name))){
+				ret = i;
+			}
+		}
+		return ret + 1;
+	}
+
 	public DataType getArgData(int index) {
 		if(index >= getSize()) {
 			return null;
