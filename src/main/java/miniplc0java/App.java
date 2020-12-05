@@ -65,8 +65,8 @@ public class App {
 //        boolean debug = true;
 		boolean debug = false;
 		if (debug) {
-			boolean all = true;
-//        	boolean all = false;
+//			boolean all = true;
+        	boolean all = false;
 			int totalNum = 30;
 			int totalNum1 = 1;
 			if(all) {

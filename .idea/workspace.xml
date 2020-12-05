@@ -89,7 +89,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607087596155</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="update">
+      <created>1607163518857</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1607163518857</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -108,7 +115,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="更新了汇编语言生成" />
     <MESSAGE value="init" />
-    <option name="LAST_COMMIT_MESSAGE" value="init" />
+    <MESSAGE value="update" />
+    <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="WindowStateProjectService">
     <state x="525" y="212" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607142681675">
@@ -119,22 +127,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="510" y="112" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1607087295695" />
-    <state width="1491" height="133" key="GridCell.Tab.0.bottom" timestamp="1607151896720">
+    <state width="1056" height="133" key="GridCell.Tab.0.bottom" timestamp="1607163569445">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="133" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607151896720" />
-    <state width="1491" height="133" key="GridCell.Tab.0.center" timestamp="1607151896720">
+    <state width="1056" height="133" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607163569445" />
+    <state width="1056" height="133" key="GridCell.Tab.0.center" timestamp="1607163569445">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="133" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1607151896720" />
-    <state width="1491" height="133" key="GridCell.Tab.0.left" timestamp="1607151896720">
+    <state width="1056" height="133" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1607163569445" />
+    <state width="1056" height="133" key="GridCell.Tab.0.left" timestamp="1607163569445">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="133" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1607151896720" />
-    <state width="1491" height="133" key="GridCell.Tab.0.right" timestamp="1607151896720">
+    <state width="1056" height="133" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1607163569445" />
+    <state width="1056" height="133" key="GridCell.Tab.0.right" timestamp="1607163569445">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="133" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607151896720" />
+    <state width="1056" height="133" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607163569445" />
     <state x="270" y="57" key="SettingsEditor" timestamp="1607082216002">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
