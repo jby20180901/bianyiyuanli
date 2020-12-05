@@ -1,17 +1,20 @@
 package miniplc0java.instructioner;
 
 import java.util.Objects;
+import java.util.function.DoubleUnaryOperator;
 
 public class Instruction {
     private InstructionType opt;
     Integer x;
     Long y;
+    Double z;
     int type;
 
     public Instruction(InstructionType opt) {
         this.opt = opt;
         this.x = 0;
         this.y = (long) 0;
+        this.z = 0.0;
         this.type = 1;
     }
 
@@ -19,6 +22,7 @@ public class Instruction {
         this.opt = opt;
         this.x = x;
         this.y = (long) 0;
+        this.z = 0.0;
         this.type = 2;
     }
 
@@ -26,6 +30,15 @@ public class Instruction {
         this.opt = opt;
         this.x = 0;
         this.y = y;
+        this.z = 0.0;
+        this.type = 3;
+    }
+
+    public Instruction(InstructionType opt, Double z) {
+        this.opt = opt;
+        this.x = 0;
+        this.y = (long)0;
+        this.z = z;
         this.type = 3;
     }
 
@@ -36,10 +49,13 @@ public class Instruction {
             ret += "\n";
         }
         else if(this.type == 2 ){
-            ret += String.format("%04x",x) + "\n";
+            ret += String.format("%08x",x) + "\n";
         }
         else if(this.type == 3 ){
-            ret += String.format("%08x",y) + "\n";
+            ret += String.format("%016x",y) + "\n";
+        }
+        else if(this.type == 4 ){
+            ret += String.format("%016x",z) + "\n";
         }
         return ret;
     }
@@ -90,6 +106,11 @@ public class Instruction {
             ret = new byte[1];
             ret[0] = this.opt.toAssemble();
             ret = ChangeToByte.concat(ret, ChangeToByte.longToByte((long)this.y));
+        }
+        else if(this.type == 4){
+            ret = new byte[1];
+            ret[0] = this.opt.toAssemble();
+            ret = ChangeToByte.concat(ret, ChangeToByte.doubleToByte((long)this.y));
         }
         else {
             ret = null;

@@ -8,6 +8,8 @@ public class Assembler {
 	byte version[];//0x00000001
 	ArrayList<GlobalDef> globals;
 	HashMap<String,GlobalDef> globalsMap;
+	ArrayList<GlobalDef> globalsFunc;
+	HashMap<String,GlobalDef> globalsFuncMap;
 	ArrayList<FunctionDef> functions;
 	HashMap<String,FunctionDef> functionsMap;
 	public Assembler() {
@@ -23,6 +25,8 @@ public class Assembler {
 		this.version[3] = (byte)0x01;
 		this.globals = new ArrayList<GlobalDef>();
 		this.globalsMap = new HashMap<String,GlobalDef>();
+		this.globalsFunc = new ArrayList<GlobalDef>();
+		this.globalsFuncMap = new HashMap<String,GlobalDef>();
 		this.functions = new ArrayList<FunctionDef>();
 		this.functionsMap = new HashMap<String,FunctionDef>();
 	}
@@ -50,6 +54,29 @@ public class Assembler {
 		return -1;
 	}
 
+	public void addGlobalFuncDef(GlobalDef def, String name) {
+		globalsFunc.add(def);
+		globalsFuncMap.put(name, def);
+	}
+
+	public GlobalDef findGlobalFuncDef(String name) {
+		if(globalsFuncMap.containsKey(name)) {
+			if(globalsFuncMap.get(name) instanceof GlobalDef) {
+				return (GlobalDef) globalsFuncMap.get(name);
+			}
+		}
+		return null;
+	}
+
+	public int findGlobalFuncDefID(GlobalDef def) {
+		for(int i = 0; i < globalsFunc.size(); i ++) {
+			if(def.equals(globalsFunc.get(i))){
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	public void addFunctionDef(FunctionDef def,String name) {
 		functions.add(def);
 		functionsMap.put(name, def);
@@ -58,21 +85,33 @@ public class Assembler {
 	public FunctionDef findFunctionDef(String name) {
 		if(functionsMap.containsKey(name)) {
 			if(functionsMap.get(name) instanceof FunctionDef) {
-				return (FunctionDef) functionsMap.get(name);
+				return functionsMap.get(name);
 			}
 		}
 		return null;
 	}
 
+	public int findFunctionDefID(FunctionDef def) {
+		for(int i = 0; i < functions.size(); i ++) {
+			if(def.equals(functions.get(i))){
+				return i;
+			}
+		}
+		return -1;
+	}
+
 	public String toString(){
 		String ret = "";
-		ret = "72303b3e\n";
-		ret += "00000001\n";
-		ret += (String.format("%08x",this.globals.size())+"\n");
+		ret = "72303b3e//magic\n";
+		ret += "00000001//version\n";
+		ret += (String.format("%08x",this.globals.size()+this.globalsFunc.size())+"//globals.count\n");
 		for(int i = 0; i < this.globals.size(); i ++) {
 			ret += this.globals.get(i).toString();
 		}
-		ret += (String.format("%08x",this.functions.size())+"\n");
+		for(int i = 0; i < this.globalsFunc.size(); i ++) {
+			ret += this.globalsFunc.get(i).toString();
+		}
+		ret += (String.format("%08x",this.functions.size())+"//functions.count\n");
 		for(int i = 0; i < this.functions.size(); i ++) {
 			ret += this.functions.get(i).toString();
 		}
@@ -83,9 +122,12 @@ public class Assembler {
 		byte ret[];
 		ret = this.magic;
 		ret = ChangeToByte.concat(ret, this.version);
-		ret = ChangeToByte.concat(ret, ChangeToByte.intToByte(this.globals.size()));
+		ret = ChangeToByte.concat(ret, ChangeToByte.intToByte(this.globals.size()+this.globalsFunc.size()));
 		for(int i = 0; i < this.globals.size(); i ++) {
 			ret = ChangeToByte.concat(ret, this.globals.get(i).toByte());
+		}
+		for(int i = 0; i < this.globalsFunc.size(); i ++) {
+			ret = ChangeToByte.concat(ret, this.globalsFunc.get(i).toByte());
 		}
 		ret = ChangeToByte.concat(ret, ChangeToByte.intToByte(this.functions.size()));
 		for(int i = 0; i < this.functions.size(); i ++) {

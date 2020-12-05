@@ -9,7 +9,6 @@ import miniplc0java.analyser.Analyser;
 import miniplc0java.error.CompileError;
 import miniplc0java.error.TokenizeError;
 import miniplc0java.symboltable.SymbolTable;
-//import instruction.Instruction;
 import miniplc0java.tokenizer.StringIter;
 import miniplc0java.tokenizer.Token;
 import miniplc0java.tokenizer.TokenType;
@@ -52,7 +51,7 @@ public class App {
 		iss.close();
 		FileWriter writer;
 		try {
-			writer = new FileWriter("../out.txt");
+			writer = new FileWriter(gotos);
 			writer.write("");//清空原文件内容
 			writer.write(analyzer.AssembleTo());
 			writer.flush();
@@ -63,8 +62,8 @@ public class App {
 	}
 
 	public static void main(String[] args) throws CompileError, IOException {
-        boolean debug = true;
-//		boolean debug = false;
+//        boolean debug = true;
+		boolean debug = false;
 		if (debug) {
 			boolean all = true;
 //        	boolean all = false;
@@ -79,8 +78,8 @@ public class App {
 					System.out.println("CASE+"+i);
 					System.out.println();
 					String source = "D:/编译原理作业/bianyiyuanli/in/"+i+".c";
-					String outputPath = "1.txt";
-					Analyze(source, "../out.o");
+					String outputPath = "D:/编译原理作业/bianyiyuanli/out/"+i+".s";
+					Analyze(source, outputPath);
 //	                wordAnalyze(source);
 //	                copy(source);
 				}

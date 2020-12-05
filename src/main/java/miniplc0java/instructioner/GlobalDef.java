@@ -12,7 +12,8 @@ public class GlobalDef {
 	int count;
 	// 值
 	byte items[];
-
+	//值
+	Object item;
 	/**
 	 * 函数名 转 byte[]
 	 * @param isConst
@@ -24,6 +25,7 @@ public class GlobalDef {
 		this.count = FuncName.length();
 		this.items = new byte[count];
 		this.items = FuncName.getBytes();
+		this.item = FuncName;
 	}
 
 	/**
@@ -36,6 +38,7 @@ public class GlobalDef {
 		this.count = outStr.length();
 		this.items = new byte[count];
 		this.items = outStr.getBytes();
+		this.item = outStr;
 	}
 
 	/**
@@ -53,6 +56,7 @@ public class GlobalDef {
 			int offset = 64 - (ix + 1) * 8;
 			this.items[ix] = (byte) ((charValue >> offset) & 0xff);
 		}
+		this.item = outChar;
 	}
 
 	/**
@@ -68,6 +72,7 @@ public class GlobalDef {
 			int offset = 64 - (ix + 1) * 8;
 			this.items[ix] = (byte) ((longNum >> offset) & 0xff);
 		}
+		this.item = longNum;
 	}
 
 	/**
@@ -83,14 +88,20 @@ public class GlobalDef {
 		for (int i = 0; i < 8; i++) {
 			this.items[i] = (byte) ((doubleValue >> 8 * i) & 0xff);
 		}
+		this.item = doubleNum;
 	}
 
 	@Override
 	public String toString() {
-		String ret = String.format("%02x",(is_Const?0:1)) + "\n"
-				+ String.format("%08x",count) + "\n" ;
-		for(int i = 0; i < items.length; i ++){
-			ret += String.format("%02x", items[i]) ;
+		String ret = String.format("%02x",(is_Const?0:1)) + " //is_count\n"
+				+ String.format("%08x",count) + "//value.count\n" ;
+		if (this.item instanceof String) {
+			ret += (String)this.item;
+		}
+		else {
+			for(int i = 0; i < this.items.length; i ++){
+				ret += this.items[i];
+			}
 		}
 		ret += "\n";
 		return ret;

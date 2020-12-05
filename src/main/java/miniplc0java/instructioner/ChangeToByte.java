@@ -21,6 +21,16 @@ public class ChangeToByte {
 		return byteNum;
 	}
 
+	public static byte[] doubleToByte(long in) {
+		long value = Double.doubleToRawLongBits(in);
+		byte[] byteNum = new byte[8];
+		for (int ix = 0; ix < 8; ++ix) {
+			int offset = 64 - (ix + 1) * 8;
+			byteNum[ix] = (byte) ((value >> offset) & 0xff);
+		}
+		return byteNum;
+	}
+
 
 	public static byte[] concat(byte[] isCount, byte[] bs) {
 		byte[] result = Arrays.copyOf(isCount, isCount.length + bs.length);

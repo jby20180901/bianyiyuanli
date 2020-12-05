@@ -1,15 +1,15 @@
 package miniplc0java.analyser;
 
+import java.security.DrbgParameters;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import miniplc0java.error.AnalyzeError;
 import miniplc0java.error.CompileError;
 import miniplc0java.error.ErrorCode;
 import miniplc0java.error.ExpectedTokenError;
 import miniplc0java.error.TokenizeError;
-import miniplc0java.instructioner.Assembler;
-import miniplc0java.instructioner.FunctionDef;
-import miniplc0java.instructioner.GlobalDef;
+import miniplc0java.instructioner.*;
 import miniplc0java.tokenizer.Token;
 import miniplc0java.tokenizer.TokenType;
 import miniplc0java.tokenizer.Tokenizer;
@@ -30,11 +30,13 @@ public final class Analyser {
 	private TokenType[] priortyToken = new TokenType[20];
 	ArrayList<Object> functionLPRecent = new ArrayList<>();
 	FunctionEntry nowFunc = null;
+	FunctionDef _start = new FunctionDef();
 	int ifReturn[] = new int[1000];
 	boolean isVoid = false;
 	int LPNum = 0;
 	DataType nowReturn = null; //当前返回值类型
 	boolean isInLoop = false;	//当前在循环体内部
+	Instruction in ;
 	/** 当前偷看的 token */
 	Token peekedToken = null;
 
@@ -108,6 +110,8 @@ public final class Analyser {
 	public Analyser(Tokenizer tokenizer) {
 		this.tokenizer = tokenizer;
 		this.assembler = new Assembler();
+		assembler.addFunctionDef(_start,"_start");
+		_start = assembler.findFunctionDef("_start");
 		/**
 		 * + - 					PLUS MINUS
 		 * 前置- 				NEGATE
@@ -538,6 +542,35 @@ public final class Analyser {
 		}
 	}
 
+	private void putInstruction(Instruction in){
+		if(nowFunc == null) {//这里是全局空间
+			_start.putInstruction(in);
+		}
+		else {
+			FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+			funcDef.putInstruction(in);
+		}
+	}
+
+	private void getlocal(String varname){
+		Instruction in ;
+		VarEntry var = SymbolTable.findVarEntry(varname);
+		if(var.level == 0){
+			in = new Instruction(InstructionType.globa, var.offset);
+		}
+		else{
+			in = new Instruction(InstructionType.loca, var.offset);
+		}
+		if(nowFunc == null) {//这里是全局空间
+			_start.putInstruction(in);
+		}
+		else {
+			FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+			funcDef.putInstruction(in);
+		}
+	}
+
+
 	/**
 	 * 读入一个有符号整数
 	 * fn getint() -> int
@@ -656,7 +689,12 @@ public final class Analyser {
 	private void startAtMain() throws CompileError {
 		Pos pos = new Pos(0,0);
 		if(SymbolTable.findFunctionEntry("main") != null) {
-
+			in = new Instruction(InstructionType.stackalloc, 0);
+			_start.putInstruction(in);
+			in = new Instruction(InstructionType.call, assembler.findFunctionDefID(assembler.findFunctionDef("main")));
+			_start.putInstruction(in);
+			GlobalDef funcDef = new GlobalDef(true, "_start");
+			assembler.addGlobalDef(funcDef, "_start");
 		}
 		else {
 			throw new AnalyzeError(ErrorCode.NoBegin,pos);
@@ -744,10 +782,10 @@ public final class Analyser {
 		nowReturn = datatype;
 		System.out.println("nowReturn:"+nowReturn);
 		funcDef = new GlobalDef(true, functionEntry);
-		assembler.addGlobalDef(funcDef, functionEntry.name);
+		assembler.addGlobalFuncDef(funcDef, functionEntry.name);
 		funcDefi = new FunctionDef(functionEntry);
 		assembler.addFunctionDef(funcDefi, functionEntry.name);
-		funcDefi.updateNameOffset(assembler.findGlobalDefID(funcDef));
+		funcDefi.updateNameOffset(assembler.findGlobalFuncDefID(funcDef));
 		nowFunc = functionEntry;
 		analyseFucBlockStmt();
 		nowFunc = null;
@@ -961,13 +999,34 @@ public final class Analyser {
 		else {
 			throw new AnalyzeError(ErrorCode.InvalidVariableDeclaration,varTypeToken.getStartPos());
 		}
+		if(nowFunc == null) {//这里是全局空间
+			GlobalDef varDef = new GlobalDef(isConst, (DataType.INT.equals(datatype)?(long)0:(double)0.0));
+			assembler.addGlobalDef(varDef, varName);
+			offset = assembler.findGlobalDefID(varDef);
+		}
+		else{
+			FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+			offset = funcDef.getLocSlots();
+			funcDef.updateLocSlots(funcDef.getLocSlots()+1);
+			nowFunc.offset ++;
+		}
 		if(isConst) {
 			expect(TokenType.ASSIGN);
+			if(nowFunc == null) {//这里是全局空间
+				in = new Instruction(InstructionType.globa, offset);//global offset
+				putInstruction(in);
+			}
+			else {
+				in = new Instruction(InstructionType.loca, offset);//lobal offset
+				putInstruction(in);
+			}
 			rDataType = analyseExpr(TokenType.ASSIGN);//表达式整体分析
 			if(!datatype.equals(rDataType)) {
 				throw new AnalyzeError(ErrorCode.InvalidInput,varTypeToken.getStartPos());
 			}
 			expect(TokenType.SEMICOLON);
+			in = new Instruction(InstructionType.store_64);//store.64
+			putInstruction(in);
 			//增加这个变量
 			SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
 
@@ -987,14 +1046,14 @@ public final class Analyser {
 			SymbolTable.insertVarEntry(level, varName, false, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
 		}
 		VarEntry varEntry = SymbolTable.findVarEntry(varName, level);
-		GlobalDef varDef = new GlobalDef(isConst, (DataType.INT.equals(datatype)?(long)0:(double)0.0));
-		if(nowFunc == null) {
-			assembler.addGlobalDef(varDef, varName);
-			varEntry.offset = assembler.findGlobalDefID(varDef);
+		varEntry.offset = offset;
+		if(nowFunc == null) {//这里是全局空间
+			if(rDataType!=null) {
+				;
+			}
 		}
 		else {
 			FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
-			varEntry.offset = funcDef.getLocSlots();
 			funcDef.updateLocSlots(funcDef.getLocSlots()+1);
 			nowFunc.offset ++;
 		}
@@ -1308,6 +1367,7 @@ public final class Analyser {
 	private DataType analyseExpr(TokenType recent) throws CompileError {
 		TokenType recentToken = null;
 		OperatorStack stack = new OperatorStack();
+		Stack<Object> numStack = new Stack<>();
 		DataType ret = DataType.VOID;
 		Token token = null;
 		stack.push(TokenType.STOP);
@@ -1351,7 +1411,7 @@ public final class Analyser {
 						stackEoT(stack, token);
 					}
 					else if(judgeNum(priortyToken[i])) {
-						stacko(stack, token);
+						stacko(stack, token, numStack);
 					}
 				}
 			}
@@ -1396,7 +1456,7 @@ public final class Analyser {
 							stackEoT(stack, token);
 						}
 						else if(judgeNum(priortyToken[i])) {
-							stacko(stack, token);
+							stacko(stack, token, numStack);
 						}
 					}
 				}
@@ -1425,7 +1485,7 @@ public final class Analyser {
 						stackEoT(stack, token);
 					}
 					else if(judgeNum(priortyToken[i])) {
-						stacko(stack, token);
+						stacko(stack, token, numStack);
 					}
 				}
 			}
@@ -1453,7 +1513,7 @@ public final class Analyser {
 						stackEoT(stack, token);
 					}
 					else if(judgeNum(priortyToken[i])) {
-						stacko(stack, token);
+						stacko(stack, token, numStack);
 					}
 				}
 			}
@@ -1481,7 +1541,7 @@ public final class Analyser {
 						stackEoT(stack, token);
 					}
 					else if(judgeNum(priortyToken[i])) {
-						stacko(stack, token);
+						stacko(stack, token, numStack);
 					}
 				}
 			}
@@ -1509,7 +1569,7 @@ public final class Analyser {
 						stackEoT(stack, token);
 					}
 					else if(judgeNum(priortyToken[i])) {
-						stacko(stack, token);
+						stacko(stack, token, numStack);
 					}
 				}
 			}
@@ -1537,7 +1597,7 @@ public final class Analyser {
 						stackEoT(stack, token);
 					}
 					else if(judgeNum(priortyToken[i])) {
-						stacko(stack, token);
+						stacko(stack, token, numStack);
 					}
 				}
 			}
@@ -1565,7 +1625,7 @@ public final class Analyser {
 						stackEoT(stack, token);
 					}
 					else if(judgeNum(priortyToken[i])) {
-						stacko(stack, token);
+						stacko(stack, token, numStack);
 					}
 				}
 			}
@@ -1593,7 +1653,7 @@ public final class Analyser {
 						stackEoT(stack, token);
 					}
 					else if(judgeNum(priortyToken[i])) {
-						stacko(stack, token);
+						stacko(stack, token, numStack);
 					}
 				}
 			}
@@ -1621,7 +1681,7 @@ public final class Analyser {
 						stackEoT(stack, token);
 					}
 					else if(judgeNum(priortyToken[i])) {
-						stacko(stack, token);
+						stacko(stack, token, numStack);
 					}
 				}
 			}
@@ -1646,7 +1706,7 @@ public final class Analyser {
 						stackEoT(stack, token);
 					}
 					else if(judgeNum(priortyToken[i])) {
-						stacko(stack, token);
+						stacko(stack, token, numStack);
 					}
 				}
 			}
@@ -1656,6 +1716,7 @@ public final class Analyser {
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
 				if(priorty[i][j] == 0) {
+					numStack.push(token.getValue());
 					next();
 					stack.push(recentToken);
 					recent = TokenType.UINT_LITERAL;
@@ -1670,6 +1731,7 @@ public final class Analyser {
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
 				if(priorty[i][j] == 0) {
+					numStack.push(token.getValue());
 					next();
 					stack.push(recentToken);
 					recent = TokenType.DOUBLE_LITERAL;
@@ -1707,10 +1769,12 @@ public final class Analyser {
 						if(priorty[i][j] == 0) {
 							next();
 							if(SymbolTable.findVarEntry((String)token.getValue()).datatype.equals(DataType.INT)) {
+								numStack.push(SymbolTable.findVarEntry((String)token.getValue()));
 								stack.push(TokenType.UINT_LITERAL);
 								recent = TokenType.IDENT;
 							}
 							else if(SymbolTable.findVarEntry((String)token.getValue()).datatype.equals(DataType.DOUBLE)) {
+								numStack.push(SymbolTable.findVarEntry((String)token.getValue()));
 								stack.push(TokenType.DOUBLE_LITERAL);
 								recent = TokenType.IDENT;
 							}
@@ -1761,7 +1825,7 @@ public final class Analyser {
 						stackEoT(stack, token);
 					}
 					else if(judgeNum(priortyToken[i])) {
-						stacko(stack, token);
+						stacko(stack, token, numStack);
 					}
 				}
 				else if(priorty[i][j] == 2) {
@@ -1806,7 +1870,7 @@ public final class Analyser {
 						stackEoT(stack, token);
 					}
 					else if(judgeNum(priortyToken[i])) {
-						stacko(stack, token);
+						stacko(stack, token, numStack);
 					}
 				}
 				else if(priorty[i][j] == 3) {
@@ -1838,6 +1902,99 @@ public final class Analyser {
 				stack.pop();
 				stack.pop();
 				stack.pop();
+				if(TokenType.PLUS.equals((TokenType)second)) {
+					if (dataType.equals(DataType.INT)) {
+						in = new Instruction(InstructionType.add_i);//add.i
+					} else {
+						in = new Instruction(InstructionType.add_f);//add.f
+					}
+				}
+				else if(TokenType.MINUS.equals((TokenType)second)) {
+					if (dataType.equals(DataType.INT)) {
+						in = new Instruction(InstructionType.sub_i);//sub.i
+					} else {
+						in = new Instruction(InstructionType.sub_f);//sub.f
+					}
+				}
+				else if(TokenType.MUL.equals((TokenType)second)) {
+					if (dataType.equals(DataType.INT)) {
+						in = new Instruction(InstructionType.mul_i);//mul.i
+					} else {
+						in = new Instruction(InstructionType.mul_f);//mul.f
+					}
+				}
+				else if(TokenType.DIV.equals((TokenType)second)) {
+					if (dataType.equals(DataType.INT)) {
+						in = new Instruction(InstructionType.div_i);//div.i
+					} else {
+						in = new Instruction(InstructionType.div_f);//div.f
+					}
+				}
+				else if(TokenType.LT.equals((TokenType)second)) {//<
+					if (dataType.equals(DataType.INT)) {
+						in = new Instruction(InstructionType.cmp_i);//cmp.i
+					} else {
+						in = new Instruction(InstructionType.cmp_f);//cmp.f
+					}
+					putInstruction(in);
+					in = new Instruction(InstructionType.set_lt);//<是真
+					putInstruction(in);
+					in = new Instruction(InstructionType.br_true,1);
+				}
+				else if(TokenType.GT.equals((TokenType)second)) {//>
+					if (dataType.equals(DataType.INT)) {
+						in = new Instruction(InstructionType.cmp_i);//cmp.i
+					} else {
+						in = new Instruction(InstructionType.cmp_f);//cmp.f
+					}
+					putInstruction(in);
+					in = new Instruction(InstructionType.set_gt);//>是真
+					putInstruction(in);
+					in = new Instruction(InstructionType.br_true,1);
+				}
+				else if(TokenType.LE.equals((TokenType)second)) {//<=
+					if (dataType.equals(DataType.INT)) {
+						in = new Instruction(InstructionType.cmp_i);//cmp.i
+					} else {
+						in = new Instruction(InstructionType.cmp_f);//cmp.f
+					}
+					putInstruction(in);
+					in = new Instruction(InstructionType.set_gt);//>是假
+					putInstruction(in);
+					in = new Instruction(InstructionType.br_false,1);
+				}
+				else if(TokenType.GE.equals((TokenType)second)) {//>=
+					if (dataType.equals(DataType.INT)) {
+						in = new Instruction(InstructionType.cmp_i);//cmp.i
+					} else {
+						in = new Instruction(InstructionType.cmp_f);//cmp.f
+					}
+					putInstruction(in);
+					in = new Instruction(InstructionType.set_lt);//<是假
+					putInstruction(in);
+					in = new Instruction(InstructionType.br_false,1);
+				}
+				else if(TokenType.EQ.equals((TokenType)second)) {//==
+					if (dataType.equals(DataType.INT)) {
+						in = new Instruction(InstructionType.cmp_i);//cmp.i
+					} else {
+						in = new Instruction(InstructionType.cmp_f);//cmp.f
+					}
+					putInstruction(in);
+					in = new Instruction(InstructionType.not);//是0则为1
+					putInstruction(in);
+					in = new Instruction(InstructionType.br_true,1);
+				}
+				else if(TokenType.NEQ.equals((TokenType)second)) {//!=
+					if (dataType.equals(DataType.INT)) {
+						in = new Instruction(InstructionType.cmp_i);//cmp.i
+					} else {
+						in = new Instruction(InstructionType.cmp_f);//cmp.f
+					}
+					putInstruction(in);
+					in = new Instruction(InstructionType.br_true,1);
+				}
+				putInstruction(in);
 				stack.push(dataType);
 			}
 			else {
@@ -1941,19 +2098,38 @@ public final class Analyser {
 	 * @return
 	 * @throws AnalyzeError
 	 */
-	private OperatorStack stacko(OperatorStack stack, Token token) throws AnalyzeError {
+	private OperatorStack stacko(OperatorStack stack, Token token, Stack numStack) throws AnalyzeError {
 		DataType dataType = null;
 		TokenType tokenType = token.getTokenType();
 		Object first = stack.getTop();
+		Object needPush = numStack.pop();
 		if((first instanceof TokenType)) {
 			if(TokenType.UINT_LITERAL.equals((TokenType)first)){
 				stack.pop();
 				dataType = DataType.INT;
+				if(needPush instanceof Long) {
+					in = new Instruction(InstructionType.push, (long)needPush);//push int
+					putInstruction(in);
+				}
+				else{
+					getlocal(((VarEntry)needPush).name);
+					in = new Instruction(InstructionType.load_64);//load.64
+					putInstruction(in);
+				}
 				stack.push(dataType);
 			}
 			else if(TokenType.DOUBLE_LITERAL.equals((TokenType)first)){
 				stack.pop();
 				dataType = DataType.DOUBLE;
+				if(needPush instanceof Double) {
+					in = new Instruction(InstructionType.push, (double)needPush);//push double
+					putInstruction(in);
+				}
+				else{
+					getlocal(((VarEntry)needPush).name);
+					in = new Instruction(InstructionType.load_64);//load.64
+					putInstruction(in);
+				}
 				stack.push(dataType);
 			}
 			else {
