@@ -100,11 +100,14 @@ public class GlobalDef {
 		String ret = String.format("%02x",(is_Const?1:0)) + " //is_count\n"
 				+ String.format("%08x",count) + "//value.count\n" ;
 		if (this.item instanceof String) {
-			ret += (String)this.item;
+			for(int i = 0; i < this.items.length; i ++){
+				ret += String.format("%02x", this.items[i]);
+			}
+			ret += "//" + (String)this.item;
 		}
 		else {
 			for(int i = 0; i < this.items.length; i ++){
-				ret += this.items[i];
+				ret += String.format("%02x", this.items[i]);
 			}
 		}
 		ret += "\n";

@@ -44,18 +44,18 @@ public class Instruction {
 
     @Override
     public String toString() {
-        String ret = opt.toString();
+        String ret = opt.toAssembleString() ;
         if(this.type == 1 ){
-            ret += "\n";
+            ret += "//"+ opt.toString() + "\n";
         }
         else if(this.type == 2 ){
-            ret += String.format("%08x",x) + "\n";
+            ret += String.format("%08x",x) + "//"+ opt.toString() + "\n";
         }
         else if(this.type == 3 ){
-            ret += String.format("%016x",y) + "\n";
+            ret += String.format("%016x",y) + "//"+ opt.toString() + "\n";
         }
         else if(this.type == 4 ){
-            ret += String.format("%016x",z) + "\n";
+            ret += String.format("%016x",z) + "//"+ opt.toString() + "\n";
         }
         return ret;
     }

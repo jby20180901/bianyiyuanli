@@ -785,10 +785,10 @@ public final class Analyser {
 		nowReturn = datatype;
 		System.out.println("nowReturn:"+nowReturn);
 		funcDef = new GlobalDef(true, functionEntry);
-		assembler.addGlobalFuncDef(funcDef, functionEntry.name);
+		assembler.addGlobalDef(funcDef, functionEntry.name);
 		funcDefi = new FunctionDef(functionEntry);
 		assembler.addFunctionDef(funcDefi, functionEntry.name);
-		funcDefi.updateNameOffset(assembler.findGlobalFuncDefID(funcDef));
+		funcDefi.updateNameOffset(assembler.findGlobalDefID(funcDef));
 		nowFunc = functionEntry;
 		analyseFucBlockStmt();
 		if((!funcDefi.isRet)&&(DataType.VOID.equals(datatype))){

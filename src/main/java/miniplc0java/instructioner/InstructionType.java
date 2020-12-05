@@ -245,6 +245,190 @@ public enum InstructionType {
 		}
 	}
 
+	public String toAssembleString(){
+		switch(this) {
+			/**0x00*/
+			case nop:
+				return "00";
+			/**0x01*/
+			case push:
+				return "01";
+			/**0x02*/
+			case pop:
+				return "02";
+			/**0x03*/
+			case popn:
+				return "03";
+			/**0x04*/
+			case dup:
+				return "04";
+			/**0x0a*/
+			case loca:
+				return "0a";
+			/**0x0b*/
+			case arga:
+				return "0b";
+			/**0x0c*/
+			case globa:
+				return "0c";
+			/**0x10*/
+			case load_8:
+				return "10";
+			/**0x11*/
+			case load_16:
+				return "11";
+			/**0x12*/
+			case load_32:
+				return "12";
+			/**0x13*/
+			case load_64:
+				return "13";
+			/**0x14*/
+			case store_8:
+				return "14";
+			/**0x15*/
+			case store_16:
+				return "15";
+			/**0x16*/
+			case store_32:
+				return "16";
+			/**0x17*/
+			case store_64:
+				return "17";
+			/**0x18*/
+			case alloc:
+				return "18";
+			/**0x19*/
+			case free:
+				return "19";
+			/**    0x1a*/
+			case stackalloc:
+				return "1a";
+			/**    0x20*/
+			case add_i:
+				return "20";
+			/**    0x21*/
+			case sub_i:
+				return "21";
+			/**    0x22*/
+			case mul_i:
+				return "22";
+			/**    0x23*/
+			case div_i:
+				return "23";
+			/**    0x24*/
+			case add_f:
+				return "24";
+			/**    0x25*/
+			case sub_f:
+				return "25";
+			/**    0x26*/
+			case mul_f:
+				return "26";
+			/**    0x27*/
+			case div_f:
+				return "27";
+			/**    0x28*/
+			case div_u:
+				return "28";
+			/**    0x29*/
+			case shl:
+				return "29";
+			/**    0x2a*/
+			case shr:
+				return "2a";
+			/**    0x2b*/
+			case and:
+				return "2b";
+			/**    0x2c*/
+			case or:
+				return "2c";
+			/**    0x2d*/
+			case xor:
+				return "2d";
+			/**    0x2e*/
+			case not:
+				return "2e";
+			/**    0x30*/
+			case cmp_i:
+				return "30";
+			/**    0x31*/
+			case cmp_u:
+				return "31";
+			/**    0x32*/
+			case cmp_f:
+				return "32";
+			/**    0x34*/
+			case neg_i:
+				return "34";
+			/**    0x35*/
+			case neg_f:
+				return "35";
+			/**    0x36*/
+			case itof:
+				return "36";
+			/**    0x37*/
+			case ftoi:
+				return "37";
+			/**    0x38*/
+			case shrl:
+				return "38";
+			/**    0x39*/
+			case set_lt:
+				return "39";
+			/**    0x3a*/
+			case set_gt:
+				return "3a";
+			/**    0x41*/
+			case br:
+				return "41";
+			/**    0x42*/
+			case br_false:
+				return "42";
+			/**    0x43*/
+			case br_true:
+				return "43";
+			/**    0x48*/
+			case call:
+				return "48";
+			/**    0x49*/
+			case ret:
+				return "49";
+			/**    0x4a*/
+			case callname:
+				return "4a";
+			/**    0x50*/
+			case scan_i:
+				return "50";
+			/**    0x51*/
+			case scan_c:
+				return "51";
+			/**    0x52*/
+			case scan_f:
+				return "52";
+			/**    0x54*/
+			case print_i:
+				return "54";
+			/**0x55*/
+			case print_c:
+				return "55";
+			/**0x56*/
+			case print_f:
+				return "56";
+			/**0x57*/
+			case print_s:
+				return "57";
+			/**0x58*/
+			case println:
+				return "58";
+			/**0xfe*/
+			case panic:
+				return "fe";
+			default:
+				return "ff";
+		}
+	}
+
 	public String toString() {
 		switch(this) {
 			/**0x00*/
