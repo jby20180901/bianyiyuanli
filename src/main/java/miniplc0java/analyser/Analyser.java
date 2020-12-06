@@ -571,6 +571,9 @@ public final class Analyser {
 			FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
 			funcDef.putInstruction(in);
 		}
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.print_i);//////
+		funcDef.putInstruction(in);//////
 	}
 
 
