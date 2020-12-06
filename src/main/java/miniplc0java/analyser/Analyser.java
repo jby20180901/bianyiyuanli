@@ -1505,7 +1505,7 @@ public final class Analyser {
 		GlobalDef varDef = new GlobalDef(true, stringToken.getValueString());
 		assembler.addGlobalDef(varDef, stringToken.getValueString());
 		int offset = assembler.findGlobalDefID(varDef);
-		in = new Instruction(InstructionType.push,offset);
+		in = new Instruction(InstructionType.push,(long)offset);
 		funcDef.putInstruction(in);
 		in = new Instruction(InstructionType.print_s);
 		funcDef.putInstruction(in);

@@ -440,21 +440,21 @@
 26//mul.f
 17//store.64
 1a00000000//stackalloc 0
-0100000010//push 16
+010000000000000010//push 16
 57//print.s
 1a00000000//stackalloc 0
 0a00000004//loca 4
 13//load.64
 54//print.i
 1a00000000//stackalloc 0
-0100000011//push 17
+010000000000000011//push 17
 57//print.s
 1a00000000//stackalloc 0
 0c0000000a//globa 10
 13//load.64
 56//print.f
 1a00000000//stackalloc 0
-0100000012//push 18
+010000000000000012//push 18
 57//print.s
 1a00000000//stackalloc 0
 0c00000008//globa 8

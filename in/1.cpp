@@ -1,3 +1,3 @@
-fn main () -> void  {
-    let a : int = -1;
+fn main() -> void {
+    putstr("// this is not a comment");
 }

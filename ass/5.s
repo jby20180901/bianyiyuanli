@@ -24,7 +24,7 @@
 00000000//loc_slots
 00000006//body.count
 1a00000000//stackalloc 0
-0100000001//push 1
+010000000000000001//push 1
 57//print.s
 1a00000000//stackalloc 0
 58//println

@@ -104,7 +104,7 @@
 17//store.64
 4100000007//br 7
 1a00000000//stackalloc 0
-0100000001//push 1
+010000000000000001//push 1
 57//print.s
 1a00000000//stackalloc 0
 58//println
@@ -120,7 +120,7 @@
 4300000001//br.true 1
 4100000007//br 7
 1a00000000//stackalloc 0
-0100000002//push 2
+010000000000000002//push 2
 57//print.s
 1a00000000//stackalloc 0
 58//println
