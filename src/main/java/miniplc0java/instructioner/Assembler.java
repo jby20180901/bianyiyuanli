@@ -102,15 +102,29 @@ public class Assembler {
 
 	public String toString(){
 		String ret = "";
+		ret = "magic: 72303b3e\n";
+		ret += "version: 1\n";
+		ret += ("globals.count: " + this.globals.size() + "\n");
+		for(int i = 0; i < this.globals.size(); i ++) {
+			ret += "globals[" + i + "]" + ": \n";
+			ret += this.globals.get(i).toString();
+		}
+		ret += "functions.count: " + this.functions.size() + "\n";
+		for(int i = 0; i < this.functions.size(); i ++) {
+			ret += "functions[" + i + "]" + ": \n";
+			ret += this.functions.get(i).toString();
+		}
+		return ret;
+	}
+
+	public String toAssemlerString(){
+		String ret = "";
 		ret = "72303b3e//magic\n";
 		ret += "00000001//version\n";
 		ret += (String.format("%08x",this.globals.size()/*+this.globalsFunc.size()*/)+"//globals.count\n");
 		for(int i = 0; i < this.globals.size(); i ++) {
 			ret += this.globals.get(i).toString();
 		}
-//		for(int i = 0; i < this.globalsFunc.size(); i ++) {
-//			ret += this.globalsFunc.get(i).toString();
-//		}
 		ret += (String.format("%08x",this.functions.size())+"//functions.count\n");
 		for(int i = 0; i < this.functions.size(); i ++) {
 			ret += this.functions.get(i).toString();

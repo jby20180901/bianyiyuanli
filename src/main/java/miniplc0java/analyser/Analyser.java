@@ -1414,7 +1414,7 @@ public final class Analyser {
 		}
 		expect(TokenType.R_PAREN);
 		if(!isSystemCall) {
-			in = new Instruction(InstructionType.call, assembler.findFunctionDefID(assembler.findFunctionDef(nowFunc.name)));
+			in = new Instruction(InstructionType.call, assembler.findFunctionDefID(assembler.findFunctionDef(functionEntry.name)));
 			funcDef.putInstruction(in);
 		}
 		LPNum --;

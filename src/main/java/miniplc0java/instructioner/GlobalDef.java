@@ -97,6 +97,21 @@ public class GlobalDef {
 
 	@Override
 	public String toString() {
+		String ret = "        " + "is_count: " + (is_Const?1:0) + "\n"
+				+ "        " + "value.count: " + count + "\n" ;
+		if (this.item instanceof String) {
+			ret += "        " + "item: " + (String)this.item;
+		}
+		else {
+			for(int i = 0; i < this.items.length; i ++){
+				ret += "        " + "item: " + String.format("%02x", this.items[i]);
+			}
+		}
+		ret += "\n";
+		return ret;
+	}
+
+	public String toAssemblerString() {
 		String ret = String.format("%02x",(is_Const?1:0)) + " //is_count\n"
 				+ String.format("%08x",count) + "//value.count\n" ;
 		if (this.item instanceof String) {

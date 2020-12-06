@@ -44,6 +44,23 @@ public class Instruction {
 
     @Override
     public String toString() {
+        String ret = "";
+        if(this.type == 1 ){
+            ret += "            "+ opt.toString() + "; " + "\n";
+        }
+        else if(this.type == 2 ){
+            ret += "            "+ opt.toString() + " " + x + ";\n";
+        }
+        else if(this.type == 3 ){
+            ret += "            "+ opt.toString() + " " + y + ";\n";
+        }
+        else if(this.type == 4 ){
+            ret += "            "+ opt.toString() + " " + z + ";\n";
+        }
+        return ret;
+    }
+
+    public String toAssemblerString() {
         String ret = opt.toAssembleString() ;
         if(this.type == 1 ){
             ret += "//"+ opt.toString() + "\n";

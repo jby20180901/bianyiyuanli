@@ -74,6 +74,18 @@ public class FunctionDef {
 
 	@Override
 	public String toString() {//String.format("%08x",this.globals.size())
+		String ret = "        " + "nameOffset: " + nameOffset + "\n"
+				+ "        " + "ret_slots: " + return_slots + "\n"
+				+ "        " + "param_slots: " + param_slots + "\n"
+				+ "        " + "loc_slots: " + loc_slots + "\n"
+				+ "        " + "body.count: " + this.body.size() + "\n";
+		for(int i = 0; i < body.size(); i ++){
+			ret += body.get(i).toString();
+		}
+		return ret;
+	}
+
+	public String toAssemblerString() {//String.format("%08x",this.globals.size())
 		String ret = String.format("%08x",nameOffset) + "//nameOffset\n"
 				+ String.format("%08x",return_slots) + "//ret_slots\n"
 				+ String.format("%08x",param_slots) + "//param_slots\n"
