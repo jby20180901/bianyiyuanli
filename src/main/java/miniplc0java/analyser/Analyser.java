@@ -1369,6 +1369,10 @@ public final class Analyser {
 			in = new Instruction(InstructionType.stackalloc, funcDef.getReturnSlots());
 			funcDef.putInstruction(in);
 		}
+		else{
+			in = new Instruction(InstructionType.stackalloc, 0);
+			funcDef.putInstruction(in);
+		}
 		if(!check(TokenType.R_PAREN)){
 			/**
 			 * call_param_list -> expr (',' expr)*
