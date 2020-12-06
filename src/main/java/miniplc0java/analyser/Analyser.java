@@ -772,7 +772,6 @@ public final class Analyser {
 		var fucNameToken = expect(TokenType.IDENT);
 		fucName = (String) fucNameToken.getValue();
 		functionEntry = SymbolTable.insertFunctionEntry(fucName, SymbolType.Function, null, functionOffset,fucNameToken.getStartPos());
-		//String name, SymbolType symboltype, DataType datatype, int offset, Pos pos
 		expect(TokenType.L_PAREN);
 		LPNum ++;
 		level ++;
@@ -1328,6 +1327,7 @@ public final class Analyser {
 		DataType getDataType = null, baseDataType = null;
 		int i = 0;
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		FunctionDef callFuncDef = assembler.findFunctionDef(functionEntry.name);
 		expect(TokenType.L_PAREN);
 		LPNum ++;
 		functionLPRecent.add(LPNum);
@@ -1384,7 +1384,7 @@ public final class Analyser {
 			isSystemCall = true;
 		}
 		if(!isSystemCall) {
-			in = new Instruction(InstructionType.stackalloc, funcDef.getReturnSlots());
+			in = new Instruction(InstructionType.stackalloc, callFuncDef.getReturnSlots());
 			funcDef.putInstruction(in);
 		}
 		if(!check(TokenType.R_PAREN)){
