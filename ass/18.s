@@ -122,7 +122,7 @@
 00000001//ret_slots
 00000000//param_slots
 00000006//loc_slots
-00000041//body.count
+0000004a//body.count
 0a00000002//loca 2
 010000000000000000//push 0
 17//store.64
@@ -130,27 +130,33 @@
 010000000000000000//push 0
 17//store.64
 0a00000000//loca 0
+1a00000000//stackalloc 0
+51//scan.c
 17//store.64
 4100000000//br 0
 1a00000001//stackalloc 1
 0a00000000//loca 0
 13//load.64
 4800000003//call 3
-4100000003//br 3
+4100000005//br 5
 0a00000000//loca 0
+1a00000000//stackalloc 0
+51//scan.c
 17//store.64
-41fffffff8//br -8
+41fffffff6//br -10
 0a00000000//loca 0
 13//load.64
 01000000000000002d//push 45
 30//cmp.i
 2e//not
 4300000001//br.true 1
-4100000006//br 6
+4100000008//br 8
 0a00000004//loca 4
 010000000000000001//push 1
 17//store.64
 0a00000000//loca 0
+1a00000000//stackalloc 0
+51//scan.c
 17//store.64
 4100000000//br 0
 4100000000//br 0
@@ -159,7 +165,7 @@
 0a00000000//loca 0
 13//load.64
 4800000003//call 3
-410000000e//br 14
+4100000010//br 16
 0a00000002//loca 2
 0a00000002//loca 2
 13//load.64
@@ -172,14 +178,17 @@
 20//add.i
 17//store.64
 0a00000000//loca 0
+1a00000000//stackalloc 0
+51//scan.c
 17//store.64
-41ffffffed//br -19
+41ffffffeb//br -21
 0a00000004//loca 4
 13//load.64
-4100000005//br 5
+4100000006//br 6
 0a00000002//loca 2
 0a00000002//loca 2
 13//load.64
+34//neg.i
 17//store.64
 4100000000//br 0
 4100000000//br 0
@@ -192,8 +201,10 @@
 00000000//ret_slots
 00000000//param_slots
 00000002//loc_slots
-00000016//body.count
+0000001a//body.count
 0a00000000//loca 0
+1a00000000//stackalloc 0
+50//scan.i
 17//store.64
 4100000000//br 0
 0a00000000//loca 0
@@ -202,10 +213,12 @@
 30//cmp.i
 3a//set.gt
 4300000001//br.true 1
-410000000b//br 11
+410000000d//br 13
+1a00000000//stackalloc 0
 1a00000000//stackalloc 0
 4800000004//call 4
 54//print.i
+1a00000000//stackalloc 0
 58//println
 0a00000000//loca 0
 0a00000000//loca 0
@@ -213,5 +226,5 @@
 010000000000000001//push 1
 21//sub.i
 17//store.64
-41ffffffee//br -18
+41ffffffec//br -20
 49//ret

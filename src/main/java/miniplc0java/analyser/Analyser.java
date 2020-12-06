@@ -2224,6 +2224,14 @@ public final class Analyser {
 			dataType = (DataType)first;
 			stack.pop();
 			stack.pop();
+			if(DataType.INT.equals(dataType)){
+				in = new Instruction(InstructionType.neg_i);//negi
+				putInstruction(in);
+			}
+			else if(DataType.DOUBLE.equals(dataType)){
+				in = new Instruction(InstructionType.neg_f);//negf
+				putInstruction(in);
+			}
 			stack.push(dataType);
 		}
 		else {

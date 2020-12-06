@@ -19,16 +19,18 @@
 00000000//ret_slots
 00000000//param_slots
 00000006//loc_slots
-0000001a//body.count
+00000020//body.count
 0a00000000//loca 0
 010000000000000001//push 1
 17//store.64
 0a00000002//loca 2
 010000000000000003//push 3
 17//store.64
+1a00000000//stackalloc 0
 0a00000002//loca 2
 13//load.64
 54//print.i
+1a00000000//stackalloc 0
 58//println
 0a00000004//loca 4
 0a00000000//loca 0
@@ -37,12 +39,16 @@
 13//load.64
 20//add.i
 17//store.64
+1a00000000//stackalloc 0
 0a00000004//loca 4
 13//load.64
 54//print.i
+1a00000000//stackalloc 0
 58//println
+1a00000000//stackalloc 0
 0a00000002//loca 2
 13//load.64
 54//print.i
+1a00000000//stackalloc 0
 58//println
 49//ret

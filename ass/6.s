@@ -35,10 +35,14 @@
 00000000//ret_slots
 00000000//param_slots
 00000006//loc_slots
-00000010//body.count
+00000015//body.count
 0a00000000//loca 0
+1a00000000//stackalloc 0
+50//scan.i
 17//store.64
 0a00000002//loca 2
+1a00000000//stackalloc 0
+50//scan.i
 17//store.64
 0a00000004//loca 4
 1a00000000//stackalloc 0
@@ -48,6 +52,7 @@
 13//load.64
 4800000002//call 2
 17//store.64
+1a00000000//stackalloc 0
 0a00000004//loca 4
 13//load.64
 54//print.i

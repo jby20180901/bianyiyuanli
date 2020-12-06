@@ -107,13 +107,15 @@
 00000001//ret_slots
 00000000//param_slots
 00000002//loc_slots
-00000012//body.count
+00000016//body.count
 0a00000000//loca 0
 0b00000001//arga 1
 13//load.64
 0b00000002//arga 2
 13//load.64
 23//div.i
+36//itof
+37//ftoi
 17//store.64
 0b00000000//arga 0
 0b00000001//arga 1
@@ -124,6 +126,8 @@
 13//load.64
 22//mul.i
 21//sub.i
+36//itof
+37//ftoi
 17//store.64
 49//ret
 00000002//nameOffset
@@ -170,8 +174,10 @@
 00000000//ret_slots
 00000000//param_slots
 0000000a//loc_slots
-0000005c//body.count
+00000067//body.count
 0a00000000//loca 0
+1a00000000//stackalloc 0
+50//scan.i
 17//store.64
 0a00000002//loca 2
 010000000000000002//push 2
@@ -184,7 +190,7 @@
 30//cmp.i
 3a//set.gt
 4200000001//br.false 1
-410000004e//br 78
+4100000057//br 87
 1a00000000//stackalloc 0
 0a00000002//loca 2
 13//load.64
@@ -193,28 +199,35 @@
 010000000000000000//push 0
 30//cmp.i
 4300000001//br.true 1
-410000003d//br 61
+4100000046//br 70
 0a00000008//loca 8
 1a00000000//stackalloc 0
 0a00000002//loca 2
 13//load.64
+36//itof
 4800000004//call 4
 17//store.64
 0a00000006//loca 6
 1a00000000//stackalloc 0
 0a00000002//loca 2
 13//load.64
+36//itof
 4800000004//call 4
+37//ftoi
 17//store.64
 0a00000008//loca 8
 13//load.64
+37//ftoi
 0a00000006//loca 6
 13//load.64
 30//cmp.i
 4300000001//br.true 1
-4100000006//br 6
+4100000009//br 9
+1a00000000//stackalloc 0
 010000000000000001//push 1
+34//neg.i
 54//print.i
+1a00000000//stackalloc 0
 58//println
 0b00000000//arga 0
 49//ret
@@ -247,10 +260,12 @@
 30//cmp.i
 3a//set.gt
 4300000001//br.true 1
-4100000005//br 5
+4100000007//br 7
+1a00000000//stackalloc 0
 0a00000002//loca 2
 13//load.64
 54//print.i
+1a00000000//stackalloc 0
 58//println
 4100000000//br 0
 4100000000//br 0
@@ -262,4 +277,4 @@
 010000000000000001//push 1
 20//add.i
 17//store.64
-41ffffffaa//br -86
+41ffffffa1//br -95

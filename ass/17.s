@@ -22,7 +22,8 @@
 00000000//ret_slots
 00000000//param_slots
 00000000//loc_slots
-00000003//body.count
+00000004//body.count
+1a00000000//stackalloc 0
 0100000001//push 1
 57//print.s
 49//ret

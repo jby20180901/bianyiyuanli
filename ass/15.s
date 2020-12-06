@@ -25,20 +25,26 @@
 00000000//ret_slots
 00000000//param_slots
 00000000//loc_slots
-0000000f//body.count
+00000015//body.count
+1a00000000//stackalloc 0
 0b00000001//arga 1
 13//load.64
 54//print.i
+1a00000000//stackalloc 0
 010000000000000020//push 32
 55//print.c
+1a00000000//stackalloc 0
 0b00000002//arga 2
 13//load.64
 55//print.c
+1a00000000//stackalloc 0
 010000000000000020//push 32
 55//print.c
+1a00000000//stackalloc 0
 0b00000003//arga 3
 13//load.64
 55//print.c
+1a00000000//stackalloc 0
 58//println
 49//ret
 00000001//nameOffset

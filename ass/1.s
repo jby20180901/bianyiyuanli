@@ -239,7 +239,7 @@
 00000000//ret_slots
 00000000//param_slots
 00000000//loc_slots
-00000010//body.count
+00000011//body.count
 0c00000000//globa 0
 010000000000000001//push 1
 17//store.64
@@ -252,6 +252,7 @@
 0c00000002//globa 2
 010000000000000006//push 6
 17//store.64
+1a00000000//stackalloc 0
 1a00000000//stackalloc 0
 4800000002//call 2
 54//print.i

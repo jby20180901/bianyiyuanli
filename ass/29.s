@@ -25,8 +25,10 @@
 00000000//ret_slots
 00000000//param_slots
 0000000a//loc_slots
-00000065//body.count
+00000076//body.count
 0a00000008//loca 8
+1a00000000//stackalloc 0
+50//scan.i
 17//store.64
 4100000000//br 0
 0a00000008//loca 8
@@ -35,10 +37,14 @@
 30//cmp.i
 3a//set.gt
 4300000001//br.true 1
-410000005a//br 90
+4100000069//br 105
 0a00000002//loca 2
+1a00000000//stackalloc 0
+50//scan.i
 17//store.64
 0a00000004//loca 4
+1a00000000//stackalloc 0
+50//scan.i
 17//store.64
 0a00000008//loca 8
 0a00000008//loca 8
@@ -48,7 +54,7 @@
 17//store.64
 4100000000//br 0
 010000000000000001//push 1
-4100000047//br 71
+410000004f//br 79
 0a00000006//loca 6
 0a00000002//loca 2
 13//load.64
@@ -61,6 +67,8 @@
 23//div.i
 17//store.64
 0a00000000//loca 0
+1a00000000//stackalloc 0
+50//scan.i
 17//store.64
 0a00000000//loca 0
 13//load.64
@@ -69,8 +77,8 @@
 2e//not
 4300000001//br.true 1
 4100000002//br 2
-4100000032//br 50
-410000001d//br 29
+4100000038//br 56
+410000001f//br 31
 0a00000000//loca 0
 13//load.64
 010000000000000001//push 1
@@ -82,7 +90,7 @@
 0a00000006//loca 6
 13//load.64
 17//store.64
-4100000011//br 17
+4100000013//br 19
 0a00000000//loca 0
 13//load.64
 010000000000000002//push 2
@@ -94,11 +102,13 @@
 0a00000006//loca 6
 13//load.64
 17//store.64
-4100000005//br 5
+4100000007//br 7
+1a00000000//stackalloc 0
 0100000001//push 1
 57//print.s
+1a00000000//stackalloc 0
 58//println
-41ffffffcc//br -52
+41ffffffc8//br -56
 4100000000//br 0
 4100000000//br 0
 0a00000002//loca 2
@@ -108,22 +118,29 @@
 30//cmp.i
 2e//not
 4300000001//br.true 1
-4100000005//br 5
+4100000007//br 7
+1a00000000//stackalloc 0
 0100000002//push 2
 57//print.s
+1a00000000//stackalloc 0
 58//println
-4100000007//br 7
+4100000009//br 9
 4100000000//br 0
 4100000000//br 0
+1a00000000//stackalloc 0
 0a00000006//loca 6
 13//load.64
 54//print.i
+1a00000000//stackalloc 0
 58//println
-41ffffffb7//br -73
+41ffffffaf//br -81
+1a00000000//stackalloc 0
 0a00000006//loca 6
 13//load.64
 54//print.i
+1a00000000//stackalloc 0
 58//println
+1a00000000//stackalloc 0
 58//println
-41ffffff9f//br -97
+41ffffff90//br -112
 49//ret
