@@ -564,7 +564,6 @@ public final class Analyser {
 		}
 		else{
 			in = new Instruction(InstructionType.loca, var.offset);
-			System.out.println("llllllllllllllllllllllllllllllllllllllllll"+var.offset);
 		}
 		if(nowFunc == null) {//这里是全局空间
 			_start.putInstruction(in);
@@ -777,7 +776,7 @@ public final class Analyser {
 		level ++;
 		SymbolTable.levelup();
 		if(!TokenType.R_PAREN.equals(peek().getTokenType())) {
-			/*offset = */analyseFuncList(fucNameToken);
+			offset = analyseFuncList(fucNameToken);
 		}
 		functionEntry.setVarOffset(offset);
 		expect(TokenType.R_PAREN);

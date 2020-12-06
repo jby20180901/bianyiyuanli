@@ -1,33 +1,13 @@
-fn is_odd(x: int) -> int {
-    return (x / 2 * 2) - x;
-}
-
-fn fastpow(base: int, exp: int) -> int {
-    let res: int = 1;
-    if exp < 0 {
-        return 0;
-    }
-    while exp > 0 {
-        if is_odd(exp) {
-            res = res * base;
-        }
-        base = base * base;
-        exp = exp / 2;
-    }
-    return res;
+fn add(a: int, b: int) -> int {
+    return a + b;
 }
 
 fn main() -> void {
-    let base: int;
-    let exp: int;
-    let count: int;
-    count = getint();
-    while count > 0 {
-        base = getint();
-        exp = getint();
-        putint(fastpow(base,exp));
-        putln();
-        count = count - 1;
-    }
+    let x: int;
+    let y: int;
+    let z: int;
+    x = getint();
+    y = getint();
+    z = add(x, y);
+    putint(z);
 }
-
