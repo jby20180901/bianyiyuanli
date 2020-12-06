@@ -1381,8 +1381,10 @@ public final class Analyser {
 	 * fn putchar(int) -> void
 	 */
 	private DataType analysePutchar() throws CompileError {
-		next();
+		Token charToken = next();
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.push, (int)charToken.getValue());
+		funcDef.putInstruction(in);
 		in = new Instruction(InstructionType.print_c);
 		funcDef.putInstruction(in);
 		return DataType.VOID;
@@ -1393,8 +1395,13 @@ public final class Analyser {
 	 * fn putstr(int) -> void
 	 */
 	private DataType analysePutstr() throws CompileError {
-		next();
+		Token stringToken = next();//??
+		GlobalDef varDef = new GlobalDef(true, stringToken.getValueString());
+		assembler.addGlobalDef(varDef, stringToken.getValueString());
+		int offset = assembler.findGlobalDefID(varDef);
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.push,offset);
+		funcDef.putInstruction(in);
 		in = new Instruction(InstructionType.print_s);
 		funcDef.putInstruction(in);
 		return DataType.VOID;
