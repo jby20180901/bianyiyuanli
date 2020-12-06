@@ -572,8 +572,8 @@ public final class Analyser {
 			funcDef.putInstruction(in);
 		}
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
-		in = new Instruction(InstructionType.print_i);//////
-		funcDef.putInstruction(in);//////
+//		in = new Instruction(InstructionType.print_i);//////
+//		funcDef.putInstruction(in);//////
 	}
 
 
@@ -1228,8 +1228,6 @@ public final class Analyser {
 		DataType getDataType = null, baseDataType = null;
 		int i = 0;
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
-		in = new Instruction(InstructionType.stackalloc, funcDef.getReturnSlots());
-		funcDef.putInstruction(in);
 		expect(TokenType.L_PAREN);
 		LPNum ++;
 		functionLPRecent.add(LPNum);
@@ -1284,6 +1282,10 @@ public final class Analyser {
 		else if("putln".equals(functionEntry.name)) {
 			getDataType = analysePutln();
 			isSystemCall = true;
+		}
+		if(!isSystemCall) {
+			in = new Instruction(InstructionType.stackalloc, funcDef.getReturnSlots());
+			funcDef.putInstruction(in);
 		}
 		if(!check(TokenType.R_PAREN)){
 			/**
