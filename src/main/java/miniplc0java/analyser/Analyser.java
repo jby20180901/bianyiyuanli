@@ -1369,10 +1369,6 @@ public final class Analyser {
 			in = new Instruction(InstructionType.stackalloc, funcDef.getReturnSlots());
 			funcDef.putInstruction(in);
 		}
-		else{
-			in = new Instruction(InstructionType.stackalloc, 0);
-			funcDef.putInstruction(in);
-		}
 		if(!check(TokenType.R_PAREN)){
 			/**
 			 * call_param_list -> expr (',' expr)*
@@ -1414,6 +1410,8 @@ public final class Analyser {
 	 */
 	private DataType analyseGetint() throws CompileError {
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.stackalloc, 0);
+		funcDef.putInstruction(in);
 		in = new Instruction(InstructionType.scan_i);
 		funcDef.putInstruction(in);
 		return DataType.INT;
@@ -1425,6 +1423,8 @@ public final class Analyser {
 	 */
 	private DataType analyseGetdouble() throws CompileError {
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.stackalloc, 0);
+		funcDef.putInstruction(in);
 		in = new Instruction(InstructionType.scan_f);
 		funcDef.putInstruction(in);
 		return DataType.DOUBLE;
@@ -1436,6 +1436,8 @@ public final class Analyser {
 	 */
 	private DataType analyseGetchar() throws CompileError {
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.stackalloc, 0);
+		funcDef.putInstruction(in);
 		in = new Instruction(InstructionType.scan_c);
 		funcDef.putInstruction(in);
 		return DataType.INT;
@@ -1446,11 +1448,13 @@ public final class Analyser {
 	 * fn putint(int) -> void
 	 */
 	private DataType analysePutint() throws CompileError {
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.stackalloc, 0);
+		funcDef.putInstruction(in);
 		DataType putout = analyseExpr(TokenType.L_PAREN);
 		if(!DataType.INT.equals(putout)) {
 			throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
 		}
-		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
 		in = new Instruction(InstructionType.print_i);
 		funcDef.putInstruction(in);
 		return DataType.VOID;
@@ -1461,11 +1465,13 @@ public final class Analyser {
 	 * fn putdouble(double) -> void
 	 */
 	private DataType analysePutdouble() throws CompileError {
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.stackalloc, 0);
+		funcDef.putInstruction(in);
 		DataType putout = analyseExpr(TokenType.L_PAREN);
 		if(!DataType.DOUBLE.equals(putout)) {
 			throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
 		}
-		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
 		in = new Instruction(InstructionType.print_f);
 		funcDef.putInstruction(in);
 		return DataType.VOID;
@@ -1476,8 +1482,10 @@ public final class Analyser {
 	 * fn putchar(int) -> void
 	 */
 	private DataType analysePutchar() throws CompileError {
-		analyseExpr(TokenType.L_PAREN);
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.stackalloc, 0);
+		funcDef.putInstruction(in);
+		analyseExpr(TokenType.L_PAREN);
 //		in = new Instruction(InstructionType.push, (long)charToken.getValue());
 //		funcDef.putInstruction(in);
 		in = new Instruction(InstructionType.print_c);
@@ -1490,11 +1498,13 @@ public final class Analyser {
 	 * fn putstr(int) -> void
 	 */
 	private DataType analysePutstr() throws CompileError {
-		Token stringToken = next();//??
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.stackalloc, 0);
+		funcDef.putInstruction(in);
+		Token stringToken = next();
 		GlobalDef varDef = new GlobalDef(true, stringToken.getValueString());
 		assembler.addGlobalDef(varDef, stringToken.getValueString());
 		int offset = assembler.findGlobalDefID(varDef);
-		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
 		in = new Instruction(InstructionType.push,offset);
 		funcDef.putInstruction(in);
 		in = new Instruction(InstructionType.print_s);
@@ -1508,6 +1518,8 @@ public final class Analyser {
 	 */
 	private DataType analysePutln() throws CompileError {
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.stackalloc, 0);
+		funcDef.putInstruction(in);
 		in = new Instruction(InstructionType.println);
 		funcDef.putInstruction(in);
 		return DataType.VOID;
