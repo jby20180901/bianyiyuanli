@@ -42,7 +42,7 @@
 00000008//nameOffset
 00000000//ret_slots
 00000000//param_slots
-00000004//loc_slots
+00000002//loc_slots
 00000037//body.count
 0a00000000//loca 0
 010000000000000001//push 1
@@ -71,23 +71,23 @@
 4a00000003//callname 3
 1a00000000//stackalloc 0
 4a00000007//callname 7
-0a00000002//loca 2
+0a00000001//loca 1
 0100000000000003e7//push 999
 17//store.64
 1a00000000//stackalloc 0
-0a00000002//loca 2
+0a00000001//loca 1
 13//load.64
 4a00000003//callname 3
 1a00000000//stackalloc 0
 4a00000007//callname 7
-0a00000002//loca 2
-0a00000002//loca 2
+0a00000001//loca 1
+0a00000001//loca 1
 13//load.64
 010000000000000001//push 1
 20//add.i
 17//store.64
 1a00000000//stackalloc 0
-0a00000002//loca 2
+0a00000001//loca 1
 13//load.64
 4a00000003//callname 3
 1a00000000//stackalloc 0

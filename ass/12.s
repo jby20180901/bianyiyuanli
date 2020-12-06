@@ -54,7 +54,7 @@
 00000009//nameOffset
 00000001//ret_slots
 00000000//param_slots
-00000002//loc_slots
+00000001//loc_slots
 0000000e//body.count
 0a00000000//loca 0
 010000000000000001//push 1
@@ -91,7 +91,7 @@
 0000000b//nameOffset
 00000000//ret_slots
 00000000//param_slots
-00000002//loc_slots
+00000001//loc_slots
 0000001c//body.count
 0a00000000//loca 0
 010000000000000001//push 1

@@ -564,6 +564,7 @@ public final class Analyser {
 		}
 		else{
 			in = new Instruction(InstructionType.loca, var.offset);
+			System.out.println("llllllllllllllllllllllllllllllllllllllllll"+var.offset);
 		}
 		if(nowFunc == null) {//这里是全局空间
 			_start.putInstruction(in);
@@ -777,7 +778,7 @@ public final class Analyser {
 		level ++;
 		SymbolTable.levelup();
 		if(!TokenType.R_PAREN.equals(peek().getTokenType())) {
-			offset = analyseFuncList(fucNameToken);
+			/*offset = */analyseFuncList(fucNameToken);
 		}
 		functionEntry.setVarOffset(offset);
 		expect(TokenType.R_PAREN);
@@ -1085,16 +1086,16 @@ public final class Analyser {
 		}
 		VarEntry varEntry = SymbolTable.findVarEntry(varName, level);
 		varEntry.offset = offset;
-		if(nowFunc == null) {//这里是全局空间
-			if(rDataType!=null) {
-				;
-			}
-		}
-		else {
-			FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
-			funcDef.updateLocSlots(funcDef.getLocSlots()+1);
-			nowFunc.offset ++;
-		}
+//		if(nowFunc == null) {//这里是全局空间
+//			if(rDataType!=null) {
+//				;
+//			}
+//		}
+//		else {
+//			FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+//			funcDef.updateLocSlots(funcDef.getLocSlots()+1);
+//			nowFunc.offset ++;
+//		}
 	}
 
 	/**

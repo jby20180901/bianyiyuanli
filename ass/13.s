@@ -57,7 +57,7 @@
 0000000a//nameOffset
 00000000//ret_slots
 00000000//param_slots
-00000002//loc_slots
+00000001//loc_slots
 0000000d//body.count
 0a00000000//loca 0
 0c00000008//globa 8

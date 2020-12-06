@@ -58,26 +58,26 @@
 00000009//nameOffset
 00000000//ret_slots
 00000000//param_slots
-00000006//loc_slots
+00000003//loc_slots
 00000015//body.count
 0a00000000//loca 0
 1a00000001//stackalloc 1
 4a00000000//callname 0
 17//store.64
-0a00000002//loca 2
+0a00000001//loca 1
 1a00000001//stackalloc 1
 4a00000000//callname 0
 17//store.64
-0a00000004//loca 4
+0a00000002//loca 2
 1a00000000//stackalloc 0
 0a00000000//loca 0
 13//load.64
-0a00000002//loca 2
+0a00000001//loca 1
 13//load.64
 4800000002//call 2
 17//store.64
 1a00000000//stackalloc 0
-0a00000004//loca 4
+0a00000002//loca 2
 13//load.64
 4a00000003//callname 3
 49//ret

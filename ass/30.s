@@ -42,7 +42,7 @@
 00000008//nameOffset
 00000000//ret_slots
 00000000//param_slots
-00000002//loc_slots
+00000001//loc_slots
 0000003e//body.count
 0a00000000//loca 0
 01000000000000000a//push 10
