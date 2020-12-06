@@ -49,13 +49,13 @@ public class Instruction {
             ret += "//"+ opt.toString() + "\n";
         }
         else if(this.type == 2 ){
-            ret += String.format("%08x",x) + "//"+ opt.toString() + "\n";
+            ret += String.format("%08x",x) + "//"+ opt.toString() + " " + x + "\n";
         }
         else if(this.type == 3 ){
-            ret += String.format("%016x",y) + "//"+ opt.toString() + "\n";
+            ret += String.format("%016x",y) + "//"+ opt.toString() + " " + y + "\n";
         }
         else if(this.type == 4 ){
-            ret += String.format("%016x",z) + "//"+ opt.toString() + "\n";
+            ret += String.format("%016x",z) + "//"+ opt.toString() + " " + z + "\n";
         }
         return ret;
     }

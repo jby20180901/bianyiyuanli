@@ -2,10 +2,12 @@ package miniplc0java.symboltable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 
 import miniplc0java.error.AnalyzeError;
 import miniplc0java.error.CompileError;
 import miniplc0java.error.ErrorCode;
+import miniplc0java.instructioner.Instruction;
 import miniplc0java.util.Pos;
 
 public class SymbolTable {
@@ -15,10 +17,22 @@ public class SymbolTable {
 	public static ArrayList<HashMap<String, Entry>> symboltable = new ArrayList<>();
 
 	/**
+	 * break表
+	 */
+	public static ArrayList<Stack<Object>> breakInstructionList = new ArrayList<>();
+
+	/**
+	 * continue表
+	 */
+	public static ArrayList<Stack<Object>> continueInstructionList = new ArrayList<>();
+
+	/**
 	 * 符号表层数上升
 	 */
 	public static void levelup() {
 		symboltable.add(new HashMap<>());
+		breakInstructionList.add(new Stack<>());
+		continueInstructionList.add(new Stack<>());
 	}
 
 	/**
@@ -28,6 +42,25 @@ public class SymbolTable {
 	public static void leveldown() throws CompileError {
 		checkVarEntryInit(symboltable.size() - 1);
 		symboltable.remove(symboltable.size() - 1);
+		breakInstructionList.remove(breakInstructionList.size() - 1);
+		continueInstructionList.remove(continueInstructionList.size() - 1);
+	}
+
+	/**
+	 * 循环层数上升
+	 */
+	public static void whileLevelup() {
+		breakInstructionList.add(new Stack<>());
+		continueInstructionList.add(new Stack<>());
+	}
+
+	/**
+	 * 循环层数下降
+	 * @throws CompileError
+	 */
+	public static void whileLeveldown() throws CompileError {
+		breakInstructionList.remove(breakInstructionList.size() - 1);
+		continueInstructionList.remove(continueInstructionList.size() - 1);
 	}
 
 	/**
@@ -78,11 +111,7 @@ public class SymbolTable {
 	 * 更新函数参数
 	 * @param fucName
 	 * @param varName
-	 * @param symbolType
-	 * @param dataType
-	 * @param offset
 	 * @param pos
-	 * @param isConstant
 	 * @throws AnalyzeError
 	 */
 	public static void updateFunctionCallList(String fucName, String varName, Pos pos) throws AnalyzeError  {
@@ -120,7 +149,7 @@ public class SymbolTable {
 
 	/**
 	 * 全层检测变量定义
-	 * @param Var
+	 * @param level
 	 * @return
 	 * @throws CompileError
 	 */

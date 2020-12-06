@@ -22,13 +22,13 @@
 00000000//param_slots
 00000000//loc_slots
 00000002//body.count
-1a00000000//stackalloc
-4800000001//call
+1a00000000//stackalloc 0
+4800000001//call 1
 00000000//nameOffset
 00000000//ret_slots
 00000000//param_slots
 00000000//loc_slots
 00000003//body.count
-0100000001//push
+0100000001//push 1
 57//print.s
 49//ret

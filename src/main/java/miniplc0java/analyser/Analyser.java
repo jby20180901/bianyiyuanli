@@ -37,6 +37,7 @@ public final class Analyser {
 	DataType nowReturn = null; //当前返回值类型
 	boolean isInLoop = false;	//当前在循环体内部
 	Instruction in ;
+	int whileLevel = -1;
 	/** 当前偷看的 token */
 	Token peekedToken = null;
 
@@ -1153,6 +1154,8 @@ public final class Analyser {
 		start = funcDef.getInstructionLength();
 		expect(TokenType.WHILE_KW);
 		analyseExpr(TokenType.WHILE_KW);//表达式整体分析
+		whileLevel ++;
+		SymbolTable.whileLevelup();
 		isInLoop = true;
 		newIn = new Instruction(InstructionType.br, 0);
 		funcDef.putInstruction(newIn);
@@ -1164,28 +1167,50 @@ public final class Analyser {
 		newIn.setX(end1-start1);
 		In.setX(start-end);
 		isInLoop = false;
+		while(!SymbolTable.breakInstructionList.get(whileLevel).empty()){
+			int offset = (int)SymbolTable.breakInstructionList.get(whileLevel).pop();
+			In = (Instruction) SymbolTable.breakInstructionList.get(whileLevel).pop();
+			In.setX(end1 - offset);
+		}
+		while(!SymbolTable.continueInstructionList.get(whileLevel).empty()){
+			int offset = (int)SymbolTable.continueInstructionList.get(whileLevel).pop();
+			In = (Instruction) SymbolTable.continueInstructionList.get(whileLevel).pop();
+			In.setX(start - offset);
+		}
+		whileLevel --;
+		SymbolTable.whileLeveldown();
 	}
 
 	/**
 	 * break_stmt -> 'break' ';'
 	 */
 	private void analyseBreakStmt() throws CompileError {
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
 		if(!isInLoop) {
 			throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
 		}
 		expect(TokenType.BREAK_KW);
 		expect(TokenType.SEMICOLON);
+		in = new Instruction(InstructionType.br, 0);
+		funcDef.putInstruction(in);
+		SymbolTable.breakInstructionList.get(whileLevel).push(in);
+		SymbolTable.breakInstructionList.get(whileLevel).push(funcDef.getInstructionLength());
 	}
 
 	/**
 	 * continue_stmt -> 'continue' ';'
 	 */
 	private void analyseContinueStmt() throws CompileError {
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
 		if(!isInLoop) {
 			throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
 		}
 		expect(TokenType.CONTINUE_KW);
 		expect(TokenType.SEMICOLON);
+		in = new Instruction(InstructionType.br, 0);
+		funcDef.putInstruction(in);
+		SymbolTable.continueInstructionList.get(whileLevel).push(in);
+		SymbolTable.continueInstructionList.get(whileLevel).push(funcDef.getInstructionLength());
 	}
 
 	/**
@@ -2198,12 +2223,16 @@ public final class Analyser {
 				stack.pop();
 				stack.pop();
 				stack.pop();
+				in = new Instruction(InstructionType.ftoi);//push int
+				putInstruction(in);
 				stack.push(DataType.INT);
 			}
 			else if(DataKeywordType.DOUBLE_KW.equals((DataKeywordType)first)){
 				stack.pop();
 				stack.pop();
 				stack.pop();
+				in = new Instruction(InstructionType.itof);//push int
+				putInstruction(in);
 				stack.push(DataType.DOUBLE);
 			}
 			else {
