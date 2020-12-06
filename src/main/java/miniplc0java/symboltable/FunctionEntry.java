@@ -37,7 +37,12 @@ public class FunctionEntry extends Entry{
 				ret = i;
 			}
 		}
-		return ret + 1;
+		if(DataType.VOID.equals(this.datatype)){
+			return ret;
+		}
+		else {
+			return ret + 1;
+		}
 	}
 
 	public DataType getArgData(int index) {
