@@ -54,29 +54,6 @@ public class Assembler {
 		return -1;
 	}
 
-//	public void addGlobalFuncDef(GlobalDef def, String name) {
-//		globalsFunc.add(def);
-//		globalsFuncMap.put(name, def);
-//	}
-//
-//	public GlobalDef findGlobalFuncDef(String name) {
-//		if(globalsFuncMap.containsKey(name)) {
-//			if(globalsFuncMap.get(name) instanceof GlobalDef) {
-//				return (GlobalDef) globalsFuncMap.get(name);
-//			}
-//		}
-//		return null;
-//	}
-//
-//	public int findGlobalFuncDefID(GlobalDef def) {
-//		for(int i = 0; i < globalsFunc.size(); i ++) {
-//			if(def.equals(globalsFunc.get(i))){
-//				return i;
-//			}
-//		}
-//		return -1;
-//	}
-
 	public void addFunctionDef(FunctionDef def,String name) {
 		functions.add(def);
 		functionsMap.put(name, def);
