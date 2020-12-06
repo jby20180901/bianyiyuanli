@@ -2338,6 +2338,7 @@ public final class Analyser {
 				dataType = DataType.DOUBLE;
 				if(needPush instanceof Double) {
 					in = new Instruction(InstructionType.push, (double)needPush);//push double
+					System.out.println("sdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa "+(double)needPush);
 					putInstruction(in);
 				}
 				else{

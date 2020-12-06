@@ -1,22 +1,29 @@
-fn move(level: int, a: int, c: int) -> void {
-    putint(level);
-    putchar(32);
-    putchar(a);
-    putchar(32);
-    putchar(c);
-    putln();
+fn calcPi() -> double {
+    let i: int = 1;
+    let rtv: double = 0.0;
+    let flag: int = -1;
+    while ((1.0 / i as double) > 1.0E-6) {
+        rtv = rtv + flag as double / i as double;
+        i = i + 2;
+        flag = -flag;
+    }
+    return rtv * 4.0;
 }
 
-fn hanoi(level: int, a: int, b: int, c: int) -> void {
-    if level == 1 {
-        move(level, a, c);
-    } else {
-        hanoi(level-1, a, c, b);
-        move(level, a, c);
-        hanoi(level-1, b, a, c);
+fn calcE() -> double {
+    let rtv: double = 1.0;
+    let i: int = 1;
+    let j: double = 1.0;
+    while (i < 1000) {
+        j = j * i as double;
+        rtv = rtv + 1.0 / j;
+        i = i + 1;
     }
+    return rtv;
 }
 
 fn main() -> void {
-    hanoi(6, 65, 66, 67);
+    putdouble(calcPi());
+    putln();
+    putdouble(calcE());
 }

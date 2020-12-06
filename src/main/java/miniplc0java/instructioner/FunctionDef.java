@@ -81,10 +81,11 @@ public class FunctionDef {
 		String ret = "    fn" + "[" + nameOffset + "] "
 				+ loc_slots
 				+ " " + param_slots
-				+ " -> " + return_slots + ":\n";
+				+ " -> " + return_slots + " {\n";
 		for(int i = 0; i < body.size(); i ++){
 			ret += "[" + i + "]" + body.get(i).toString();
 		}
+		ret += "}" + "\n" + "\n";
 		return ret;
 	}
 
