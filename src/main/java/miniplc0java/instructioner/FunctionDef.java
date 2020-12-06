@@ -31,7 +31,7 @@ public class FunctionDef {
 		this.nameOffset = 0;
 		DataType ret = newFunc.datatype;
 		this.return_slots = (DataType.VOID.equals(ret)?0:1);
-		this.param_slots = newFunc.offset;
+		this.param_slots = newFunc.getVarOffset();
 		this.loc_slots = 0;
 		body = new ArrayList<Instruction>();
 	}
@@ -78,7 +78,7 @@ public class FunctionDef {
 
 	@Override
 	public String toString() {//String.format("%08x",this.globals.size())
-		String ret = "        fn" + "[" + nameOffset + "] "
+		String ret = "    fn" + "[" + nameOffset + "] "
 				+ loc_slots
 				+ " " + param_slots
 				+ " -> " + return_slots + ":\n";

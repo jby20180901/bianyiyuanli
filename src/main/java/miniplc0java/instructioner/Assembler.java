@@ -106,12 +106,12 @@ public class Assembler {
 		ret += "version: 1\n";
 		ret += ("globals.count: " + this.globals.size() + "\n");
 		for(int i = 0; i < this.globals.size(); i ++) {
-			ret += "globals[" + i + "]" + ": \n";
+			ret += "g{" + i + "}" + ": ";
 			ret += this.globals.get(i).toString();
 		}
 		ret += "functions.count: " + this.functions.size() + "\n";
 		for(int i = 0; i < this.functions.size(); i ++) {
-			ret += "functions[" + i + "]" + ": \n";
+			ret += "F{" + i + "}" + ": ";
 			ret += this.functions.get(i).toString();
 		}
 		return ret;

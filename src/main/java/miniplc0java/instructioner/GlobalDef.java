@@ -97,14 +97,13 @@ public class GlobalDef {
 
 	@Override
 	public String toString() {
-		String ret = "        " + "is_count: " + (is_Const?1:0) + "\n"
-				+ "        " + "value.count: " + count + "\n" ;
+		String ret = " " + (is_Const?1:0) + " : " + count + " \n" ;
 		if (this.item instanceof String) {
-			ret += "        " + "item: " + (String)this.item;
+			ret += "        " + (String)this.item;
 		}
 		else {
 			for(int i = 0; i < this.items.length; i ++){
-				ret += "        " + "item: " + String.format("%02x", this.items[i]);
+				ret += "        " + String.format("%02x", this.items[i]);
 			}
 		}
 		ret += "\n";
