@@ -1413,6 +1413,9 @@ public final class Analyser {
 	 * fn getint() -> int
 	 */
 	private DataType analyseGetint() throws CompileError {
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.scan_i);
+		funcDef.putInstruction(in);
 		return DataType.INT;
 	}
 
@@ -1421,6 +1424,9 @@ public final class Analyser {
 	 * fn getdouble() -> double
 	 */
 	private DataType analyseGetdouble() throws CompileError {
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.scan_f);
+		funcDef.putInstruction(in);
 		return DataType.DOUBLE;
 	}
 
@@ -1429,6 +1435,9 @@ public final class Analyser {
 	 * fn getchar() -> int
 	 */
 	private DataType analyseGetchar() throws CompileError {
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		in = new Instruction(InstructionType.scan_c);
+		funcDef.putInstruction(in);
 		return DataType.INT;
 	}
 
