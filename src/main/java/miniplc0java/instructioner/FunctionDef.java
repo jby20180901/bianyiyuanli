@@ -40,6 +40,10 @@ public class FunctionDef {
 		return body.size();
 	}
 
+	public Instruction getLastInstruction(){
+		return body.get(body.size() - 1);
+	}
+
 	public void updateNameOffset(int newNameOffset) {
 		this.nameOffset = newNameOffset;
 	}

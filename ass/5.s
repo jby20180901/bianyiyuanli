@@ -1,55 +1,68 @@
-72303b3e//magic
-00000001//version
-0000000b//globals.count
-01 //is_count
-00000006//value.count
-676574696e74//getint
-01 //is_count
-00000009//value.count
-676574646f75626c65//getdouble
-01 //is_count
-00000007//value.count
-67657463686172//getchar
-01 //is_count
-00000006//value.count
-707574696e74//putint
-01 //is_count
-00000009//value.count
-707574646f75626c65//putdouble
-01 //is_count
-00000007//value.count
-70757463686172//putchar
-01 //is_count
-00000006//value.count
-707574737472//putstr
-01 //is_count
-00000005//value.count
-7075746c6e//putln
-01 //is_count
-00000004//value.count
-6d61696e//main
-01 //is_count
-0000000d//value.count
-48656c6c6f2c20776f726c6421//Hello, world!
-01 //is_count
-00000006//value.count
-5f7374617274//_start
-00000002//functions.count
-00000000//nameOffset
-00000000//ret_slots
-00000000//param_slots
-00000000//loc_slots
-00000002//body.count
-1a00000000//stackalloc 0
-4800000001//call 1
-00000008//nameOffset
-00000000//ret_slots
-00000000//param_slots
-00000000//loc_slots
-00000006//body.count
-1a00000000//stackalloc 0
-010000000000000009//push 9
-4a00000006//callname 6
-1a00000000//stackalloc 0
-4a00000007//callname 7
-49//ret
+magic: 72303b3e
+version: 1
+globals.count: 11
+globals[0]: 
+        is_count: 1
+        value.count: 6
+        item: getint
+globals[1]: 
+        is_count: 1
+        value.count: 9
+        item: getdouble
+globals[2]: 
+        is_count: 1
+        value.count: 7
+        item: getchar
+globals[3]: 
+        is_count: 1
+        value.count: 6
+        item: putint
+globals[4]: 
+        is_count: 1
+        value.count: 9
+        item: putdouble
+globals[5]: 
+        is_count: 1
+        value.count: 7
+        item: putchar
+globals[6]: 
+        is_count: 1
+        value.count: 6
+        item: putstr
+globals[7]: 
+        is_count: 1
+        value.count: 5
+        item: putln
+globals[8]: 
+        is_count: 1
+        value.count: 4
+        item: main
+globals[9]: 
+        is_count: 1
+        value.count: 13
+        item: Hello, world!
+globals[10]: 
+        is_count: 1
+        value.count: 6
+        item: _start
+functions.count: 2
+functions[0]: 
+        nameOffset: 0
+        ret_slots: 0
+        param_slots: 0
+        loc_slots: 0
+        body.count: 2
+            stackalloc 0;
+            call 1;
+functions[1]: 
+        nameOffset: 8
+        ret_slots: 0
+        param_slots: 0
+        loc_slots: 0
+        body.count: 6
+            stackalloc 0;
+            push 9;
+            callname 6;
+            stackalloc 0;
+            callname 7;
+            ret; 

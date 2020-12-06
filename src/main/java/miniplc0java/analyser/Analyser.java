@@ -1113,6 +1113,11 @@ public final class Analyser {
 		expect(TokenType.IF_KW);
 		analyseExpr(TokenType.IF_KW);//表达式
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		In = funcDef.getLastInstruction();
+		if(!((InstructionType.br_true.equals(In.getOpt()))||(InstructionType.br_false.equals(In.getOpt())))){
+			In = new Instruction(InstructionType.br_true,1);
+			funcDef.putInstruction(In);
+		}
 		start = funcDef.getInstructionLength();
 		In = new Instruction(InstructionType.br,0);
 		funcDef.putInstruction(In);
@@ -1174,6 +1179,11 @@ public final class Analyser {
 		whileLevel ++;
 		SymbolTable.whileLevelup();
 		isInLoop = true;
+		In = funcDef.getLastInstruction();
+		if(!((InstructionType.br_true.equals(In.getOpt()))||(InstructionType.br_false.equals(In.getOpt())))){
+			In = new Instruction(InstructionType.br_true,1);
+			funcDef.putInstruction(In);
+		}
 		newIn = new Instruction(InstructionType.br, 0);
 		funcDef.putInstruction(newIn);
 		start1 = funcDef.getInstructionLength();

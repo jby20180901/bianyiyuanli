@@ -1,127 +1,145 @@
-72303b3e//magic
-00000001//version
-0000000a//globals.count
-01 //is_count
-00000006//value.count
-676574696e74//getint
-01 //is_count
-00000009//value.count
-676574646f75626c65//getdouble
-01 //is_count
-00000007//value.count
-67657463686172//getchar
-01 //is_count
-00000006//value.count
-707574696e74//putint
-01 //is_count
-00000009//value.count
-707574646f75626c65//putdouble
-01 //is_count
-00000007//value.count
-70757463686172//putchar
-01 //is_count
-00000006//value.count
-707574737472//putstr
-01 //is_count
-00000005//value.count
-7075746c6e//putln
-01 //is_count
-00000004//value.count
-6d61696e//main
-01 //is_count
-00000006//value.count
-5f7374617274//_start
-00000002//functions.count
-00000000//nameOffset
-00000000//ret_slots
-00000000//param_slots
-00000000//loc_slots
-00000002//body.count
-1a00000000//stackalloc 0
-4800000001//call 1
-00000008//nameOffset
-00000000//ret_slots
-00000000//param_slots
-00000000//loc_slots
-00000051//body.count
-01000000000001bf52//push 114514
-410000004e//br 78
-0100000000001d4b42//push 1919810
-410000004a//br 74
-010000000000000001//push 1
-010000000000000002//push 2
-30//cmp.i
-4300000001//br.true 1
-4100000043//br 67
-010000000000000003//push 3
-010000000000000003//push 3
-30//cmp.i
-2e//not
-4300000001//br.true 1
-410000003b//br 59
-4100000000//br 0
-010000000000000072//push 114
-4100000037//br 55
-4100000000//br 0
-010000000000000202//push 514
-4100000033//br 51
-4100000000//br 0
-010000000000000002//push 2
-010000000000000001//push 1
-34//neg.i
-30//cmp.i
-3a//set.gt
-4300000001//br.true 1
-410000002a//br 42
-4100000000//br 0
-010000000000000001//push 1
-010000000000000013//push 19
-30//cmp.i
-39//set.lt
-4300000001//br.true 1
-4100000022//br 34
-4100000000//br 0
-010000000000000003//push 3
-010000000000000003//push 3
-30//cmp.i
-39//set.lt
-4200000001//br.false 1
-410000001a//br 26
-4100000000//br 0
-010000000000000005//push 5
-010000000000000005//push 5
-30//cmp.i
-3a//set.gt
-4200000001//br.false 1
-4100000012//br 18
-010000000000000000//push 0
-4100000008//br 8
-4100000000//br 0
-010000000000000001//push 1
-4100000004//br 4
-1a00000000//stackalloc 0
-01000000000000077f//push 1919
-4a00000003//callname 3
-41fffffffa//br -6
-4100000004//br 4
-1a00000000//stackalloc 0
-01000000000000032a//push 810
-4a00000003//callname 3
-4100000000//br 0
-4100000000//br 0
-0b00000000//arga 0
-49//ret
-41ffffffe8//br -24
-41ffffffe0//br -32
-41ffffffd8//br -40
-41ffffffcf//br -49
-41ffffffcb//br -53
-41ffffffc7//br -57
-4100000000//br 0
-4100000000//br 0
-4100000000//br 0
-4100000000//br 0
-4100000000//br 0
-4100000000//br 0
-4100000000//br 0
-4100000000//br 0
+magic: 72303b3e
+version: 1
+globals.count: 10
+globals[0]: 
+        is_count: 1
+        value.count: 6
+        item: getint
+globals[1]: 
+        is_count: 1
+        value.count: 9
+        item: getdouble
+globals[2]: 
+        is_count: 1
+        value.count: 7
+        item: getchar
+globals[3]: 
+        is_count: 1
+        value.count: 6
+        item: putint
+globals[4]: 
+        is_count: 1
+        value.count: 9
+        item: putdouble
+globals[5]: 
+        is_count: 1
+        value.count: 7
+        item: putchar
+globals[6]: 
+        is_count: 1
+        value.count: 6
+        item: putstr
+globals[7]: 
+        is_count: 1
+        value.count: 5
+        item: putln
+globals[8]: 
+        is_count: 1
+        value.count: 4
+        item: main
+globals[9]: 
+        is_count: 1
+        value.count: 6
+        item: _start
+functions.count: 2
+functions[0]: 
+        nameOffset: 0
+        ret_slots: 0
+        param_slots: 0
+        loc_slots: 0
+        body.count: 2
+            stackalloc 0;
+            call 1;
+functions[1]: 
+        nameOffset: 8
+        ret_slots: 0
+        param_slots: 0
+        loc_slots: 0
+        body.count: 87
+            push 114514;
+            br.true 1;
+            br 83;
+            push 1919810;
+            br.true 1;
+            br 78;
+            push 1;
+            push 2;
+            cmp.i; 
+            br.true 1;
+            br 71;
+            push 3;
+            push 3;
+            cmp.i; 
+            not; 
+            br.true 1;
+            br 63;
+            br 0;
+            push 114;
+            br.true 1;
+            br 58;
+            br 0;
+            push 514;
+            br.true 1;
+            br 53;
+            br 0;
+            push 2;
+            push 1;
+            neg.i; 
+            cmp.i; 
+            set.gt; 
+            br.true 1;
+            br 44;
+            br 0;
+            push 1;
+            push 19;
+            cmp.i; 
+            set.lt; 
+            br.true 1;
+            br 36;
+            br 0;
+            push 3;
+            push 3;
+            cmp.i; 
+            set.lt; 
+            br.false 1;
+            br 28;
+            br 0;
+            push 5;
+            push 5;
+            cmp.i; 
+            set.gt; 
+            br.false 1;
+            br 20;
+            push 0;
+            br.true 1;
+            br 9;
+            br 0;
+            push 1;
+            br.true 1;
+            br 4;
+            stackalloc 0;
+            push 1919;
+            callname 3;
+            br -7;
+            br 4;
+            stackalloc 0;
+            push 810;
+            callname 3;
+            br 0;
+            br 0;
+            arga 0;
+            ret; 
+            br -26;
+            br -34;
+            br -42;
+            br -51;
+            br -56;
+            br -61;
+            br 0;
+            br 0;
+            br 0;
+            br 0;
+            br 0;
+            br 0;
+            br 0;
+            br 0;

@@ -1,283 +1,301 @@
-72303b3e//magic
-00000001//version
-0000000f//globals.count
-01 //is_count
-00000006//value.count
-676574696e74//getint
-01 //is_count
-00000009//value.count
-676574646f75626c65//getdouble
-01 //is_count
-00000007//value.count
-67657463686172//getchar
-01 //is_count
-00000006//value.count
-707574696e74//putint
-01 //is_count
-00000009//value.count
-707574646f75626c65//putdouble
-01 //is_count
-00000007//value.count
-70757463686172//putchar
-01 //is_count
-00000006//value.count
-707574737472//putstr
-01 //is_count
-00000005//value.count
-7075746c6e//putln
-00 //is_count
-00000008//value.count
-0000000000000000
-00 //is_count
-00000008//value.count
-0000000000000000
-00 //is_count
-00000008//value.count
-0000000000000000
-00 //is_count
-00000008//value.count
-0000000000000000
-01 //is_count
-0000000a//value.count
-45696768745768696c65//EightWhile
-01 //is_count
-00000004//value.count
-6d61696e//main
-01 //is_count
-00000006//value.count
-5f7374617274//_start
-00000003//functions.count
-00000000//nameOffset
-00000000//ret_slots
-00000000//param_slots
-00000000//loc_slots
-00000002//body.count
-1a00000000//stackalloc 0
-4800000002//call 2
-0000000c//nameOffset
-00000001//ret_slots
-00000000//param_slots
-00000004//loc_slots
-000000c8//body.count
-0a00000000//loca 0
-010000000000000005//push 5
-17//store.64
-0a00000001//loca 1
-010000000000000006//push 6
-17//store.64
-0a00000002//loca 2
-010000000000000007//push 7
-17//store.64
-0a00000003//loca 3
-01000000000000000a//push 10
-17//store.64
-4100000000//br 0
-0a00000000//loca 0
-13//load.64
-010000000000000014//push 20
-30//cmp.i
-39//set.lt
-4300000001//br.true 1
-410000009a//br 154
-0a00000000//loca 0
-0a00000000//loca 0
-13//load.64
-010000000000000003//push 3
-20//add.i
-17//store.64
-4100000000//br 0
-0a00000001//loca 1
-13//load.64
-01000000000000000a//push 10
-30//cmp.i
-39//set.lt
-4300000001//br.true 1
-4100000085//br 133
-0a00000001//loca 1
-0a00000001//loca 1
-13//load.64
-010000000000000001//push 1
-20//add.i
-17//store.64
-4100000000//br 0
-0a00000002//loca 2
-13//load.64
-010000000000000007//push 7
-30//cmp.i
-2e//not
-4300000001//br.true 1
-4100000070//br 112
-0a00000002//loca 2
-0a00000002//loca 2
-13//load.64
-010000000000000001//push 1
-21//sub.i
-17//store.64
-4100000000//br 0
-0a00000003//loca 3
-13//load.64
-010000000000000014//push 20
-30//cmp.i
-39//set.lt
-4300000001//br.true 1
-410000005b//br 91
-0a00000003//loca 3
-0a00000003//loca 3
-13//load.64
-010000000000000003//push 3
-20//add.i
-17//store.64
-4100000000//br 0
-0c0000000b//globa 11
-13//load.64
-010000000000000001//push 1
-30//cmp.i
-3a//set.gt
-4300000001//br.true 1
-4100000046//br 70
-0c0000000b//globa 11
-0c0000000b//globa 11
-13//load.64
-010000000000000001//push 1
-21//sub.i
-17//store.64
-4100000000//br 0
-0c0000000a//globa 10
-13//load.64
-010000000000000002//push 2
-30//cmp.i
-3a//set.gt
-4300000001//br.true 1
-4100000031//br 49
-0c0000000a//globa 10
-0c0000000a//globa 10
-13//load.64
-010000000000000002//push 2
-21//sub.i
-17//store.64
-4100000000//br 0
-0c00000008//globa 8
-13//load.64
-010000000000000003//push 3
-30//cmp.i
-39//set.lt
-4300000001//br.true 1
-410000001c//br 28
-0c00000008//globa 8
-0c00000008//globa 8
-13//load.64
-01000000000000000a//push 10
-20//add.i
-17//store.64
-4100000000//br 0
-0c00000009//globa 9
-13//load.64
-01000000000000000a//push 10
-30//cmp.i
-39//set.lt
-4300000001//br.true 1
-4100000007//br 7
-0c00000009//globa 9
-0c00000009//globa 9
-13//load.64
-010000000000000008//push 8
-20//add.i
-17//store.64
-41fffffff2//br -14
-0c00000009//globa 9
-0c00000009//globa 9
-13//load.64
-010000000000000001//push 1
-21//sub.i
-17//store.64
-41ffffffdd//br -35
-0c00000008//globa 8
-0c00000008//globa 8
-13//load.64
-010000000000000008//push 8
-21//sub.i
-17//store.64
-41ffffffc8//br -56
-0c0000000a//globa 10
-0c0000000a//globa 10
-13//load.64
-010000000000000001//push 1
-20//add.i
-17//store.64
-41ffffffb3//br -77
-0c0000000b//globa 11
-0c0000000b//globa 11
-13//load.64
-010000000000000001//push 1
-20//add.i
-17//store.64
-41ffffff9e//br -98
-0a00000003//loca 3
-0a00000003//loca 3
-13//load.64
-010000000000000001//push 1
-21//sub.i
-17//store.64
-41ffffff89//br -119
-0a00000002//loca 2
-0a00000002//loca 2
-13//load.64
-010000000000000001//push 1
-20//add.i
-17//store.64
-41ffffff74//br -140
-0a00000001//loca 1
-0a00000001//loca 1
-13//load.64
-010000000000000002//push 2
-21//sub.i
-17//store.64
-41ffffff5f//br -161
-0b00000000//arga 0
-0a00000000//loca 0
-13//load.64
-0a00000001//loca 1
-13//load.64
-0a00000003//loca 3
-13//load.64
-20//add.i
-20//add.i
-0a00000002//loca 2
-13//load.64
-20//add.i
-0c0000000b//globa 11
-13//load.64
-0a00000003//loca 3
-13//load.64
-20//add.i
-0c00000008//globa 8
-13//load.64
-21//sub.i
-0c00000009//globa 9
-13//load.64
-20//add.i
-21//sub.i
-17//store.64
-49//ret
-0000000d//nameOffset
-00000000//ret_slots
-00000000//param_slots
-00000000//loc_slots
-00000011//body.count
-0c00000008//globa 8
-010000000000000001//push 1
-17//store.64
-0c00000009//globa 9
-010000000000000002//push 2
-17//store.64
-0c0000000b//globa 11
-010000000000000004//push 4
-17//store.64
-0c0000000a//globa 10
-010000000000000006//push 6
-17//store.64
-1a00000000//stackalloc 0
-1a00000000//stackalloc 0
-4800000002//call 2
-4a00000003//callname 3
-49//ret
+magic: 72303b3e
+version: 1
+globals.count: 15
+globals[0]: 
+        is_count: 1
+        value.count: 6
+        item: getint
+globals[1]: 
+        is_count: 1
+        value.count: 9
+        item: getdouble
+globals[2]: 
+        is_count: 1
+        value.count: 7
+        item: getchar
+globals[3]: 
+        is_count: 1
+        value.count: 6
+        item: putint
+globals[4]: 
+        is_count: 1
+        value.count: 9
+        item: putdouble
+globals[5]: 
+        is_count: 1
+        value.count: 7
+        item: putchar
+globals[6]: 
+        is_count: 1
+        value.count: 6
+        item: putstr
+globals[7]: 
+        is_count: 1
+        value.count: 5
+        item: putln
+globals[8]: 
+        is_count: 0
+        value.count: 8
+        item: 00        item: 00        item: 00        item: 00        item: 00        item: 00        item: 00        item: 00
+globals[9]: 
+        is_count: 0
+        value.count: 8
+        item: 00        item: 00        item: 00        item: 00        item: 00        item: 00        item: 00        item: 00
+globals[10]: 
+        is_count: 0
+        value.count: 8
+        item: 00        item: 00        item: 00        item: 00        item: 00        item: 00        item: 00        item: 00
+globals[11]: 
+        is_count: 0
+        value.count: 8
+        item: 00        item: 00        item: 00        item: 00        item: 00        item: 00        item: 00        item: 00
+globals[12]: 
+        is_count: 1
+        value.count: 10
+        item: EightWhile
+globals[13]: 
+        is_count: 1
+        value.count: 4
+        item: main
+globals[14]: 
+        is_count: 1
+        value.count: 6
+        item: _start
+functions.count: 3
+functions[0]: 
+        nameOffset: 0
+        ret_slots: 0
+        param_slots: 0
+        loc_slots: 0
+        body.count: 2
+            stackalloc 0;
+            call 2;
+functions[1]: 
+        nameOffset: 12
+        ret_slots: 1
+        param_slots: 0
+        loc_slots: 4
+        body.count: 200
+            loca 0;
+            push 5;
+            store.64; 
+            loca 1;
+            push 6;
+            store.64; 
+            loca 2;
+            push 7;
+            store.64; 
+            loca 3;
+            push 10;
+            store.64; 
+            br 0;
+            loca 0;
+            load.64; 
+            push 20;
+            cmp.i; 
+            set.lt; 
+            br.true 1;
+            br 154;
+            loca 0;
+            loca 0;
+            load.64; 
+            push 3;
+            add.i; 
+            store.64; 
+            br 0;
+            loca 1;
+            load.64; 
+            push 10;
+            cmp.i; 
+            set.lt; 
+            br.true 1;
+            br 133;
+            loca 1;
+            loca 1;
+            load.64; 
+            push 1;
+            add.i; 
+            store.64; 
+            br 0;
+            loca 2;
+            load.64; 
+            push 7;
+            cmp.i; 
+            not; 
+            br.true 1;
+            br 112;
+            loca 2;
+            loca 2;
+            load.64; 
+            push 1;
+            sub.i; 
+            store.64; 
+            br 0;
+            loca 3;
+            load.64; 
+            push 20;
+            cmp.i; 
+            set.lt; 
+            br.true 1;
+            br 91;
+            loca 3;
+            loca 3;
+            load.64; 
+            push 3;
+            add.i; 
+            store.64; 
+            br 0;
+            globa 11;
+            load.64; 
+            push 1;
+            cmp.i; 
+            set.gt; 
+            br.true 1;
+            br 70;
+            globa 11;
+            globa 11;
+            load.64; 
+            push 1;
+            sub.i; 
+            store.64; 
+            br 0;
+            globa 10;
+            load.64; 
+            push 2;
+            cmp.i; 
+            set.gt; 
+            br.true 1;
+            br 49;
+            globa 10;
+            globa 10;
+            load.64; 
+            push 2;
+            sub.i; 
+            store.64; 
+            br 0;
+            globa 8;
+            load.64; 
+            push 3;
+            cmp.i; 
+            set.lt; 
+            br.true 1;
+            br 28;
+            globa 8;
+            globa 8;
+            load.64; 
+            push 10;
+            add.i; 
+            store.64; 
+            br 0;
+            globa 9;
+            load.64; 
+            push 10;
+            cmp.i; 
+            set.lt; 
+            br.true 1;
+            br 7;
+            globa 9;
+            globa 9;
+            load.64; 
+            push 8;
+            add.i; 
+            store.64; 
+            br -14;
+            globa 9;
+            globa 9;
+            load.64; 
+            push 1;
+            sub.i; 
+            store.64; 
+            br -35;
+            globa 8;
+            globa 8;
+            load.64; 
+            push 8;
+            sub.i; 
+            store.64; 
+            br -56;
+            globa 10;
+            globa 10;
+            load.64; 
+            push 1;
+            add.i; 
+            store.64; 
+            br -77;
+            globa 11;
+            globa 11;
+            load.64; 
+            push 1;
+            add.i; 
+            store.64; 
+            br -98;
+            loca 3;
+            loca 3;
+            load.64; 
+            push 1;
+            sub.i; 
+            store.64; 
+            br -119;
+            loca 2;
+            loca 2;
+            load.64; 
+            push 1;
+            add.i; 
+            store.64; 
+            br -140;
+            loca 1;
+            loca 1;
+            load.64; 
+            push 2;
+            sub.i; 
+            store.64; 
+            br -161;
+            arga 0;
+            loca 0;
+            load.64; 
+            loca 1;
+            load.64; 
+            loca 3;
+            load.64; 
+            add.i; 
+            add.i; 
+            loca 2;
+            load.64; 
+            add.i; 
+            globa 11;
+            load.64; 
+            loca 3;
+            load.64; 
+            add.i; 
+            globa 8;
+            load.64; 
+            sub.i; 
+            globa 9;
+            load.64; 
+            add.i; 
+            sub.i; 
+            store.64; 
+            ret; 
+functions[2]: 
+        nameOffset: 13
+        ret_slots: 0
+        param_slots: 0
+        loc_slots: 0
+        body.count: 17
+            globa 8;
+            push 1;
+            store.64; 
+            globa 9;
+            push 2;
+            store.64; 
+            globa 11;
+            push 4;
+            store.64; 
+            globa 10;
+            push 6;
+            store.64; 
+            stackalloc 0;
+            stackalloc 1;
+            call 1;
+            callname 3;
+            ret; 
