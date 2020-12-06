@@ -1381,10 +1381,10 @@ public final class Analyser {
 	 * fn putchar(int) -> void
 	 */
 	private DataType analysePutchar() throws CompileError {
-		Token charToken = next();
+		analyseExpr(TokenType.L_PAREN);
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
-		in = new Instruction(InstructionType.push, (int)charToken.getValue());
-		funcDef.putInstruction(in);
+//		in = new Instruction(InstructionType.push, (long)charToken.getValue());
+//		funcDef.putInstruction(in);
 		in = new Instruction(InstructionType.print_c);
 		funcDef.putInstruction(in);
 		return DataType.VOID;
@@ -1909,6 +1909,10 @@ public final class Analyser {
 				token = seekIf(TokenType.CHAR_LITERAL);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
 				if(priorty[i][j] == 0) {
+					char need = (char)token.getValue();
+					int needs = (int) need;
+					long needss = (long) needs;
+					numStack.push(needss);
 					next();
 					stack.push(recentToken);
 					recent = TokenType.UINT_LITERAL;
