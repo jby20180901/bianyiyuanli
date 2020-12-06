@@ -1,6 +1,30 @@
 72303b3e//magic
 00000001//version
-00000005//globals.count
+0000000d//globals.count
+01 //is_count
+00000006//value.count
+676574696e74//getint
+01 //is_count
+00000009//value.count
+676574646f75626c65//getdouble
+01 //is_count
+00000007//value.count
+67657463686172//getchar
+01 //is_count
+00000006//value.count
+707574696e74//putint
+01 //is_count
+00000009//value.count
+707574646f75626c65//putdouble
+01 //is_count
+00000007//value.count
+70757463686172//putchar
+01 //is_count
+00000006//value.count
+707574737472//putstr
+01 //is_count
+00000005//value.count
+7075746c6e//putln
 00 //is_count
 00000008//value.count
 0000000000000000
@@ -22,12 +46,12 @@
 00000000//param_slots
 00000000//loc_slots
 00000005//body.count
-0c00000000//globa 0
+0c00000008//globa 8
 010000000000000002//push 2
 17//store.64
 1a00000000//stackalloc 0
 4800000003//call 3
-00000001//nameOffset
+00000009//nameOffset
 00000001//ret_slots
 00000000//param_slots
 00000002//loc_slots
@@ -38,33 +62,33 @@
 1a00000000//stackalloc 0
 0a00000000//loca 0
 13//load.64
-54//print.i
+4a00000003//callname 3
 1a00000000//stackalloc 0
-58//println
+4a00000007//callname 7
 0b00000000//arga 0
 0a00000000//loca 0
 13//load.64
 17//store.64
 49//ret
-00000002//nameOffset
+0000000a//nameOffset
 00000000//ret_slots
 00000000//param_slots
 00000000//loc_slots
 0000000d//body.count
 1a00000000//stackalloc 0
-0c00000000//globa 0
+0c00000008//globa 8
 13//load.64
-54//print.i
+4a00000003//callname 3
 1a00000000//stackalloc 0
-58//println
-0c00000000//globa 0
-0c00000000//globa 0
+4a00000007//callname 7
+0c00000008//globa 8
+0c00000008//globa 8
 13//load.64
 010000000000000001//push 1
 20//add.i
 17//store.64
 49//ret
-00000003//nameOffset
+0000000b//nameOffset
 00000000//ret_slots
 00000000//param_slots
 00000002//loc_slots
@@ -75,25 +99,25 @@
 1a00000000//stackalloc 0
 0a00000000//loca 0
 13//load.64
-54//print.i
+4a00000003//callname 3
 1a00000000//stackalloc 0
-58//println
+4a00000007//callname 7
 1a00000000//stackalloc 0
-1a00000000//stackalloc 0
-4800000003//call 3
-54//print.i
-1a00000000//stackalloc 0
-58//println
 1a00000000//stackalloc 0
 4800000003//call 3
+4a00000003//callname 3
+1a00000000//stackalloc 0
+4a00000007//callname 7
 1a00000000//stackalloc 0
 4800000003//call 3
 1a00000000//stackalloc 0
 4800000003//call 3
 1a00000000//stackalloc 0
+4800000003//call 3
+1a00000000//stackalloc 0
 1a00000000//stackalloc 0
 4800000003//call 3
-54//print.i
+4a00000003//callname 3
 1a00000000//stackalloc 0
-58//println
+4a00000007//callname 7
 49//ret

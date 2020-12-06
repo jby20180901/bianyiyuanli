@@ -599,6 +599,7 @@ public final class Analyser {
 	 */
 	private void initSystemcall() throws CompileError {
 		Pos startPos = new Pos(0,0);
+		GlobalDef funcDef;
 		/**
 		 * 读入一个有符号整数
 		 * fn getint() -> int
@@ -608,6 +609,8 @@ public final class Analyser {
 		SymbolTable.insertFunctionEntry("getint", SymbolType.Function, DataType.INT, functionOffset, startPos);
 		level --;
 		SymbolTable.leveldown();
+		funcDef = new GlobalDef(true, SymbolTable.findFunctionEntry("getint"));
+		assembler.addGlobalDef(funcDef, "getint");
 		/**
 		 * 读入一个浮点数
 		 * fn getdouble() -> double
@@ -617,6 +620,8 @@ public final class Analyser {
 		SymbolTable.insertFunctionEntry("getdouble", SymbolType.Function, DataType.DOUBLE, functionOffset, startPos);
 		level --;
 		SymbolTable.leveldown();
+		funcDef = new GlobalDef(true, SymbolTable.findFunctionEntry("getdouble"));
+		assembler.addGlobalDef(funcDef, "getdouble");
 		/**
 		 * 读入一个字符
 		 * fn getchar() -> int
@@ -626,6 +631,8 @@ public final class Analyser {
 		SymbolTable.insertFunctionEntry("getchar", SymbolType.Function, DataType.INT, functionOffset, startPos);
 		level --;
 		SymbolTable.leveldown();
+		funcDef = new GlobalDef(true, SymbolTable.findFunctionEntry("getchar"));
+		assembler.addGlobalDef(funcDef, "getchar");
 		/**
 		 * 输出一个整数
 		 * fn putint(int) -> void
@@ -639,6 +646,8 @@ public final class Analyser {
 		SymbolTable.updateFunctionCallList("putint", "x", startPos);
 		level --;
 		SymbolTable.leveldown();
+		funcDef = new GlobalDef(true, SymbolTable.findFunctionEntry("putint"));
+		assembler.addGlobalDef(funcDef, "putint");
 		/**
 		 * 输出一个浮点数
 		 * fn putdouble(double) -> void
@@ -652,6 +661,8 @@ public final class Analyser {
 		SymbolTable.updateFunctionCallList("putdouble", "x", startPos);
 		level --;
 		SymbolTable.leveldown();
+		funcDef = new GlobalDef(true, SymbolTable.findFunctionEntry("putdouble"));
+		assembler.addGlobalDef(funcDef, "putdouble");
 		/**
 		 * 输出一个字符
 		 * fn putchar(int) -> void
@@ -665,6 +676,8 @@ public final class Analyser {
 		SymbolTable.updateFunctionCallList("putchar", "x", startPos);
 		level --;
 		SymbolTable.leveldown();
+		funcDef = new GlobalDef(true, SymbolTable.findFunctionEntry("putchar"));
+		assembler.addGlobalDef(funcDef, "putchar");
 		/**
 		 * 将编号为这个整数的全局常量看作字符串输出
 		 * fn putstr(int) -> void
@@ -678,6 +691,8 @@ public final class Analyser {
 		SymbolTable.updateFunctionCallList("putstr", "x", startPos);
 		level --;
 		SymbolTable.leveldown();
+		funcDef = new GlobalDef(true, SymbolTable.findFunctionEntry("putstr"));
+		assembler.addGlobalDef(funcDef, "putstr");
 		/**
 		 * 输出一个换行
 		 * fn putln() -> void
@@ -687,6 +702,8 @@ public final class Analyser {
 		SymbolTable.insertFunctionEntry("putln", SymbolType.Function, DataType.VOID, functionOffset, startPos);
 		level --;
 		SymbolTable.leveldown();
+		funcDef = new GlobalDef(true, SymbolTable.findFunctionEntry("putln"));
+		assembler.addGlobalDef(funcDef, "putln");
 	}
 
 	/**
@@ -1410,9 +1427,9 @@ public final class Analyser {
 	 */
 	private DataType analyseGetint() throws CompileError {
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
-		in = new Instruction(InstructionType.stackalloc, 0);
+		in = new Instruction(InstructionType.stackalloc, 1);
 		funcDef.putInstruction(in);
-		in = new Instruction(InstructionType.scan_i);
+		in = new Instruction(InstructionType.callname,assembler.findGlobalDefID(assembler.findGlobalDef("getint")));
 		funcDef.putInstruction(in);
 		return DataType.INT;
 	}
@@ -1423,9 +1440,9 @@ public final class Analyser {
 	 */
 	private DataType analyseGetdouble() throws CompileError {
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
-		in = new Instruction(InstructionType.stackalloc, 0);
+		in = new Instruction(InstructionType.stackalloc, 1);
 		funcDef.putInstruction(in);
-		in = new Instruction(InstructionType.scan_f);
+		in = new Instruction(InstructionType.callname,assembler.findGlobalDefID(assembler.findGlobalDef("getdouble")));
 		funcDef.putInstruction(in);
 		return DataType.DOUBLE;
 	}
@@ -1436,9 +1453,9 @@ public final class Analyser {
 	 */
 	private DataType analyseGetchar() throws CompileError {
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
-		in = new Instruction(InstructionType.stackalloc, 0);
+		in = new Instruction(InstructionType.stackalloc, 1);
 		funcDef.putInstruction(in);
-		in = new Instruction(InstructionType.scan_c);
+		in = new Instruction(InstructionType.callname,assembler.findGlobalDefID(assembler.findGlobalDef("getchar")));
 		funcDef.putInstruction(in);
 		return DataType.INT;
 	}
@@ -1455,7 +1472,7 @@ public final class Analyser {
 		if(!DataType.INT.equals(putout)) {
 			throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
 		}
-		in = new Instruction(InstructionType.print_i);
+		in = new Instruction(InstructionType.callname,assembler.findGlobalDefID(assembler.findGlobalDef("putint")));
 		funcDef.putInstruction(in);
 		return DataType.VOID;
 	}
@@ -1472,7 +1489,7 @@ public final class Analyser {
 		if(!DataType.DOUBLE.equals(putout)) {
 			throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
 		}
-		in = new Instruction(InstructionType.print_f);
+		in = new Instruction(InstructionType.callname,assembler.findGlobalDefID(assembler.findGlobalDef("putdouble")));
 		funcDef.putInstruction(in);
 		return DataType.VOID;
 	}
@@ -1483,12 +1500,12 @@ public final class Analyser {
 	 */
 	private DataType analysePutchar() throws CompileError {
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		analyseExpr(TokenType.L_PAREN);
 		in = new Instruction(InstructionType.stackalloc, 0);
 		funcDef.putInstruction(in);
-		analyseExpr(TokenType.L_PAREN);
 //		in = new Instruction(InstructionType.push, (long)charToken.getValue());
 //		funcDef.putInstruction(in);
-		in = new Instruction(InstructionType.print_c);
+		in = new Instruction(InstructionType.callname,assembler.findGlobalDefID(assembler.findGlobalDef("putchar")));
 		funcDef.putInstruction(in);
 		return DataType.VOID;
 	}
@@ -1507,7 +1524,7 @@ public final class Analyser {
 		int offset = assembler.findGlobalDefID(varDef);
 		in = new Instruction(InstructionType.push,(long)offset);
 		funcDef.putInstruction(in);
-		in = new Instruction(InstructionType.print_s);
+		in = new Instruction(InstructionType.callname,assembler.findGlobalDefID(assembler.findGlobalDef("putstr")));
 		funcDef.putInstruction(in);
 		return DataType.VOID;
 	}
@@ -1520,7 +1537,7 @@ public final class Analyser {
 		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
 		in = new Instruction(InstructionType.stackalloc, 0);
 		funcDef.putInstruction(in);
-		in = new Instruction(InstructionType.println);
+		in = new Instruction(InstructionType.callname,assembler.findGlobalDefID(assembler.findGlobalDef("putln")));
 		funcDef.putInstruction(in);
 		return DataType.VOID;
 	}

@@ -1,6 +1,30 @@
 72303b3e//magic
 00000001//version
-00000004//globals.count
+0000000c//globals.count
+01 //is_count
+00000006//value.count
+676574696e74//getint
+01 //is_count
+00000009//value.count
+676574646f75626c65//getdouble
+01 //is_count
+00000007//value.count
+67657463686172//getchar
+01 //is_count
+00000006//value.count
+707574696e74//putint
+01 //is_count
+00000009//value.count
+707574646f75626c65//putdouble
+01 //is_count
+00000007//value.count
+70757463686172//putchar
+01 //is_count
+00000006//value.count
+707574737472//putstr
+01 //is_count
+00000005//value.count
+7075746c6e//putln
 01 //is_count
 00000006//value.count
 63616c635069//calcPi
@@ -21,7 +45,7 @@
 00000002//body.count
 1a00000000//stackalloc 0
 4800000003//call 3
-00000000//nameOffset
+00000008//nameOffset
 00000001//ret_slots
 00000000//param_slots
 00000006//loc_slots
@@ -78,7 +102,7 @@
 26//mul.f
 17//store.64
 49//ret
-00000001//nameOffset
+00000009//nameOffset
 00000001//ret_slots
 00000000//param_slots
 00000006//loc_slots
@@ -129,7 +153,7 @@
 13//load.64
 17//store.64
 49//ret
-00000002//nameOffset
+0000000a//nameOffset
 00000000//ret_slots
 00000000//param_slots
 00000000//loc_slots
@@ -137,11 +161,11 @@
 1a00000000//stackalloc 0
 1a00000000//stackalloc 0
 4800000003//call 3
-56//print.f
+4a00000004//callname 4
 1a00000000//stackalloc 0
-58//println
+4a00000007//callname 7
 1a00000000//stackalloc 0
 1a00000000//stackalloc 0
 4800000003//call 3
-56//print.f
+4a00000004//callname 4
 49//ret
