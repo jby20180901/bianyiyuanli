@@ -1,66 +1,34 @@
 magic: 72303b3e
 version: 1
 globals.count: 11
-globals[0]: 
-        is_count: 1
-        value.count: 6
-        item: getint
-globals[1]: 
-        is_count: 1
-        value.count: 9
-        item: getdouble
-globals[2]: 
-        is_count: 1
-        value.count: 7
-        item: getchar
-globals[3]: 
-        is_count: 1
-        value.count: 6
-        item: putint
-globals[4]: 
-        is_count: 1
-        value.count: 9
-        item: putdouble
-globals[5]: 
-        is_count: 1
-        value.count: 7
-        item: putchar
-globals[6]: 
-        is_count: 1
-        value.count: 6
-        item: putstr
-globals[7]: 
-        is_count: 1
-        value.count: 5
-        item: putln
-globals[8]: 
-        is_count: 1
-        value.count: 4
-        item: main
-globals[9]: 
-        is_count: 1
-        value.count: 24
-        item: // this is not a comment
-globals[10]: 
-        is_count: 1
-        value.count: 6
-        item: _start
+g{0}:  1 : 6 
+        getint
+g{1}:  1 : 9 
+        getdouble
+g{2}:  1 : 7 
+        getchar
+g{3}:  1 : 6 
+        putint
+g{4}:  1 : 9 
+        putdouble
+g{5}:  1 : 7 
+        putchar
+g{6}:  1 : 6 
+        putstr
+g{7}:  1 : 5 
+        putln
+g{8}:  1 : 4 
+        main
+g{9}:  1 : 24 
+        // this is not a comment
+g{10}:  1 : 6 
+        _start
 functions.count: 2
-functions[0]: 
-        nameOffset: 0
-        ret_slots: 0
-        param_slots: 0
-        loc_slots: 0
-        body.count: 2
-            stackalloc 0;
-            call 1;
-functions[1]: 
-        nameOffset: 8
-        ret_slots: 0
-        param_slots: 0
-        loc_slots: 0
-        body.count: 4
-            stackalloc 0;
-            push 9;
-            callname 6;
-            ret; 
+F{0}:     fn[0] 0 0 -> 0:
+[0]            stackalloc 0;
+[1]            call 1;
+F{1}:     fn[8] 0 0 -> 0:
+[0]            stackalloc 0;
+[1]            push 9;
+[2]            callname 6;
+[3]            ret; 

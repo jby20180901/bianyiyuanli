@@ -1,157 +1,113 @@
 magic: 72303b3e
 version: 1
 globals.count: 12
-globals[0]: 
-        is_count: 1
-        value.count: 6
-        item: getint
-globals[1]: 
-        is_count: 1
-        value.count: 9
-        item: getdouble
-globals[2]: 
-        is_count: 1
-        value.count: 7
-        item: getchar
-globals[3]: 
-        is_count: 1
-        value.count: 6
-        item: putint
-globals[4]: 
-        is_count: 1
-        value.count: 9
-        item: putdouble
-globals[5]: 
-        is_count: 1
-        value.count: 7
-        item: putchar
-globals[6]: 
-        is_count: 1
-        value.count: 6
-        item: putstr
-globals[7]: 
-        is_count: 1
-        value.count: 5
-        item: putln
-globals[8]: 
-        is_count: 1
-        value.count: 4
-        item: move
-globals[9]: 
-        is_count: 1
-        value.count: 5
-        item: hanoi
-globals[10]: 
-        is_count: 1
-        value.count: 4
-        item: main
-globals[11]: 
-        is_count: 1
-        value.count: 6
-        item: _start
+g{0}:  1 : 6 
+        getint
+g{1}:  1 : 9 
+        getdouble
+g{2}:  1 : 7 
+        getchar
+g{3}:  1 : 6 
+        putint
+g{4}:  1 : 9 
+        putdouble
+g{5}:  1 : 7 
+        putchar
+g{6}:  1 : 6 
+        putstr
+g{7}:  1 : 5 
+        putln
+g{8}:  1 : 4 
+        move
+g{9}:  1 : 5 
+        hanoi
+g{10}:  1 : 4 
+        main
+g{11}:  1 : 6 
+        _start
 functions.count: 4
-functions[0]: 
-        nameOffset: 0
-        ret_slots: 0
-        param_slots: 0
-        loc_slots: 0
-        body.count: 2
-            stackalloc 0;
-            call 3;
-functions[1]: 
-        nameOffset: 8
-        ret_slots: 0
-        param_slots: 0
-        loc_slots: 0
-        body.count: 21
-            stackalloc 0;
-            arga 1;
-            load.64; 
-            callname 3;
-            push 32;
-            stackalloc 0;
-            callname 5;
-            arga 2;
-            load.64; 
-            stackalloc 0;
-            callname 5;
-            push 32;
-            stackalloc 0;
-            callname 5;
-            arga 3;
-            load.64; 
-            stackalloc 0;
-            callname 5;
-            stackalloc 0;
-            callname 7;
-            ret; 
-functions[2]: 
-        nameOffset: 9
-        ret_slots: 0
-        param_slots: 0
-        loc_slots: 0
-        body.count: 51
-            arga 1;
-            load.64; 
-            push 1;
-            cmp.i; 
-            not; 
-            br.true 1;
-            br 9;
-            stackalloc 0;
-            arga 1;
-            load.64; 
-            arga 2;
-            load.64; 
-            arga 4;
-            load.64; 
-            call 1;
-            br 33;
-            stackalloc 0;
-            arga 1;
-            load.64; 
-            push 1;
-            sub.i; 
-            arga 2;
-            load.64; 
-            arga 4;
-            load.64; 
-            arga 3;
-            load.64; 
-            call 2;
-            stackalloc 0;
-            arga 1;
-            load.64; 
-            arga 2;
-            load.64; 
-            arga 4;
-            load.64; 
-            call 1;
-            stackalloc 0;
-            arga 1;
-            load.64; 
-            push 1;
-            sub.i; 
-            arga 3;
-            load.64; 
-            arga 2;
-            load.64; 
-            arga 4;
-            load.64; 
-            call 2;
-            br 0;
-            br 0;
-            ret; 
-functions[3]: 
-        nameOffset: 10
-        ret_slots: 0
-        param_slots: 0
-        loc_slots: 0
-        body.count: 7
-            stackalloc 0;
-            push 6;
-            push 65;
-            push 66;
-            push 67;
-            call 2;
-            ret; 
+F{0}:     fn[0] 0 0 -> 0:
+[0]            stackalloc 0;
+[1]            call 3;
+F{1}:     fn[8] 0 3 -> 0:
+[0]            stackalloc 0;
+[1]            arga 1;
+[2]            load.64; 
+[3]            callname 3;
+[4]            push 32;
+[5]            stackalloc 0;
+[6]            callname 5;
+[7]            arga 2;
+[8]            load.64; 
+[9]            stackalloc 0;
+[10]            callname 5;
+[11]            push 32;
+[12]            stackalloc 0;
+[13]            callname 5;
+[14]            arga 3;
+[15]            load.64; 
+[16]            stackalloc 0;
+[17]            callname 5;
+[18]            stackalloc 0;
+[19]            callname 7;
+[20]            ret; 
+F{2}:     fn[9] 0 4 -> 0:
+[0]            arga 1;
+[1]            load.64; 
+[2]            push 1;
+[3]            cmp.i; 
+[4]            not; 
+[5]            br.true 1;
+[6]            br 9;
+[7]            stackalloc 0;
+[8]            arga 1;
+[9]            load.64; 
+[10]            arga 2;
+[11]            load.64; 
+[12]            arga 4;
+[13]            load.64; 
+[14]            call 1;
+[15]            br 33;
+[16]            stackalloc 0;
+[17]            arga 1;
+[18]            load.64; 
+[19]            push 1;
+[20]            sub.i; 
+[21]            arga 2;
+[22]            load.64; 
+[23]            arga 4;
+[24]            load.64; 
+[25]            arga 3;
+[26]            load.64; 
+[27]            call 2;
+[28]            stackalloc 0;
+[29]            arga 1;
+[30]            load.64; 
+[31]            arga 2;
+[32]            load.64; 
+[33]            arga 4;
+[34]            load.64; 
+[35]            call 1;
+[36]            stackalloc 0;
+[37]            arga 1;
+[38]            load.64; 
+[39]            push 1;
+[40]            sub.i; 
+[41]            arga 3;
+[42]            load.64; 
+[43]            arga 2;
+[44]            load.64; 
+[45]            arga 4;
+[46]            load.64; 
+[47]            call 2;
+[48]            br 0;
+[49]            br 0;
+[50]            ret; 
+F{3}:     fn[10] 0 0 -> 0:
+[0]            stackalloc 0;
+[1]            push 6;
+[2]            push 65;
+[3]            push 66;
+[4]            push 67;
+[5]            call 2;
+[6]            ret; 
