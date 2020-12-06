@@ -19,8 +19,10 @@
 00000000//ret_slots
 00000000//param_slots
 00000004//loc_slots
-00000029//body.count
+0000002d//body.count
+0a00000000//loca
 010000000000000001//push
+17//store.64
 0a00000000//loca
 13//load.64
 54//print.i
@@ -41,7 +43,9 @@
 13//load.64
 54//print.i
 58//println
+0a00000002//loca
 0100000000000003e7//push
+17//store.64
 0a00000002//loca
 13//load.64
 54//print.i

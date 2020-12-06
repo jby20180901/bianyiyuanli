@@ -1042,11 +1042,21 @@ public final class Analyser {
 
 		}
 		else if(nextIf(TokenType.ASSIGN)!=null){
+			if(nowFunc == null) {//这里是全局空间
+				in = new Instruction(InstructionType.globa, offset);//global offset
+				putInstruction(in);
+			}
+			else {
+				in = new Instruction(InstructionType.loca, offset);//lobal offset
+				putInstruction(in);
+			}
 			rDataType = analyseExpr(TokenType.ASSIGN);//表达式整体分析
 			if(!datatype.equals(rDataType)) {
 				throw new AnalyzeError(ErrorCode.InvalidInput,varTypeToken.getStartPos());
 			}
 			expect(TokenType.SEMICOLON);
+			in = new Instruction(InstructionType.store_64);//store.64
+			putInstruction(in);
 			//增加这个变量
 			SymbolTable.insertVarEntry(level, varName, true, isConst, symbolType, datatype, offset, varTypeToken.getStartPos());
 		}
@@ -1077,14 +1087,37 @@ public final class Analyser {
 	 * if_stmt -> 'if' expr block_stmt ('else' 'if' expr block_stmt)* ('else' block_stmt)?
 	 */
 	private void analyseIfStmt() throws CompileError {
+		ArrayList<Instruction> brList = new ArrayList<>();
+		ArrayList<Integer> brOpList = new ArrayList<>();
+		Instruction newIn, In;
 		boolean checkDucElse = false;
+		int start = 0, end = 0;
 		expect(TokenType.IF_KW);
 		analyseExpr(TokenType.IF_KW);//表达式
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		start = funcDef.getInstructionLength();
+		In = new Instruction(InstructionType.br,0);
+		funcDef.putInstruction(In);
 		analyseBlockStmt();
+		end = funcDef.getInstructionLength();
+		In.setX(end-start);
+		newIn = new Instruction(InstructionType.br,0);
+		funcDef.putInstruction(newIn);
+		brList.add(newIn);
+		brOpList.add(funcDef.getInstructionLength());
 		while(nextIf(TokenType.ELSE_KW)!=null){
 			if(nextIf(TokenType.IF_KW)!=null){
 				analyseExpr(TokenType.IF_KW);//表达式整体分析
+				start = funcDef.getInstructionLength();
+				In = new Instruction(InstructionType.br,0);
+				funcDef.putInstruction(In);
 				analyseBlockStmt();
+				end = funcDef.getInstructionLength();
+				In.setX(end-start);
+				newIn = new Instruction(InstructionType.br,0);
+				funcDef.putInstruction(newIn);
+				brList.add(newIn);
+				brOpList.add(funcDef.getInstructionLength());
 			}
 			else {
 				if(!checkDucElse) {
@@ -1094,18 +1127,42 @@ public final class Analyser {
 					throw new AnalyzeError(ErrorCode.InvalidInput,new Pos(0,0));
 				}
 				analyseBlockStmt();
+				newIn = new Instruction(InstructionType.br,0);
+				funcDef.putInstruction(newIn);
+				brList.add(newIn);
+				brOpList.add(funcDef.getInstructionLength());
 			}
 		}
+		int ends = funcDef.getInstructionLength();
+		for(int i = 0; i < brList.size(); i ++){
+			brList.get(i).setX(ends - brOpList.get(i));
+		}
+		newIn = new Instruction(InstructionType.br,0);
+		funcDef.putInstruction(newIn);
 	}
 
 	/**
 	 * while_stmt -> 'while' expr block_stmt
 	 */
 	private void analyseWhileStmt() throws CompileError {
+		Instruction newIn, In;
+		FunctionDef funcDef = assembler.findFunctionDef(nowFunc.name);
+		int start = 0, end = 0,start1 = 0, end1 = 0;
+		In = new Instruction(InstructionType.br, 0);
+		funcDef.putInstruction(In);
+		start = funcDef.getInstructionLength();
 		expect(TokenType.WHILE_KW);
 		analyseExpr(TokenType.WHILE_KW);//表达式整体分析
 		isInLoop = true;
+		newIn = new Instruction(InstructionType.br, 0);
+		funcDef.putInstruction(newIn);
+		start1 = funcDef.getInstructionLength();
 		analyseBlockStmt();
+		In = new Instruction(InstructionType.br, 0);
+		funcDef.putInstruction(In);
+		end = end1 = funcDef.getInstructionLength();
+		newIn.setX(end1-start1);
+		In.setX(start-end);
 		isInLoop = false;
 	}
 

@@ -36,6 +36,10 @@ public class FunctionDef {
 		body = new ArrayList<Instruction>();
 	}
 
+	public int getInstructionLength(){
+		return body.size();
+	}
+
 	public void updateNameOffset(int newNameOffset) {
 		this.nameOffset = newNameOffset;
 	}

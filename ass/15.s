@@ -45,13 +45,14 @@
 00000000//ret_slots
 00000000//param_slots
 00000000//loc_slots
-0000002f//body.count
+00000033//body.count
 0b00000001//arga
 13//load.64
 010000000000000001//push
 30//cmp.i
 2e//not
 4300000001//br.true
+4100000009//br
 1a00000000//stackalloc
 0b00000001//arga
 13//load.64
@@ -60,6 +61,7 @@
 0b00000004//arga
 13//load.64
 4800000002//call
+4100000021//br
 1a00000000//stackalloc
 0b00000001//arga
 13//load.64
@@ -92,6 +94,8 @@
 0b00000004//arga
 13//load.64
 4800000002//call
+4100000000//br
+4100000000//br
 49//ret
 00000002//nameOffset
 00000000//ret_slots
