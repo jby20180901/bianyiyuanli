@@ -130,8 +130,8 @@ public class App {
 		else {
 			String source = args[1];
 			String outputPath = args[3];
-//			Analyze(source,outputPath);
-			wordAnalyze(source);
+			Analyze(source,outputPath);
+//			wordAnalyze(source);
 		}
 	}
 }

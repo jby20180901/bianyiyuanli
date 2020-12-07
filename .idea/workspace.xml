@@ -20,6 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4d414f2-8ab1-4cd8-a81f-c7a71e5cb7ab" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -340,7 +341,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607317304254</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="57/57">
+      <created>1607317380822</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1607317380822</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -364,9 +372,9 @@
     <MESSAGE value="test" />
     <MESSAGE value="54/57" />
     <MESSAGE value="冲啊，AC！" />
-    <MESSAGE value="57/57" />
     <MESSAGE value="get test" />
-    <option name="LAST_COMMIT_MESSAGE" value="get test" />
+    <MESSAGE value="57/57" />
+    <option name="LAST_COMMIT_MESSAGE" value="57/57" />
   </component>
   <component name="WindowStateProjectService">
     <state x="525" y="212" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1607254001252">
