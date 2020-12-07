@@ -1,3 +1,3 @@
-# miniplc0-java
+# c0-java
 
-这里是 miniplc0 实验的 Java 版本。
+这里这里是2018级编译原理大作业——18373403姜宝洋的java实现版本
