@@ -83,13 +83,41 @@ public class Assembler {
 		ret += "version: 1\n";
 		ret += ("globals.count: " + this.globals.size() + "\n");
 		for(int i = 0; i < this.globals.size(); i ++) {
-			ret += "g{" + i + "}" + ": ";
-			ret += this.globals.get(i).toString();
+			if(i < 10) {
+				ret += "G{" + i + "}" + ":    ";
+				ret += this.globals.get(i).toString();
+			}
+			else if(i<100){
+				ret += "G{" + i + "}" + ":   ";
+				ret += this.globals.get(i).toString();
+			}
+			else if(i<1000){
+				ret += "G{" + i + "}" + ":  ";
+				ret += this.globals.get(i).toString();
+			}
+			else{
+				ret += "G{" + i + "}" + ": ";
+				ret += this.globals.get(i).toString();
+			}
 		}
 		ret += "functions.count: " + this.functions.size() + "\n";
 		for(int i = 0; i < this.functions.size(); i ++) {
-			ret += "F{" + i + "}" + ": ";
-			ret += this.functions.get(i).toString();
+			if(i < 10) {
+				ret += "F{" + i + "}" + ":    ";
+				ret += this.functions.get(i).toString();
+			}
+			else if(i<100){
+				ret += "F{" + i + "}" + ":   ";
+				ret += this.functions.get(i).toString();
+			}
+			else if(i<1000){
+				ret += "F{" + i + "}" + ":  ";
+				ret += this.functions.get(i).toString();
+			}
+			else{
+				ret += "F{" + i + "}" + ": ";
+				ret += this.functions.get(i).toString();
+			}
 		}
 		return ret;
 	}
@@ -117,9 +145,6 @@ public class Assembler {
 		for(int i = 0; i < this.globals.size(); i ++) {
 			ret = ChangeToByte.concat(ret, this.globals.get(i).toByte());
 		}
-//		for(int i = 0; i < this.globalsFunc.size(); i ++) {
-//			ret = ChangeToByte.concat(ret, this.globalsFunc.get(i).toByte());
-//		}
 		ret = ChangeToByte.concat(ret, ChangeToByte.intToByte(this.functions.size()));
 		for(int i = 0; i < this.functions.size(); i ++) {
 			ret = ChangeToByte.concat(ret, this.functions.get(i).toByte());

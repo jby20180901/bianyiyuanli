@@ -84,14 +84,11 @@ public class GlobalDef {
 	 * @param doubleNum
 	 */
 	public GlobalDef(boolean isConst, double doubleNum) {
-		long doubleValue = Double.doubleToRawLongBits(doubleNum);
 		this.is_const = (byte) (isConst?1:0);
 		this.is_Const = isConst;
 		this.count = 8;
 		this.items = new byte[count];
-		for (int i = 0; i < 8; i++) {
-			this.items[i] = (byte) ((doubleValue >> 8 * i) & 0xff);
-		}
+		this.items = ChangeToByte.doubleToByte(doubleNum);
 		this.item = doubleNum;
 	}
 

@@ -78,14 +78,25 @@ public class FunctionDef {
 
 	@Override
 	public String toString() {//String.format("%08x",this.globals.size())
-		String ret = "    fn" + "[" + nameOffset + "] "
+		String ret = "fn" + "[" + nameOffset + "] "
 				+ loc_slots
 				+ " " + param_slots
 				+ " -> " + return_slots + " {\n";
 		for(int i = 0; i < body.size(); i ++){
-			ret += "[" + i + "]" + body.get(i).toString();
+			if(i<10) {
+				ret += "         " + "   [" + i + "]" + body.get(i).toString();
+			}
+			else if (i<100){
+				ret += "         " + "  [" + i + "]" + body.get(i).toString();
+			}
+			else if(i<1000){
+				ret += "         " + " [" + i + "]" + body.get(i).toString();
+			}
+			else{
+				ret += "         " + "[" + i + "]" + body.get(i).toString();
+			}
 		}
-		ret += "}" + "\n" + "\n";
+		ret += "         }" + "\n" + "\n";
 		return ret;
 	}
 
