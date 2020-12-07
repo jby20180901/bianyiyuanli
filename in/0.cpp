@@ -1,3 +1,3 @@
-fn main() -> int {
-    putstr("Hello World");
+fn main () -> int {
+    putstr("Hello World!");
 }

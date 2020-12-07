@@ -18,8 +18,8 @@ public class App {
 	static int index = 0;
 //	static boolean debug = true;
 	static boolean debug = false;
-	static boolean all = true;
-//	static boolean all = false;
+//	static boolean all = true;
+	static boolean all = false;
 	static StringIter it;
 	static Scanner scanner;
 	private static void copy(String source) throws FileNotFoundException, CompileError {
@@ -130,8 +130,9 @@ public class App {
 		else {
 			String source = args[1];
 			String outputPath = args[3];
-			Analyze(source,outputPath);
+//			Analyze(source,outputPath);
 //			wordAnalyze(source);
+			copy(source);
 		}
 	}
 }
