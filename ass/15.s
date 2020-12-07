@@ -60,53 +60,52 @@ F{2}:    fn[9] 0 4 -> 0 {
             [1] load.64
             [2] push 1
             [3] cmp.i
-            [4] not
-            [5] br.true 1
-            [6] br 9
-            [7] stackalloc 0
-            [8] arga 0
-            [9] load.64
-           [10] arga 1
-           [11] load.64
-           [12] arga 3
-           [13] load.64
-           [14] call 1
-           [15] br 33
-           [16] stackalloc 0
-           [17] arga 0
-           [18] load.64
-           [19] push 1
-           [20] sub.i
-           [21] arga 1
-           [22] load.64
-           [23] arga 3
-           [24] load.64
-           [25] arga 2
-           [26] load.64
-           [27] call 2
-           [28] stackalloc 0
-           [29] arga 0
-           [30] load.64
-           [31] arga 1
-           [32] load.64
-           [33] arga 3
-           [34] load.64
-           [35] call 1
-           [36] stackalloc 0
-           [37] arga 0
-           [38] load.64
-           [39] push 1
-           [40] sub.i
-           [41] arga 2
-           [42] load.64
-           [43] arga 1
-           [44] load.64
-           [45] arga 3
-           [46] load.64
-           [47] call 2
+            [4] br.false 1
+            [5] br 9
+            [6] stackalloc 0
+            [7] arga 0
+            [8] load.64
+            [9] arga 1
+           [10] load.64
+           [11] arga 3
+           [12] load.64
+           [13] call 1
+           [14] br 33
+           [15] stackalloc 0
+           [16] arga 0
+           [17] load.64
+           [18] push 1
+           [19] sub.i
+           [20] arga 1
+           [21] load.64
+           [22] arga 3
+           [23] load.64
+           [24] arga 2
+           [25] load.64
+           [26] call 2
+           [27] stackalloc 0
+           [28] arga 0
+           [29] load.64
+           [30] arga 1
+           [31] load.64
+           [32] arga 3
+           [33] load.64
+           [34] call 1
+           [35] stackalloc 0
+           [36] arga 0
+           [37] load.64
+           [38] push 1
+           [39] sub.i
+           [40] arga 2
+           [41] load.64
+           [42] arga 1
+           [43] load.64
+           [44] arga 3
+           [45] load.64
+           [46] call 2
+           [47] br 0
            [48] br 0
-           [49] br 0
-           [50] ret
+           [49] ret
          }
 
 F{3}:    fn[10] 0 0 -> 0 {

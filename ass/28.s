@@ -66,7 +66,7 @@ F{2}:    fn[9] 1 2 -> 1 {
            [16] br 0
            [17] push 1
            [18] br.true 1
-           [19] br 39
+           [19] br 38
            [20] stackalloc 1
            [21] arga 2
            [22] load.64
@@ -99,18 +99,17 @@ F{2}:    fn[9] 1 2 -> 1 {
            [49] load.64
            [50] push 0
            [51] cmp.i
-           [52] not
-           [53] br.true 1
-           [54] br 2
-           [55] br 3
+           [52] br.false 1
+           [53] br 2
+           [54] br 3
+           [55] br 0
            [56] br 0
-           [57] br 0
-           [58] br -42
-           [59] arga 0
-           [60] loca 0
-           [61] load.64
-           [62] store.64
-           [63] ret
+           [57] br -41
+           [58] arga 0
+           [59] loca 0
+           [60] load.64
+           [61] store.64
+           [62] ret
          }
 
 F{3}:    fn[10] 3 0 -> 0 {

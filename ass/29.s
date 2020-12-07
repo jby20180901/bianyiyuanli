@@ -43,7 +43,7 @@ F{1}:    fn[8] 5 0 -> 0 {
             [8] cmp.i
             [9] set.gt
            [10] br.true 1
-           [11] br 106
+           [11] br 102
            [12] loca 1
            [13] stackalloc 1
            [14] callname 0
@@ -61,7 +61,7 @@ F{1}:    fn[8] 5 0 -> 0 {
            [26] br 0
            [27] push 1
            [28] br.true 1
-           [29] br 79
+           [29] br 75
            [30] loca 3
            [31] loca 1
            [32] load.64
@@ -81,75 +81,71 @@ F{1}:    fn[8] 5 0 -> 0 {
            [46] load.64
            [47] push 0
            [48] cmp.i
-           [49] not
-           [50] br.true 1
-           [51] br 2
-           [52] br 56
-           [53] br 31
-           [54] loca 0
-           [55] load.64
-           [56] push 1
-           [57] cmp.i
-           [58] not
-           [59] br.true 1
-           [60] br 5
-           [61] loca 2
-           [62] loca 3
-           [63] load.64
-           [64] store.64
-           [65] br 19
-           [66] loca 0
-           [67] load.64
-           [68] push 2
-           [69] cmp.i
-           [70] not
-           [71] br.true 1
-           [72] br 5
-           [73] loca 1
-           [74] loca 3
-           [75] load.64
-           [76] store.64
-           [77] br 7
+           [49] br.false 1
+           [50] br 2
+           [51] br 53
+           [52] br 29
+           [53] loca 0
+           [54] load.64
+           [55] push 1
+           [56] cmp.i
+           [57] br.false 1
+           [58] br 5
+           [59] loca 2
+           [60] loca 3
+           [61] load.64
+           [62] store.64
+           [63] br 18
+           [64] loca 0
+           [65] load.64
+           [66] push 2
+           [67] cmp.i
+           [68] br.false 1
+           [69] br 5
+           [70] loca 1
+           [71] loca 3
+           [72] load.64
+           [73] store.64
+           [74] br 7
+           [75] stackalloc 0
+           [76] push 9
+           [77] callname 6
            [78] stackalloc 0
-           [79] push 9
-           [80] callname 6
-           [81] stackalloc 0
-           [82] callname 7
-           [83] br -57
-           [84] br 0
-           [85] br 0
-           [86] loca 1
-           [87] load.64
-           [88] loca 2
-           [89] load.64
-           [90] cmp.i
-           [91] not
-           [92] br.true 1
-           [93] br 7
-           [94] stackalloc 0
-           [95] push 10
-           [96] callname 6
-           [97] stackalloc 0
-           [98] callname 7
-           [99] br 9
-          [100] br 0
-          [101] br 0
+           [79] callname 7
+           [80] br -54
+           [81] br 0
+           [82] br 0
+           [83] loca 1
+           [84] load.64
+           [85] loca 2
+           [86] load.64
+           [87] cmp.i
+           [88] br.false 1
+           [89] br 7
+           [90] stackalloc 0
+           [91] push 10
+           [92] callname 6
+           [93] stackalloc 0
+           [94] callname 7
+           [95] br 9
+           [96] br 0
+           [97] br 0
+           [98] stackalloc 0
+           [99] loca 3
+          [100] load.64
+          [101] callname 3
           [102] stackalloc 0
-          [103] loca 3
-          [104] load.64
-          [105] callname 3
-          [106] stackalloc 0
-          [107] callname 7
-          [108] br -82
+          [103] callname 7
+          [104] br -78
+          [105] stackalloc 0
+          [106] loca 3
+          [107] load.64
+          [108] callname 3
           [109] stackalloc 0
-          [110] loca 3
-          [111] load.64
-          [112] callname 3
-          [113] stackalloc 0
-          [114] callname 7
-          [115] stackalloc 0
-          [116] callname 7
-          [117] br -113
-          [118] ret
+          [110] callname 7
+          [111] stackalloc 0
+          [112] callname 7
+          [113] br -109
+          [114] ret
          }
 

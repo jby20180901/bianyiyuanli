@@ -30,83 +30,83 @@ F{0}:    fn[0] 0 0 -> 0 {
 F{1}:    fn[8] 0 0 -> 0 {
             [0] push 114514
             [1] br.true 1
-            [2] br 83
+            [2] br 82
             [3] push 1919810
             [4] br.true 1
-            [5] br 78
+            [5] br 77
             [6] push 1
             [7] push 2
             [8] cmp.i
             [9] br.true 1
-           [10] br 71
+           [10] br 70
            [11] push 3
            [12] push 3
            [13] cmp.i
-           [14] not
-           [15] br.true 1
-           [16] br 63
-           [17] br 0
-           [18] push 114
-           [19] br.true 1
-           [20] br 58
-           [21] br 0
-           [22] push 514
-           [23] br.true 1
-           [24] br 53
-           [25] br 0
-           [26] push 2
-           [27] push 1
-           [28] neg.i
-           [29] cmp.i
-           [30] set.gt
-           [31] br.true 1
-           [32] br 44
-           [33] br 0
-           [34] push 1
-           [35] push 19
-           [36] cmp.i
-           [37] set.lt
-           [38] br.true 1
-           [39] br 36
-           [40] br 0
+           [14] br.false 1
+           [15] br 63
+           [16] br 0
+           [17] push 114
+           [18] br.true 1
+           [19] br 58
+           [20] br 0
+           [21] push 514
+           [22] br.true 1
+           [23] br 53
+           [24] br 0
+           [25] push 2
+           [26] push 1
+           [27] neg.i
+           [28] cmp.i
+           [29] set.gt
+           [30] br.true 1
+           [31] br 44
+           [32] br 0
+           [33] push 1
+           [34] push 19
+           [35] cmp.i
+           [36] set.lt
+           [37] br.true 1
+           [38] br 36
+           [39] br 0
+           [40] push 3
            [41] push 3
-           [42] push 3
-           [43] cmp.i
-           [44] set.lt
-           [45] br.false 1
-           [46] br 28
-           [47] br 0
+           [42] cmp.i
+           [43] set.lt
+           [44] br.false 1
+           [45] br 28
+           [46] br 0
+           [47] push 5
            [48] push 5
-           [49] push 5
-           [50] cmp.i
-           [51] set.gt
-           [52] br.false 1
-           [53] br 20
-           [54] push 0
-           [55] br.true 1
-           [56] br 9
-           [57] br 0
-           [58] push 1
-           [59] br.true 1
-           [60] br 4
-           [61] stackalloc 0
-           [62] push 1919
-           [63] callname 3
-           [64] br -7
-           [65] br 4
-           [66] stackalloc 0
-           [67] push 810
-           [68] callname 3
+           [49] cmp.i
+           [50] set.gt
+           [51] br.false 1
+           [52] br 20
+           [53] push 0
+           [54] br.true 1
+           [55] br 9
+           [56] br 0
+           [57] push 1
+           [58] br.true 1
+           [59] br 4
+           [60] stackalloc 0
+           [61] push 1919
+           [62] callname 3
+           [63] br -7
+           [64] br 4
+           [65] stackalloc 0
+           [66] push 810
+           [67] callname 3
+           [68] br 0
            [69] br 0
-           [70] br 0
-           [71] arga 0
-           [72] ret
-           [73] br -26
-           [74] br -34
-           [75] br -42
-           [76] br -51
-           [77] br -56
-           [78] br -61
+           [70] arga 0
+           [71] ret
+           [72] br -26
+           [73] br -34
+           [74] br -42
+           [75] br -51
+           [76] br -56
+           [77] br -61
+           [78] br 0
            [79] br 0
            [80] br 0
            [81] br 0
@@ -114,6 +114,6 @@ F{1}:    fn[8] 0 0 -> 0 {
            [83] br 0
            [84] br 0
            [85] br 0
-           [86] br 0
+           [86] ret
          }
 

@@ -45,7 +45,7 @@ F{1}:    fn[8] 4 0 -> 0 {
            [14] load.64
            [15] cmp.i
            [16] br.true 1
-           [17] br 54
+           [17] br 53
            [18] loca 3
            [19] loca 1
            [20] load.64
@@ -75,31 +75,30 @@ F{1}:    fn[8] 4 0 -> 0 {
            [44] loca 3
            [45] load.64
            [46] store.64
-           [47] br 22
+           [47] br 21
            [48] loca 3
            [49] load.64
            [50] loca 0
            [51] load.64
            [52] cmp.i
-           [53] not
-           [54] br.true 1
-           [55] br 9
-           [56] loca 1
-           [57] loca 3
-           [58] load.64
-           [59] store.64
-           [60] loca 2
-           [61] loca 3
-           [62] load.64
-           [63] store.64
-           [64] br 5
-           [65] loca 1
-           [66] loca 3
-           [67] load.64
-           [68] store.64
+           [53] br.false 1
+           [54] br 9
+           [55] loca 1
+           [56] loca 3
+           [57] load.64
+           [58] store.64
+           [59] loca 2
+           [60] loca 3
+           [61] load.64
+           [62] store.64
+           [63] br 5
+           [64] loca 1
+           [65] loca 3
+           [66] load.64
+           [67] store.64
+           [68] br 0
            [69] br 0
-           [70] br 0
-           [71] br -61
-           [72] ret
+           [70] br -60
+           [71] ret
          }
 

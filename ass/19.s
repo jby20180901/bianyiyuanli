@@ -144,65 +144,64 @@ F{4}:    fn[11] 2 2 -> 0 {
            [25] load.64
            [26] push 0
            [27] cmp.i
-           [28] not
-           [29] br.true 1
-           [30] br 4
-           [31] loca 0
-           [32] push 1
-           [33] store.64
-           [34] br 23
-           [35] br 0
-           [36] loca 1
-           [37] load.64
-           [38] push 0
-           [39] cmp.i
-           [40] set.gt
-           [41] br.true 1
-           [42] br 14
+           [28] br.false 1
+           [29] br 4
+           [30] loca 0
+           [31] push 1
+           [32] store.64
+           [33] br 23
+           [34] br 0
+           [35] loca 1
+           [36] load.64
+           [37] push 0
+           [38] cmp.i
+           [39] set.gt
+           [40] br.true 1
+           [41] br 14
+           [42] loca 1
            [43] loca 1
-           [44] loca 1
-           [45] load.64
-           [46] arga 1
-           [47] load.64
-           [48] div.i
-           [49] store.64
+           [44] load.64
+           [45] arga 1
+           [46] load.64
+           [47] div.i
+           [48] store.64
+           [49] loca 0
            [50] loca 0
-           [51] loca 0
-           [52] load.64
-           [53] push 1
-           [54] add.i
-           [55] store.64
-           [56] br -21
+           [51] load.64
+           [52] push 1
+           [53] add.i
+           [54] store.64
+           [55] br -21
+           [56] br 0
            [57] br 0
            [58] br 0
-           [59] br 0
-           [60] loca 0
-           [61] load.64
-           [62] push 0
-           [63] cmp.i
-           [64] set.gt
-           [65] br.true 1
-           [66] br 19
+           [59] loca 0
+           [60] load.64
+           [61] push 0
+           [62] cmp.i
+           [63] set.gt
+           [64] br.true 1
+           [65] br 19
+           [66] loca 0
            [67] loca 0
-           [68] loca 0
-           [69] load.64
-           [70] push 1
-           [71] sub.i
-           [72] store.64
+           [68] load.64
+           [69] push 1
+           [70] sub.i
+           [71] store.64
+           [72] stackalloc 1
            [73] stackalloc 1
-           [74] stackalloc 1
-           [75] arga 0
-           [76] load.64
-           [77] loca 0
-           [78] load.64
-           [79] arga 1
-           [80] load.64
-           [81] call 3
-           [82] call 1
-           [83] stackalloc 0
-           [84] callname 5
-           [85] br -26
-           [86] ret
+           [74] arga 0
+           [75] load.64
+           [76] loca 0
+           [77] load.64
+           [78] arga 1
+           [79] load.64
+           [80] call 3
+           [81] call 1
+           [82] stackalloc 0
+           [83] callname 5
+           [84] br -26
+           [85] ret
          }
 
 F{5}:    fn[12] 3 0 -> 0 {

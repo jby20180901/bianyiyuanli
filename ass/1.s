@@ -57,7 +57,7 @@ F{1}:    fn[12] 4 0 -> 1 {
            [16] cmp.i
            [17] set.lt
            [18] br.true 1
-           [19] br 154
+           [19] br 153
            [20] loca 0
            [21] loca 0
            [22] load.64
@@ -71,7 +71,7 @@ F{1}:    fn[12] 4 0 -> 1 {
            [30] cmp.i
            [31] set.lt
            [32] br.true 1
-           [33] br 133
+           [33] br 132
            [34] loca 1
            [35] loca 1
            [36] load.64
@@ -83,161 +83,160 @@ F{1}:    fn[12] 4 0 -> 1 {
            [42] load.64
            [43] push 7
            [44] cmp.i
-           [45] not
-           [46] br.true 1
-           [47] br 112
+           [45] br.false 1
+           [46] br 112
+           [47] loca 2
            [48] loca 2
-           [49] loca 2
-           [50] load.64
-           [51] push 1
-           [52] sub.i
-           [53] store.64
-           [54] br 0
-           [55] loca 3
-           [56] load.64
-           [57] push 20
-           [58] cmp.i
-           [59] set.lt
-           [60] br.true 1
-           [61] br 91
+           [49] load.64
+           [50] push 1
+           [51] sub.i
+           [52] store.64
+           [53] br 0
+           [54] loca 3
+           [55] load.64
+           [56] push 20
+           [57] cmp.i
+           [58] set.lt
+           [59] br.true 1
+           [60] br 91
+           [61] loca 3
            [62] loca 3
-           [63] loca 3
-           [64] load.64
-           [65] push 3
-           [66] add.i
-           [67] store.64
-           [68] br 0
-           [69] globa 11
-           [70] load.64
-           [71] push 1
-           [72] cmp.i
-           [73] set.gt
-           [74] br.true 1
-           [75] br 70
+           [63] load.64
+           [64] push 3
+           [65] add.i
+           [66] store.64
+           [67] br 0
+           [68] globa 11
+           [69] load.64
+           [70] push 1
+           [71] cmp.i
+           [72] set.gt
+           [73] br.true 1
+           [74] br 70
+           [75] globa 11
            [76] globa 11
-           [77] globa 11
-           [78] load.64
-           [79] push 1
-           [80] sub.i
-           [81] store.64
-           [82] br 0
-           [83] globa 10
-           [84] load.64
-           [85] push 2
-           [86] cmp.i
-           [87] set.gt
-           [88] br.true 1
-           [89] br 49
+           [77] load.64
+           [78] push 1
+           [79] sub.i
+           [80] store.64
+           [81] br 0
+           [82] globa 10
+           [83] load.64
+           [84] push 2
+           [85] cmp.i
+           [86] set.gt
+           [87] br.true 1
+           [88] br 49
+           [89] globa 10
            [90] globa 10
-           [91] globa 10
-           [92] load.64
-           [93] push 2
-           [94] sub.i
-           [95] store.64
-           [96] br 0
-           [97] globa 8
-           [98] load.64
-           [99] push 3
-          [100] cmp.i
-          [101] set.lt
-          [102] br.true 1
-          [103] br 28
+           [91] load.64
+           [92] push 2
+           [93] sub.i
+           [94] store.64
+           [95] br 0
+           [96] globa 8
+           [97] load.64
+           [98] push 3
+           [99] cmp.i
+          [100] set.lt
+          [101] br.true 1
+          [102] br 28
+          [103] globa 8
           [104] globa 8
-          [105] globa 8
-          [106] load.64
-          [107] push 10
-          [108] add.i
-          [109] store.64
-          [110] br 0
-          [111] globa 9
-          [112] load.64
-          [113] push 10
-          [114] cmp.i
-          [115] set.lt
-          [116] br.true 1
-          [117] br 7
+          [105] load.64
+          [106] push 10
+          [107] add.i
+          [108] store.64
+          [109] br 0
+          [110] globa 9
+          [111] load.64
+          [112] push 10
+          [113] cmp.i
+          [114] set.lt
+          [115] br.true 1
+          [116] br 7
+          [117] globa 9
           [118] globa 9
-          [119] globa 9
-          [120] load.64
-          [121] push 8
-          [122] add.i
-          [123] store.64
-          [124] br -14
+          [119] load.64
+          [120] push 8
+          [121] add.i
+          [122] store.64
+          [123] br -14
+          [124] globa 9
           [125] globa 9
-          [126] globa 9
-          [127] load.64
-          [128] push 1
-          [129] sub.i
-          [130] store.64
-          [131] br -35
+          [126] load.64
+          [127] push 1
+          [128] sub.i
+          [129] store.64
+          [130] br -35
+          [131] globa 8
           [132] globa 8
-          [133] globa 8
-          [134] load.64
-          [135] push 8
-          [136] sub.i
-          [137] store.64
-          [138] br -56
+          [133] load.64
+          [134] push 8
+          [135] sub.i
+          [136] store.64
+          [137] br -56
+          [138] globa 10
           [139] globa 10
-          [140] globa 10
-          [141] load.64
-          [142] push 1
-          [143] add.i
-          [144] store.64
-          [145] br -77
+          [140] load.64
+          [141] push 1
+          [142] add.i
+          [143] store.64
+          [144] br -77
+          [145] globa 11
           [146] globa 11
-          [147] globa 11
-          [148] load.64
-          [149] push 1
-          [150] add.i
-          [151] store.64
-          [152] br -98
+          [147] load.64
+          [148] push 1
+          [149] add.i
+          [150] store.64
+          [151] br -98
+          [152] loca 3
           [153] loca 3
-          [154] loca 3
-          [155] load.64
-          [156] push 1
-          [157] sub.i
-          [158] store.64
-          [159] br -119
+          [154] load.64
+          [155] push 1
+          [156] sub.i
+          [157] store.64
+          [158] br -118
+          [159] loca 2
           [160] loca 2
-          [161] loca 2
-          [162] load.64
-          [163] push 1
-          [164] add.i
-          [165] store.64
-          [166] br -140
+          [161] load.64
+          [162] push 1
+          [163] add.i
+          [164] store.64
+          [165] br -139
+          [166] loca 1
           [167] loca 1
-          [168] loca 1
-          [169] load.64
-          [170] push 2
-          [171] sub.i
-          [172] store.64
-          [173] br -161
-          [174] arga 0
-          [175] loca 0
-          [176] load.64
-          [177] loca 1
-          [178] load.64
-          [179] loca 3
-          [180] load.64
+          [168] load.64
+          [169] push 2
+          [170] sub.i
+          [171] store.64
+          [172] br -160
+          [173] arga 0
+          [174] loca 0
+          [175] load.64
+          [176] loca 1
+          [177] load.64
+          [178] loca 3
+          [179] load.64
+          [180] add.i
           [181] add.i
-          [182] add.i
-          [183] loca 2
-          [184] load.64
-          [185] add.i
-          [186] globa 11
-          [187] load.64
-          [188] loca 3
-          [189] load.64
-          [190] add.i
-          [191] globa 8
-          [192] load.64
-          [193] sub.i
-          [194] globa 9
-          [195] load.64
-          [196] add.i
-          [197] sub.i
-          [198] store.64
-          [199] ret
+          [182] loca 2
+          [183] load.64
+          [184] add.i
+          [185] globa 11
+          [186] load.64
+          [187] loca 3
+          [188] load.64
+          [189] add.i
+          [190] globa 8
+          [191] load.64
+          [192] sub.i
+          [193] globa 9
+          [194] load.64
+          [195] add.i
+          [196] sub.i
+          [197] store.64
+          [198] ret
          }
 
 F{2}:    fn[13] 0 0 -> 0 {

@@ -42,49 +42,47 @@ F{1}:    fn[8] 0 1 -> 1 {
             [9] neg.i
            [10] store.64
            [11] ret
-           [12] br 41
+           [12] br 39
            [13] arga 1
            [14] load.64
            [15] push 0
            [16] cmp.i
-           [17] not
-           [18] br.true 1
-           [19] br 5
-           [20] arga 0
-           [21] push 0
-           [22] store.64
-           [23] ret
-           [24] br 29
-           [25] arga 1
-           [26] load.64
-           [27] push 1
-           [28] cmp.i
-           [29] not
-           [30] br.true 1
-           [31] br 5
-           [32] arga 0
-           [33] push 1
-           [34] store.64
-           [35] ret
-           [36] br 17
-           [37] arga 0
-           [38] stackalloc 1
-           [39] arga 1
-           [40] load.64
-           [41] push 2
-           [42] sub.i
-           [43] call 1
-           [44] stackalloc 1
-           [45] arga 1
-           [46] load.64
-           [47] push 1
-           [48] sub.i
-           [49] call 1
-           [50] add.i
-           [51] store.64
-           [52] ret
-           [53] br 0
-           [54] br 0
+           [17] br.false 1
+           [18] br 5
+           [19] arga 0
+           [20] push 0
+           [21] store.64
+           [22] ret
+           [23] br 28
+           [24] arga 1
+           [25] load.64
+           [26] push 1
+           [27] cmp.i
+           [28] br.false 1
+           [29] br 5
+           [30] arga 0
+           [31] push 1
+           [32] store.64
+           [33] ret
+           [34] br 17
+           [35] arga 0
+           [36] stackalloc 1
+           [37] arga 1
+           [38] load.64
+           [39] push 2
+           [40] sub.i
+           [41] call 1
+           [42] stackalloc 1
+           [43] arga 1
+           [44] load.64
+           [45] push 1
+           [46] sub.i
+           [47] call 1
+           [48] add.i
+           [49] store.64
+           [50] ret
+           [51] br 0
+           [52] br 0
          }
 
 F{2}:    fn[9] 2 0 -> 1 {

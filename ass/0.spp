@@ -1,6 +1,6 @@
 magic: 72303b3e
 version: 1
-globals.count: 10
+globals.count: 11
 G{0}:     1 : 6 
         getint
 G{1}:     1 : 9 
@@ -19,7 +19,9 @@ G{7}:     1 : 5
         putln
 G{8}:     1 : 4 
         main
-G{9}:     1 : 6 
+G{9}:     1 : 11 
+        Hello World
+G{10}:    1 : 6 
         _start
 functions.count: 2
 F{0}:    fn[0] 0 0 -> 0 {
@@ -28,26 +30,8 @@ F{0}:    fn[0] 0 0 -> 0 {
          }
 
 F{1}:    fn[8] 0 0 -> 1 {
-            [0] push 1
-            [1] push 2
-            [2] cmp.i
-            [3] br.false 1
-            [4] br 5
-            [5] arga 0
-            [6] push 1234
-            [7] store.64
-            [8] ret
-            [9] br 10
-           [10] push 2
-           [11] push 3
-           [12] cmp.i
-           [13] br.false 1
-           [14] br 5
-           [15] arga 0
-           [16] push 4567
-           [17] store.64
-           [18] ret
-           [19] br 0
-           [20] br 0
+            [0] stackalloc 0
+            [1] push 9
+            [2] callname 6
          }
 

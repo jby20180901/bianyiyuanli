@@ -1,7 +1,3 @@
 fn main() -> int {
-    if 1 == 2 {
-        return 1234;
-    } else if 2 == 3 {
-        return 4567;
-    }
+    putstr("Hello World");
 }

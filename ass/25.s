@@ -39,7 +39,7 @@ F{1}:    fn[8] 6 0 -> 0 {
             [8] cmp.i
             [9] set.gt
            [10] br.true 1
-           [11] br 85
+           [11] br 84
            [12] loca 2
            [13] push 0
            [14] store.64
@@ -61,7 +61,7 @@ F{1}:    fn[8] 6 0 -> 0 {
            [30] load.64
            [31] cmp.i
            [32] br.true 1
-           [33] br 54
+           [33] br 53
            [34] loca 5
            [35] loca 2
            [36] load.64
@@ -91,40 +91,39 @@ F{1}:    fn[8] 6 0 -> 0 {
            [60] loca 5
            [61] load.64
            [62] store.64
-           [63] br 22
+           [63] br 21
            [64] loca 5
            [65] load.64
            [66] loca 1
            [67] load.64
            [68] cmp.i
-           [69] not
-           [70] br.true 1
-           [71] br 9
-           [72] loca 2
-           [73] loca 5
-           [74] load.64
-           [75] store.64
-           [76] loca 3
-           [77] loca 5
-           [78] load.64
-           [79] store.64
-           [80] br 5
-           [81] loca 2
-           [82] loca 5
-           [83] load.64
-           [84] store.64
+           [69] br.false 1
+           [70] br 9
+           [71] loca 2
+           [72] loca 5
+           [73] load.64
+           [74] store.64
+           [75] loca 3
+           [76] loca 5
+           [77] load.64
+           [78] store.64
+           [79] br 5
+           [80] loca 2
+           [81] loca 5
+           [82] load.64
+           [83] store.64
+           [84] br 0
            [85] br 0
-           [86] br 0
-           [87] br -61
-           [88] stackalloc 0
-           [89] callname 7
+           [86] br -60
+           [87] stackalloc 0
+           [88] callname 7
+           [89] loca 0
            [90] loca 0
-           [91] loca 0
-           [92] load.64
-           [93] push 1
-           [94] sub.i
-           [95] store.64
-           [96] br -92
-           [97] ret
+           [91] load.64
+           [92] push 1
+           [93] sub.i
+           [94] store.64
+           [95] br -91
+           [96] ret
          }
 

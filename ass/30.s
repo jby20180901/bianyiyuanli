@@ -38,7 +38,7 @@ F{1}:    fn[8] 1 0 -> 0 {
             [7] cmp.i
             [8] set.gt
             [9] br.true 1
-           [10] br 51
+           [10] br 49
            [11] loca 0
            [12] loca 0
            [13] load.64
@@ -49,47 +49,45 @@ F{1}:    fn[8] 1 0 -> 0 {
            [18] load.64
            [19] push 8
            [20] cmp.i
-           [21] not
-           [22] br.true 1
-           [23] br 5
-           [24] loca 0
-           [25] push 4
-           [26] store.64
-           [27] br -24
+           [21] br.false 1
+           [22] br 5
+           [23] loca 0
+           [24] push 4
+           [25] store.64
+           [26] br -23
+           [27] br 0
            [28] br 0
-           [29] br 0
-           [30] loca 0
-           [31] load.64
-           [32] push 0
-           [33] cmp.i
-           [34] not
-           [35] br.true 1
-           [36] br 2
-           [37] br 24
+           [29] loca 0
+           [30] load.64
+           [31] push 0
+           [32] cmp.i
+           [33] br.false 1
+           [34] br 2
+           [35] br 24
+           [36] br 0
+           [37] br 0
            [38] br 0
-           [39] br 0
-           [40] br 0
-           [41] push 1
-           [42] br.true 1
-           [43] br 17
-           [44] loca 0
-           [45] load.64
-           [46] push 0
-           [47] cmp.i
-           [48] set.gt
-           [49] br.true 1
-           [50] br 8
-           [51] stackalloc 0
-           [52] loca 0
-           [53] load.64
-           [54] callname 3
-           [55] stackalloc 0
-           [56] callname 7
-           [57] br 3
-           [58] br 0
-           [59] br 0
-           [60] br -20
-           [61] br -58
-           [62] ret
+           [39] push 1
+           [40] br.true 1
+           [41] br 17
+           [42] loca 0
+           [43] load.64
+           [44] push 0
+           [45] cmp.i
+           [46] set.gt
+           [47] br.true 1
+           [48] br 8
+           [49] stackalloc 0
+           [50] loca 0
+           [51] load.64
+           [52] callname 3
+           [53] stackalloc 0
+           [54] callname 7
+           [55] br 3
+           [56] br 0
+           [57] br 0
+           [58] br -20
+           [59] br -56
+           [60] ret
          }
 

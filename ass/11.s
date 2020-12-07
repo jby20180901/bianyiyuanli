@@ -47,34 +47,33 @@ F{1}:    fn[8] 0 2 -> 1 {
            [14] call 1
            [15] store.64
            [16] ret
-           [17] br 26
+           [17] br 25
            [18] arga 1
            [19] load.64
            [20] push 0
            [21] cmp.i
-           [22] not
-           [23] br.true 1
-           [24] br 6
-           [25] arga 0
-           [26] arga 2
-           [27] load.64
-           [28] store.64
-           [29] ret
-           [30] br 13
-           [31] arga 0
-           [32] stackalloc 1
-           [33] arga 2
-           [34] load.64
-           [35] arga 1
-           [36] load.64
-           [37] sub.i
-           [38] arga 1
-           [39] load.64
-           [40] call 1
-           [41] store.64
-           [42] ret
+           [22] br.false 1
+           [23] br 6
+           [24] arga 0
+           [25] arga 2
+           [26] load.64
+           [27] store.64
+           [28] ret
+           [29] br 13
+           [30] arga 0
+           [31] stackalloc 1
+           [32] arga 2
+           [33] load.64
+           [34] arga 1
+           [35] load.64
+           [36] sub.i
+           [37] arga 1
+           [38] load.64
+           [39] call 1
+           [40] store.64
+           [41] ret
+           [42] br 0
            [43] br 0
-           [44] br 0
          }
 
 F{2}:    fn[9] 3 0 -> 0 {
