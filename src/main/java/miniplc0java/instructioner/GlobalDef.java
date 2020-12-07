@@ -96,11 +96,15 @@ public class GlobalDef {
 	public String toString() {
 		String ret = " " + (is_Const?1:0) + " : " + count + " \n" ;
 		if (this.item instanceof String) {
-			ret += "        " + (String)this.item;
+			ret += "        ";
+			for(int i = 0; i < ((String) this.item).length(); i ++){
+				ret += " " + "`" + ((String) this.item).charAt(i) + "`";
+			}
 		}
 		else {
+			ret += "        ";
 			for(int i = 0; i < this.items.length; i ++){
-				ret += "        " + String.format("%02x", this.items[i]);
+				ret += " " + String.format("%02x", this.items[i]);
 			}
 		}
 		ret += "\n";

@@ -2,33 +2,33 @@ magic: 72303b3e
 version: 1
 globals.count: 14
 G{0}:     1 : 6 
-        getint
+         `g` `e` `t` `i` `n` `t`
 G{1}:     1 : 9 
-        getdouble
+         `g` `e` `t` `d` `o` `u` `b` `l` `e`
 G{2}:     1 : 7 
-        getchar
+         `g` `e` `t` `c` `h` `a` `r`
 G{3}:     1 : 6 
-        putint
+         `p` `u` `t` `i` `n` `t`
 G{4}:     1 : 9 
-        putdouble
+         `p` `u` `t` `d` `o` `u` `b` `l` `e`
 G{5}:     1 : 7 
-        putchar
+         `p` `u` `t` `c` `h` `a` `r`
 G{6}:     1 : 6 
-        putstr
+         `p` `u` `t` `s` `t` `r`
 G{7}:     1 : 5 
-        putln
+         `p` `u` `t` `l` `n`
 G{8}:     1 : 5 
-        itoch
+         `i` `t` `o` `c` `h`
 G{9}:     1 : 6 
-        modulo
+         `m` `o` `d` `u` `l` `o`
 G{10}:    1 : 10 
-        div_modulo
+         `d` `i` `v` `_` `m` `o` `d` `u` `l` `o`
 G{11}:    1 : 4 
-        itoa
+         `i` `t` `o` `a`
 G{12}:    1 : 4 
-        main
+         `m` `a` `i` `n`
 G{13}:    1 : 6 
-        _start
+         `_` `s` `t` `a` `r` `t`
 functions.count: 6
 F{0}:    fn[0] 0 0 -> 0 {
             [0] stackalloc 0

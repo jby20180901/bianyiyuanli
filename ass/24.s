@@ -2,29 +2,29 @@ magic: 72303b3e
 version: 1
 globals.count: 12
 G{0}:     1 : 6 
-        getint
+         `g` `e` `t` `i` `n` `t`
 G{1}:     1 : 9 
-        getdouble
+         `g` `e` `t` `d` `o` `u` `b` `l` `e`
 G{2}:     1 : 7 
-        getchar
+         `g` `e` `t` `c` `h` `a` `r`
 G{3}:     1 : 6 
-        putint
+         `p` `u` `t` `i` `n` `t`
 G{4}:     1 : 9 
-        putdouble
+         `p` `u` `t` `d` `o` `u` `b` `l` `e`
 G{5}:     1 : 7 
-        putchar
+         `p` `u` `t` `c` `h` `a` `r`
 G{6}:     1 : 6 
-        putstr
+         `p` `u` `t` `s` `t` `r`
 G{7}:     1 : 5 
-        putln
+         `p` `u` `t` `l` `n`
 G{8}:     1 : 6 
-        is_odd
+         `i` `s` `_` `o` `d` `d`
 G{9}:     1 : 7 
-        fastpow
+         `f` `a` `s` `t` `p` `o` `w`
 G{10}:    1 : 4 
-        main
+         `m` `a` `i` `n`
 G{11}:    1 : 6 
-        _start
+         `_` `s` `t` `a` `r` `t`
 functions.count: 4
 F{0}:    fn[0] 0 0 -> 0 {
             [0] stackalloc 0
