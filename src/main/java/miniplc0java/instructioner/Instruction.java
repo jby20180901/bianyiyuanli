@@ -1,7 +1,6 @@
 package miniplc0java.instructioner;
 
 import java.util.Objects;
-import java.util.function.DoubleUnaryOperator;
 
 public class Instruction {
     private InstructionType opt;

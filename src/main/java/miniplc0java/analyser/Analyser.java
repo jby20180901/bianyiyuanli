@@ -811,7 +811,7 @@ public final class Analyser {
 		funcDefi.updateNameOffset(assembler.findGlobalDefID(funcDef));
 		nowFunc = functionEntry;
 		analyseFucBlockStmt();
-		if((!funcDefi.isRet)&&(DataType.VOID.equals(datatype))){
+		if(DataType.VOID.equals(datatype)){
 			in = new Instruction(InstructionType.ret);
 			funcDefi.putInstruction(in);
 		}
@@ -2184,9 +2184,7 @@ public final class Analyser {
 						in = new Instruction(InstructionType.cmp_f);//cmp.f
 					}
 					putInstruction(in);
-					in = new Instruction(InstructionType.not);//是0则为1
-					putInstruction(in);
-					in = new Instruction(InstructionType.br_true,1);
+					in = new Instruction(InstructionType.br_false,1);
 				}
 				else if(TokenType.NEQ.equals((TokenType)second)) {//!=
 					if (dataType.equals(DataType.INT)) {

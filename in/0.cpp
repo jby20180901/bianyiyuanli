@@ -1,29 +1,65 @@
-fn calcPi() -> double {
-    let i: int = 1;
-    let rtv: double = 0.0;
-    let flag: int = -1;
-    while ((1.0 / i as double) > 1.0E-6) {
-        rtv = rtv + flag as double / i as double;
-        i = i + 2;
-        flag = -flag;
+fn sqrt(n: double) -> double {
+    let l: double = 0.0;
+    let r: double = n;
+    let mid: double;
+    let mid2: double;
+    while r-l > 0.000001 {
+        mid = (l+r) / 2.0;
+        mid2 = mid*mid;
+        if (mid2 == n) {
+            return mid;
+        }
+        if (mid2 < n) {
+            l = mid;
+        }
+        else {
+            r = mid;
+        }
     }
-    return rtv * 4.0;
+    return mid;
 }
 
-fn calcE() -> double {
-    let rtv: double = 1.0;
-    let i: int = 1;
-    let j: double = 1.0;
-    while (i < 1000) {
-        j = j * i as double;
-        rtv = rtv + 1.0 / j;
-        i = i + 1;
-    }
-    return rtv;
+fn mod(i: int, j: int) -> int {
+    let k: int = (i/j) as double as int;
+    return (i - j*k) as double as int;
+}
+
+fn judge_mod(i: int, j: int, sq: int) -> int {
+   if j > sq {
+       return 0;
+   } else if mod(i, j) == 0 {
+       return 0;
+   } else {
+       return 1;
+   }
 }
 
 fn main() -> void {
-    putdouble(calcPi());
-    putln();
-    putdouble(calcE());
+    let N: int;
+    let i: int;
+    let j: int;
+    let sq: int;
+    let sqd: double;
+    N = getint();
+    i = 2;
+    while i <= N {
+        if mod(i, 2) != 0 {
+            sqd = sqrt(i as double);
+            sq = sqrt(i as double) as int;
+            if (sqd as int != sq) {
+                putint(-1);
+                putln();
+                return;
+            }
+            j = 2;
+            while judge_mod(i, j, sq) {
+                j = j + 1;
+            }
+            if (j > sq) {
+                putint(i);
+                putln();
+            }
+        }
+        i = i + 1;
+    }
 }
