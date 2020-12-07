@@ -15,6 +15,11 @@ import miniplc0java.tokenizer.TokenType;
 import miniplc0java.tokenizer.Tokenizer;
 
 public class App {
+	static int index = 0;
+//	static boolean debug = true;
+	static boolean debug = false;
+	static boolean all = true;
+//	static boolean all = false;
 	static StringIter it;
 	static Scanner scanner;
 	private static void copy(String source) throws FileNotFoundException, CompileError {
@@ -50,25 +55,31 @@ public class App {
 		iss.write(analyzer.Assemble());
 		iss.close();
 		FileWriter writer;
-		/**try {
-			writer = new FileWriter(gotos);
-			writer.write("");//清空原文件内容
-			writer.write(analyzer.AssembleTo());
-			writer.flush();
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
+		if(debug) {
+			try {
+				if(all) {
+					writer = new FileWriter("D:/编译原理作业/bianyiyuanli/ass/" + index + ".s");
+					writer.write("");//清空原文件内容
+					writer.write(analyzer.AssembleTo());
+					writer.flush();
+					writer.close();
+				}
+				else {
+					writer = new FileWriter("D:/编译原理作业/bianyiyuanli/ass/" + index + ".spp");
+					writer.write("");//清空原文件内容
+					writer.write(analyzer.AssembleTo());
+					writer.flush();
+					writer.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void main(String[] args) throws CompileError, IOException {
-//        boolean debug = true;
-		boolean debug = false;
 		if (debug) {
-//			boolean all = true;
-        	boolean all = false;
 			int totalNum = 30;
-			int totalNum1 = 1;
 			if(all) {
 				for(int i=1;i<=totalNum;i++) {
 					SymbolTable.symboltable.clear();
@@ -77,24 +88,19 @@ public class App {
 					System.out.println();
 					System.out.println("CASE+"+i);
 					System.out.println();
-					String source = "D:/编译原理作业/bianyiyuanli/in/"+i+".c";
-					String outputPath = "D:/编译原理作业/bianyiyuanli/out/"+i+".s";
+					String source = "in/"+i+".c";
+					String outputPath = "out/"+i+".o";
+					index = i;
+					System.out.println("  原始文件 :  " + source );
+					System.out.println();
+					System.out.println("  中间代码 :  " + "ass/" + index + ".s" );
+					System.out.println();
+					System.out.println("  输出文件 :  " + outputPath );
+					System.out.println();
 					Analyze(source, outputPath);
 //	                wordAnalyze(source);
 //	                copy(source);
-				}
-				for(int i=1;i<=totalNum1;i++) {
-					SymbolTable.symboltable.clear();
-					System.out.println();
-					System.out.println("----------------------------------------");
-					System.out.println();
-					System.out.println("CASE-SF+"+i);
-					System.out.println();
-					String source = "../"+i+".cpp";
-					String outputPath = "1.txt";
-					Analyze(source,"../out.o");
-//	                wordAnalyze(source);
-//	                copy(source);
+					System.out.println("----------- Compile pass ! ------------");
 				}
 			}
 			else {
@@ -102,20 +108,30 @@ public class App {
 				System.out.println();
 				System.out.println("----------------------------------------");
 				System.out.println();
+				System.out.println("TEST");
 				System.out.println();
-				String source = "../1.cpp";
-				String outputPath = "1.txt";
-				Analyze(source, "../out.o");
+				String source = "in/0.cpp";
+				String outputPath = "out/0.opp";
+				System.out.println("  原始文件 :  " + source );
+				System.out.println();
+				System.out.println("  中间代码 :  " + "ass/0.spp" );
+				System.out.println();
+				System.out.println("  输出文件 :  " + outputPath );
+				System.out.println();
+				Analyze(source, outputPath);
 //                wordAnalyze(source);
 //                copy(source);
+				System.out.println("----------- Compile pass ! ------------");
+				System.out.println();
+				System.out.println();
 			}
 			return;
 		}
 		else {
 			String source = args[1];
 			String outputPath = args[3];
-			Analyze(source,outputPath);
-//			wordAnalyze(source);
+//			Analyze(source,outputPath);
+			wordAnalyze(source);
 		}
 	}
 }
