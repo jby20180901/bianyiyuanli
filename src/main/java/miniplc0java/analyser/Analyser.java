@@ -803,7 +803,7 @@ public final class Analyser {
 		}
 		functionEntry.datatype = datatype;
 		nowReturn = datatype;
-		System.out.println("nowReturn:"+nowReturn);
+//		System.out.println("nowReturn:"+nowReturn);
 		funcDef = new GlobalDef(true, functionEntry);
 		assembler.addGlobalDef(funcDef, functionEntry.name);
 		funcDefi = new FunctionDef(functionEntry);
@@ -1587,7 +1587,7 @@ public final class Analyser {
 		 */
 		while(true) {
 			if(check(TokenType.PLUS)) {//+
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.PLUS;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -1615,7 +1615,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.MINUS)) {//- '-'
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				token = seekIf(TokenType.MINUS);
 				/**
 				 * ASSIGN IF_KW WHILE_KW RETURN_KW ( + - * \ < > <= >= == !=
@@ -1661,7 +1661,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.MUL)) {//*
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.MUL;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -1689,7 +1689,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.DIV)) {//\
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.DIV;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -1717,7 +1717,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.EQ)) {//==
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.EQ;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -1745,7 +1745,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.NEQ)) {//!=
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.NEQ;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -1773,7 +1773,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.LT)) {//<
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.LT;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -1801,7 +1801,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.LE)) {//<=
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.LE;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -1829,7 +1829,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.GT)) {//>
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.GT;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -1857,7 +1857,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.GE)) {//>=
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.GE;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -1885,7 +1885,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.AS_KW)) {//as
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.AS_KW;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -1910,7 +1910,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.UINT_LITERAL)) {//IDENT
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.UINT_LITERAL;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -1925,7 +1925,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.DOUBLE_LITERAL)) {//IDENT
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.DOUBLE_LITERAL;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -1940,7 +1940,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.IDENT)) {//IDENT
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				if(recent.equals(TokenType.AS_KW)) {
 					recentToken = TokenType.IDENT;
 					token = seekIf(recentToken);
@@ -1988,7 +1988,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.L_PAREN)) {//(
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.L_PAREN;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -1999,12 +1999,12 @@ public final class Analyser {
 					recent = TokenType.L_PAREN;
 				}
 				else if(priorty[i][j] == 3) {
-					System.out.println(stack.toString());
+//					System.out.println(stack.toString());
 					throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
 				}
 			}
 			else if(check(TokenType.R_PAREN)&&(LPNum > (int)functionLPRecent.get(functionLPRecent.size()-1))) {//)
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.R_PAREN;
 				token = seekIf(recentToken);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -2038,7 +2038,7 @@ public final class Analyser {
 				}
 			}
 			else if(check(TokenType.CHAR_LITERAL)) {
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				recentToken = TokenType.UINT_LITERAL;
 				token = seekIf(TokenType.CHAR_LITERAL);
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(recentToken);
@@ -2056,7 +2056,7 @@ public final class Analyser {
 				}
 			}
 			else {//#
-				System.out.println(stack.toString());
+//				System.out.println(stack.toString());
 				TokenType stop = TokenType.STOP;
 				int i = enumToInt(stack.getTopToken()), j = enumToInt(stop);
 				if(priorty[i][j] == 1) {

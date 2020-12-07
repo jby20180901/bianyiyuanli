@@ -21,38 +21,9 @@
   <component name="ChangeListManager">
     <list default="true" id="b4d414f2-8ab1-4cd8-a81f-c7a71e5cb7ab" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/1.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/1.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/10.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/10.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/11.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/11.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/12.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/12.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/13.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/13.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/14.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/14.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/15.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/15.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/16.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/16.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/17.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/17.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/18.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/18.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/19.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/19.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/2.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/2.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/20.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/20.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/21.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/21.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/22.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/22.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/23.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/23.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/24.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/24.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/25.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/25.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/26.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/26.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/27.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/27.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/28.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/28.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/29.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/29.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/3.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/3.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/30.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/30.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/4.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/4.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/5.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/5.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/6.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/6.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/7.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/7.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/8.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/8.s" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ass/9.s" beforeDir="false" afterPath="$PROJECT_DIR$/ass/9.s" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/GlobalDef.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/instructioner/GlobalDef.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/analyser/Analyser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/Tokenizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/miniplc0java/tokenizer/Tokenizer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -337,7 +308,14 @@
       <option name="project" value="LOCAL" />
       <updated>1607307796219</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="57/57">
+      <created>1607308122870</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1607308122870</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -373,22 +351,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="510" y="112" key="#com.intellij.ide.util.MemberChooser/0.0.1536.824@0.0.1536.824" timestamp="1607087295695" />
-    <state width="1491" height="217" key="GridCell.Tab.0.bottom" timestamp="1607308051965">
+    <state width="1491" height="217" key="GridCell.Tab.0.bottom" timestamp="1607309351426">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="217" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607308051965" />
-    <state width="1491" height="217" key="GridCell.Tab.0.center" timestamp="1607308051965">
+    <state width="1491" height="217" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1607309351426" />
+    <state width="1491" height="217" key="GridCell.Tab.0.center" timestamp="1607309351426">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="217" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1607308051965" />
-    <state width="1491" height="217" key="GridCell.Tab.0.left" timestamp="1607308051965">
+    <state width="1491" height="217" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1607309351426" />
+    <state width="1491" height="217" key="GridCell.Tab.0.left" timestamp="1607309351426">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="217" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1607308051965" />
-    <state width="1491" height="217" key="GridCell.Tab.0.right" timestamp="1607308051965">
+    <state width="1491" height="217" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1607309351426" />
+    <state width="1491" height="217" key="GridCell.Tab.0.right" timestamp="1607309351426">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1491" height="217" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607308051965" />
+    <state width="1491" height="217" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1607309351426" />
     <state x="270" y="57" key="SettingsEditor" timestamp="1607082216002">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
