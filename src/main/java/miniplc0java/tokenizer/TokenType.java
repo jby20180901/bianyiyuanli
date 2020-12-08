@@ -204,36 +204,3 @@ public enum TokenType {
         }
     }
 }
-
-/**
- * 0代表<
- * 1代表>
- * 2代表=
- * 3代表X
- * 4代表结束
- * |      | +    | *    | i    | (    | )    | <    | '-'  | as   | #    |
- * | +    | 1    | 0    | 0    | 0    | 1    | 1    | 0    | 0    | 1    |
- * | *    | 1    | 1    | 0    | 0    | 1    | 1    | 0    | 0    | 1    |
- * | i    | 1    | 1    | 3    | 3    | 1    | 1    | 3    | 1    | 1    |
- * | (    | 0    | 0    | 0    | 0    | 2    | 0    | 0    | 0    | 3    |
- * | )    | 1    | 1    | 3    | 3    | 1    | 1    | 3    | 1    | 1    |
- * | <    | 0    | 0    | 0    | 0    | 1    | 1    | 0    | 0    | 1    |
- * | '-'  | 1    | 1    | 0    | 3    | 1    | 1    | 0    | 1    | 1    |
- * | as   | 1    | 1    | 3    | 3    | 1    | 1    | 3    | 1    | 1    |
- * | #    | 0    | 0    | 0    | 0    | 3    | 0    | 0    | 0    | 4    |
- */
-/**
- * + - 					PLUS MINUS
- * 前置- 				NEGATE
- * * \ 					MUL DIV 
- * == != < > <= >= 		EQ NEQ LT GT LE GE
- * as 					AS_KW 
- * uint double ident 	UINT_LITERAL DOUBLE_LITERAL IDENT
- * ( 					L_PAREN 
- * ) 					R_PAREN
- * # 					STOP
- */
-//throw new AnalyzeError(ErrorCode.InvalidInput,token.getStartPos());
-/**
- * + - * \ == != < > <= >= AS_KW IDENT ( ) #
- */
